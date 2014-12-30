@@ -1,0 +1,20 @@
+PODS:
+  - Reader (2.8.5)
+
+DEPENDENCIES:
+  - Reader (from `https://github.com/vfr/Reader.git`, branch `master`)
+
+EXTERNAL SOURCES:
+  Reader:
+    :branch: master
+    :git: https://github.com/vfr/Reader.git
+
+CHECKOUT OPTIONS:
+  Reader:
+    :commit: 0a35d3387deb71191c85b334c663e1da3781bd3b
+    :git: https://github.com/vfr/Reader.git
+
+SPEC CHECKSUMS:
+  Reader: 20fb9acf7c7adf7b259b7fada315158a977a72bc
+
+COCOAPODS: 0.35.0
