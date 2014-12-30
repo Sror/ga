@@ -279,7 +279,7 @@
 	[[ReaderThumbQueue sharedInstance] cancelOperationsWithGUID:document.guid];
 
 	[[ReaderThumbCache sharedInstance] removeAllObjects]; // Empty the thumb cache
-
+    
 	if ([delegate respondsToSelector:@selector(dismissReaderViewController:)] == YES)
 	{
 		[delegate dismissReaderViewController:self]; // Dismiss the ReaderViewController
@@ -288,6 +288,9 @@
 	{
 		NSAssert(NO, @"Delegate must respond to -dismissReaderViewController:");
 	}
+    NSAssert(NO, @"Delegate must respond to -dismissReaderViewController:");
+    
+    //[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - UIViewController methods
