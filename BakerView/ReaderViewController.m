@@ -428,7 +428,9 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-
+    
+    self.navigationController.navigationBar.hidden = YES;
+    
 	assert(document != nil); // Must have a valid ReaderDocument
 
 	self.view.backgroundColor = [UIColor grayColor]; // Neutral gray
@@ -526,8 +528,10 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    
 	[super viewWillDisappear:animated];
-
+    self.navigationController.navigationBar.hidden = NO;
+    
 	lastAppearSize = self.view.bounds.size; // Track view size
 
 #if (READER_DISABLE_IDLE == TRUE) // Option
@@ -856,15 +860,16 @@
 
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar exportButton:(UIButton *)button
 {
-	if (printInteraction != nil) [printInteraction dismissAnimated:YES];
-
-	NSURL *fileURL = document.fileURL; // Document file URL
-
-	documentInteraction = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
-
-	documentInteraction.delegate = self; // UIDocumentInteractionControllerDelegate
-
-	[documentInteraction presentOpenInMenuFromRect:button.bounds inView:button animated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+//    if (printInteraction != nil) [printInteraction dismissAnimated:YES];
+//    
+//	NSURL *fileURL = document.fileURL; // Document file URL
+//
+//	documentInteraction = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
+//
+//	documentInteraction.delegate = self; // UIDocumentInteractionControllerDelegate
+//
+//	[documentInteraction presentOpenInMenuFromRect:button.bounds inView:button animated:YES];
 }
 
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar printButton:(UIButton *)button
