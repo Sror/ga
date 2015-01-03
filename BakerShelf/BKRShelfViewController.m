@@ -511,7 +511,7 @@
                                                       delegate:self
                                              cancelButtonTitle:nil
                                         destructiveButtonTitle:nil
-                                             otherButtonTitles: nil];
+                                             otherButtonTitles:nil];
     NSMutableArray *actions = [NSMutableArray array];
 
     if (!purchasesManager.subscribed) {

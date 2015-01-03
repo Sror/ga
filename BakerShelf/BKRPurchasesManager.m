@@ -158,7 +158,12 @@
 - (NSString*)displayTitleFor:(NSString*)productID {
     SKProduct *product = self.products[productID];
     if(product) {
-        return product.localizedTitle;
+        //return product.localizedTitle;
+        if ([productID isEqualToString:@"com.aon.6m"]) {
+            return @"6 months -";
+        } else if ([productID isEqualToString:@"com.aon.12m"]) {
+            return @"1 year -";
+        }
     }
     // If for some reason we can't find the product, then fallback to the old
     // behaviour of looking for a localized string

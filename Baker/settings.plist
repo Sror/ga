@@ -17,7 +17,10 @@
 	<key>freeSubscriptionProductId</key>
 	<string></string>
 	<key>autoRenewableSubscriptionProductIds</key>
-	<array/>
+	<array>
+		<string>com.aon.6m</string>
+		<string>com.aon.12m</string>
+	</array>
 	<key>requestTimeout</key>
 	<integer>15</integer>
 	<key>issuesCoverBackgroundColor</key>
@@ -25,7 +28,7 @@
 	<key>issuesShelfOptions</key>
 	<dict>
 		<key>backgroundFillStyle</key>
-		<string>Color</string>
+		<string>Image</string>
 		<key>backgroundFillGradientStart</key>
 		<string>#FFFFFF</string>
 		<key>backgroundFillGradientStop</key>
