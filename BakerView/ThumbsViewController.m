@@ -1,6 +1,6 @@
 //
 //	ThumbsViewController.m
-//	Reader v2.8.5
+//	Reader v2.8.1
 //
 //	Created by Julius Oklamcak on 2011-09-01.
 //	Copyright © 2011-2014 Julius Oklamcak. All rights reserved.
@@ -138,20 +138,9 @@
 	theThumbsView.delegate = self; // ReaderThumbsViewDelegate
 	[self.view insertSubview:theThumbsView belowSubview:mainToolbar];
 
-	if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone)
-	{
-		CGRect viewRect = self.view.bounds; CGSize viewSize = viewRect.size; // View size
-
-		CGFloat min = ((viewSize.width < viewSize.height) ? viewSize.width : viewSize.height);
-
-		CGFloat thumbSize = ((min > 320.0f) ? floorf(min / 3.0f) : PAGE_THUMB_SMALL);
-
-		[theThumbsView setThumbSize:CGSizeMake(thumbSize, thumbSize)];
-	}
-	else // Set thumb size for large (iPad) devices
-	{
-		[theThumbsView setThumbSize:CGSizeMake(PAGE_THUMB_LARGE, PAGE_THUMB_LARGE)];
-	}
+	BOOL large = ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad);
+	CGFloat thumbSize = (large ? PAGE_THUMB_LARGE : PAGE_THUMB_SMALL); // Thumb dimensions
+	[theThumbsView setThumbSize:CGSizeMake(thumbSize, thumbSize)]; // Set the thumb size
 }
 
 - (void)viewWillAppear:(BOOL)animated

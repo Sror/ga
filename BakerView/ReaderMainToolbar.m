@@ -95,7 +95,7 @@
 		CGFloat doneButtonWidth = (doneButtonSize.width + TEXT_BUTTON_PADDING);
 
 		UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		//doneButton.frame = CGRectMake(leftButtonX, BUTTON_Y, doneButtonWidth, BUTTON_HEIGHT);
+		doneButton.frame = CGRectMake(leftButtonX, BUTTON_Y, doneButtonWidth, BUTTON_HEIGHT);
 		[doneButton setTitleColor:[UIColor colorWithWhite:0.0f alpha:1.0f] forState:UIControlStateNormal];
 		[doneButton setTitleColor:[UIColor colorWithWhite:1.0f alpha:1.0f] forState:UIControlStateHighlighted];
 		[doneButton setTitle:doneButtonText forState:UIControlStateNormal]; doneButton.titleLabel.font = doneButtonFont;
@@ -105,18 +105,17 @@
 		doneButton.autoresizingMask = UIViewAutoresizingNone;
 		//doneButton.backgroundColor = [UIColor grayColor];
 		doneButton.exclusiveTouch = YES;
-        //
-		//[self addSubview:doneButton];
-        
+
+		[self addSubview:doneButton]; leftButtonX += (doneButtonWidth + buttonSpacing);
+
+		titleX += (doneButtonWidth + buttonSpacing); titleWidth -= (doneButtonWidth + buttonSpacing);
 
 #endif // end of READER_STANDALONE Option
 
 #if (READER_ENABLE_THUMBS == TRUE) // Option
 
 		UIButton *thumbsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        
-		thumbsButton.frame = CGRectMake(leftButtonX, BUTTON_Y, doneButtonWidth, BUTTON_HEIGHT);
-        //CGRectMake(leftButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
+		thumbsButton.frame = CGRectMake(leftButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
 		[thumbsButton setImage:[UIImage imageNamed:@"Reader-Thumbs"] forState:UIControlStateNormal];
 		[thumbsButton addTarget:self action:@selector(thumbsButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 		[thumbsButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
@@ -128,12 +127,7 @@
 		[self addSubview:thumbsButton]; //leftButtonX += (iconButtonWidth + buttonSpacing);
 
 		titleX += (iconButtonWidth + buttonSpacing); titleWidth -= (iconButtonWidth + buttonSpacing);
-        //
-        leftButtonX += (doneButtonWidth + buttonSpacing);
-        
-        titleX += (doneButtonWidth + buttonSpacing);
-        titleWidth -= (doneButtonWidth + buttonSpacing);
-        
+
 #endif // end of READER_ENABLE_THUMBS Option
 
 		CGFloat rightButtonX = viewWidth; // Right-side buttons start X position

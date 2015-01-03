@@ -51,11 +51,11 @@
 #pragma mark - Constants
 
 #define THUMB_SMALL_GAP 2
-#define THUMB_SMALL_WIDTH 50
-#define THUMB_SMALL_HEIGHT 75
+#define THUMB_SMALL_WIDTH 22
+#define THUMB_SMALL_HEIGHT 28
 
-#define THUMB_LARGE_WIDTH 70
-#define THUMB_LARGE_HEIGHT 100
+#define THUMB_LARGE_WIDTH 32
+#define THUMB_LARGE_HEIGHT 42
 
 #define PAGE_NUMBER_WIDTH 96.0f
 #define PAGE_NUMBER_HEIGHT 30.0f
@@ -156,7 +156,7 @@
 
 		if ([self.layer isKindOfClass:[CAGradientLayer class]])
 		{
-            self.backgroundColor = [UIColor clearColor];
+			self.backgroundColor = [UIColor clearColor];
 
 			CAGradientLayer *layer = (CAGradientLayer *)self.layer;
 			UIColor *liteColor = [UIColor colorWithWhite:0.82f alpha:0.8f];
@@ -171,9 +171,7 @@
 		}
 		else // Follow The Fuglyosity of Flat Fad
 		{
-            self.backgroundColor = [UIColor greenColor];
-            //BACKGROUND COLOR THUMBSBAR!!!!
-//                                    [colorWithWhite:0.94f alpha:0.94f];
+			self.backgroundColor = [UIColor colorWithWhite:0.94f alpha:0.94f];
 
 			CGRect lineRect = self.bounds; lineRect.size.height = 1.0f; lineRect.origin.y -= lineRect.size.height;
 
@@ -591,10 +589,7 @@
 	{
 		CGFloat value = (small ? 0.6f : 0.7f); // Size based alpha value
 
-        UIColor *background = [UIColor redColor];
-        //[UIColor colorWithWhite:0.8f alpha:value];
-        //frame offsets COLOR!!!
-        
+		UIColor *background = [UIColor colorWithWhite:0.8f alpha:value];
 
 		self.backgroundColor = background; imageView.backgroundColor = background;
 

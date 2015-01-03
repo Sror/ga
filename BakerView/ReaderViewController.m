@@ -34,14 +34,11 @@
 
 #import <MessageUI/MessageUI.h>
 
-
-
-@interface ReaderViewController () <UIScrollViewDelegate, UIPageViewControllerDelegate, UIGestureRecognizerDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate,
+@interface ReaderViewController () <UIScrollViewDelegate, UIGestureRecognizerDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate,
 									ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate, ThumbsViewControllerDelegate>
 @end
 
 @implementation ReaderViewController
-#define PAGING_VIEWS 3
 {
 	ReaderDocument *document;
 
@@ -60,7 +57,9 @@
 	UIDocumentInteractionController *documentInteraction;
 
 	UIPrintInteractionController *printInteraction;
-
+    
+    BOOL doublePage;
+    
 	CGFloat scrollViewOutset;
 
 	CGSize lastAppearSize;
@@ -75,10 +74,13 @@
 #define STATUS_HEIGHT 20.0f
 
 #define TOOLBAR_HEIGHT 44.0f
-#define PAGEBAR_HEIGHT 150.0f
+#define PAGEBAR_HEIGHT 48.0f
 
 #define SCROLLVIEW_OUTSET_SMALL 4.0f
 #define SCROLLVIEW_OUTSET_LARGE 8.0f
+
+#define LANDSCAPE_DOUBLE_PAGE true
+#define LANDSCAPE_SINGLE_FIRST_PAGE true
 
 #define TAP_AREA_SIZE 48.0f
 
@@ -97,6 +99,49 @@
 	scrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
 }
 
+- (void)handleLandscapeDoublePage {
+    NSInteger futureCurrentPage = currentPage;
+    
+    if (futureCurrentPage == 0) {
+        return;
+    }
+    
+    UIInterfaceOrientation orientation= [[UIApplication sharedApplication] statusBarOrientation];
+    maximumPage = [document.pageCount integerValue];
+    
+    doublePage = false;
+    
+    if(UIInterfaceOrientationIsLandscape(orientation)){
+        doublePage = true;
+        float maxPage = maximumPage;
+        float nextCurrentPage = (currentPage / 2.0);
+        
+        
+        if (LANDSCAPE_SINGLE_FIRST_PAGE) {
+            nextCurrentPage = floor(nextCurrentPage) + 1;
+            maxPage = ((maxPage - 1) / 2) + 1;
+        } else {
+            maxPage = (maxPage / 2);
+        }
+        
+        currentPage = (int) ceil(nextCurrentPage);
+        maximumPage = (int) ceil(maxPage);
+    }
+    
+    //Clear cached pages
+    for (NSNumber *key in [contentViews allKeys]) // Enumerate content views
+    {
+        ReaderContentView *contentView = [contentViews objectForKey:key];
+        
+        [contentView removeFromSuperview]; [contentViews removeObjectForKey:key];
+    }
+    
+    
+    [self updateContentViews:theScrollView];
+    //Force recompute view
+    [self showDocumentPage:futureCurrentPage forceRedraw:true];
+}
+
 - (void)updateContentViews:(UIScrollView *)scrollView
 {
 	[self updateContentSize:scrollView]; // Update content size first
@@ -107,7 +152,6 @@
 			NSInteger page = [key integerValue]; // Page number value
 
 			CGRect viewRect = CGRectZero; viewRect.size = scrollView.bounds.size;
-
 			viewRect.origin.x = (viewRect.size.width * (page - 1)); // Update X
 
 			contentView.frame = CGRectInset(viewRect, scrollViewOutset, 0.0f);
@@ -130,19 +174,41 @@
 
 - (void)addContentView:(UIScrollView *)scrollView page:(NSInteger)page
 {
+    NSInteger renderPage = page;
+    BOOL renderDoublePage = false;
+    if (doublePage) {
+        NSInteger lastPageEven;
+ 
+        if (!LANDSCAPE_SINGLE_FIRST_PAGE) {
+            lastPageEven = [document.pageCount integerValue];
+            renderDoublePage = true;
+            if (page > 1) {
+                renderPage = (renderPage) * 2 - 1;
+            }
+        } else {
+            lastPageEven = [document.pageCount integerValue] - 1;
+            if (page > 1) {
+                renderPage = (renderPage - 1) * 2;
+                renderDoublePage = true;
+            }
+        }
+
+        //Handle single last page
+        if (page == maximumPage && lastPageEven % 2 == 1) {
+            renderDoublePage = false;
+        }
+    }
 	CGRect viewRect = CGRectZero; viewRect.size = scrollView.bounds.size;
 
 	viewRect.origin.x = (viewRect.size.width * (page - 1)); viewRect = CGRectInset(viewRect, scrollViewOutset, 0.0f);
 
 	NSURL *fileURL = document.fileURL; NSString *phrase = document.password; NSString *guid = document.guid; // Document properties
 
-	ReaderContentView *contentView = [[ReaderContentView alloc] initWithFrame:viewRect fileURL:fileURL page:page password:phrase]; // ReaderContentView
+	ReaderContentView *contentView = [[ReaderContentView alloc] initWithFrame:viewRect fileURL:fileURL page:renderPage password:phrase doublePage:renderDoublePage]; // ReaderContentView
 
-	contentView.message = self;
-    [contentViews setObject:contentView forKey:[NSNumber numberWithInteger:page]];
-    [scrollView addSubview:contentView];
+	contentView.message = self; [contentViews setObject:contentView forKey:[NSNumber numberWithInteger:page]]; [scrollView addSubview:contentView];
 
-	[contentView showPageThumb:fileURL page:page password:phrase guid:guid]; // Request page preview thumb
+    [contentView showPageThumb:fileURL page:renderPage password:phrase guid:guid]; // Request page preview thumb
 }
 
 - (void)layoutContentViews:(UIScrollView *)scrollView
@@ -158,6 +224,7 @@
 	if (pageA < minimumPage) pageA = minimumPage; if (pageB > maximumPage) pageB = maximumPage;
 
 	NSRange pageRange = NSMakeRange(pageA, (pageB - pageA + 1)); // Make page range (A to B)
+    
 
 	NSMutableIndexSet *pageSet = [NSMutableIndexSet indexSetWithIndexesInRange:pageRange];
 
@@ -176,12 +243,12 @@
 			[pageSet removeIndex:page];
 		}
 	}
-
 	NSInteger pages = pageSet.count;
 
 	if (pages > 0) // We have pages to add
 	{
 		NSEnumerationOptions options = 0; // Default
+        
 
 		if (pages == 2) // Handle case of only two content views
 		{
@@ -194,7 +261,6 @@
 			[workSet removeIndex:[pageSet firstIndex]]; [workSet removeIndex:[pageSet lastIndex]];
 
 			NSInteger page = [workSet firstIndex]; [pageSet removeIndex:page];
-
 			[self addContentView:scrollView page:page];
 		}
 
@@ -214,8 +280,16 @@
 	CGFloat contentOffsetX = scrollView.contentOffset.x; // Content offset X
 
 	NSInteger page = (contentOffsetX / viewWidth); page++; // Page number
-
-	if (page != currentPage) // Only if on different page
+    
+    if (doublePage && page > 1) {
+        if (!LANDSCAPE_SINGLE_FIRST_PAGE) {
+            page = page * 2;
+        } else if (page > 1) {
+            page = (page - 1) * 2;
+        }
+        
+    }
+    if (page != currentPage) // Only if on different page
 	{
 		currentPage = page; document.pageNumber = [NSNumber numberWithInteger:page];
 
@@ -232,16 +306,33 @@
 	}
 }
 
-
-- (void)showDocumentPage:(NSInteger)page
+- (void)showDocumentPage:(NSInteger)page {
+    [self showDocumentPage:page forceRedraw:false];
+}
+- (void)showDocumentPage:(NSInteger)page forceRedraw:(bool)forceRedraw
 {
-	if (page != currentPage)  // Only if on different page
+    NSInteger renderPage = page;
+    
+    if(doublePage){
+        float nextRenderPage;
+        //If double renderPage is not the same as page
+        nextRenderPage = (page / 2.0);
+        if (LANDSCAPE_SINGLE_FIRST_PAGE) {
+            nextRenderPage = floor(nextRenderPage) + 1;
+        } else if (page == 1) {
+            nextRenderPage = 1;
+        }
+        
+        renderPage = (int) ceil(nextRenderPage);
+    }
+	   
+    if (page != currentPage || forceRedraw) // Only if on different page or if force redraw
 	{
-		if ((page < minimumPage) || (page > maximumPage)) return;
+        if ((renderPage < minimumPage) || (renderPage > maximumPage)) return;
 
-        currentPage = page; document.pageNumber = [NSNumber numberWithInteger:page];
+		currentPage = page; document.pageNumber = [NSNumber numberWithInteger:page];
 
-		CGPoint contentOffset = CGPointMake((theScrollView.bounds.size.width * (page - 1)), 0.0f);
+		CGPoint contentOffset = CGPointMake((theScrollView.bounds.size.width * (renderPage - 1)), 0.0f);
 
 		if (CGPointEqualToPoint(theScrollView.contentOffset, contentOffset) == true)
 			[self layoutContentViews:theScrollView];
@@ -263,9 +354,15 @@
 
 - (void)showDocument
 {
-	[self updateContentSize:theScrollView]; // Update content size first
-
-	[self showDocumentPage:[document.pageNumber integerValue]]; // Show page
+    UIInterfaceOrientation orientation= [[UIApplication sharedApplication] statusBarOrientation];
+    
+    if(UIInterfaceOrientationIsLandscape(orientation) && LANDSCAPE_DOUBLE_PAGE){
+        currentPage = [document.pageNumber integerValue];
+        [self handleLandscapeDoublePage];
+    } else {
+        [self updateContentSize:theScrollView]; // Update content size first
+        [self showDocumentPage:[document.pageNumber integerValue]]; // Show page
+    }
 
 	document.lastOpen = [NSDate date]; // Update document last opened date
 }
@@ -279,7 +376,7 @@
 	[[ReaderThumbQueue sharedInstance] cancelOperationsWithGUID:document.guid];
 
 	[[ReaderThumbCache sharedInstance] removeAllObjects]; // Empty the thumb cache
-    
+
 	if ([delegate respondsToSelector:@selector(dismissReaderViewController:)] == YES)
 	{
 		[delegate dismissReaderViewController:self]; // Dismiss the ReaderViewController
@@ -288,9 +385,6 @@
 	{
 		NSAssert(NO, @"Delegate must respond to -dismissReaderViewController:");
 	}
-    NSAssert(NO, @"Delegate must respond to -dismissReaderViewController:");
-    
-    //[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - UIViewController methods
@@ -301,6 +395,7 @@
 	{
 		if ((object != nil) && ([object isKindOfClass:[ReaderDocument class]])) // Valid object
 		{
+           
 			userInterfaceIdiom = [UIDevice currentDevice].userInterfaceIdiom; // User interface idiom
 
 			NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter]; // Default notification center
@@ -314,6 +409,7 @@
 			[object updateDocumentProperties]; document = object; // Retain the supplied ReaderDocument object for our use
 
 			[ReaderThumbCache touchThumbCacheWithGUID:object.guid]; // Touch the document thumb cache directory
+            
 		}
 		else // Invalid ReaderDocument object
 		{
@@ -354,7 +450,7 @@
 		}
 	}
 
-    CGRect scrollViewRect = CGRectInset(viewRect, -scrollViewOutset, 0.0f);
+	CGRect scrollViewRect = CGRectInset(viewRect, -scrollViewOutset, 0.0f);
 	theScrollView = [[UIScrollView alloc] initWithFrame:scrollViewRect]; // All
 	theScrollView.autoresizesSubviews = NO; theScrollView.contentMode = UIViewContentModeRedraw;
 	theScrollView.showsHorizontalScrollIndicator = NO; theScrollView.showsVerticalScrollIndicator = NO;
@@ -362,8 +458,6 @@
 	theScrollView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
 	theScrollView.backgroundColor = [UIColor clearColor]; theScrollView.delegate = self;
 	[self.view addSubview:theScrollView];
-    
-    
 
 	CGRect toolbarRect = viewRect; toolbarRect.size.height = TOOLBAR_HEIGHT;
 	mainToolbar = [[ReaderMainToolbar alloc] initWithFrame:toolbarRect document:document]; // ReaderMainToolbar
@@ -396,6 +490,8 @@
 
 	minimumPage = 1; maximumPage = [document.pageCount integerValue];
 }
+
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -489,12 +585,18 @@
 {
 	if (CGSizeEqualToSize(theScrollView.contentSize, CGSizeZero) == false)
 	{
-		[self updateContentViews:theScrollView]; lastAppearSize = CGSizeZero;
+        if (LANDSCAPE_DOUBLE_PAGE) {
+            [self handleLandscapeDoublePage];
+        } else {
+            [self updateContentViews:theScrollView];
+        }
+        lastAppearSize = CGSizeZero;
 	}
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+    
 	ignoreDidScroll = NO;
 }
 
@@ -524,6 +626,10 @@
 	[self handleScrollViewDidEnd:scrollView];
 }
 
+
+
+
+
 #pragma mark - UIGestureRecognizerDelegate methods
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)recognizer shouldReceiveTouch:(UITouch *)touch
@@ -533,40 +639,7 @@
 	return NO;
 }
 
-#pragma mark - UIPageViewControllerDataSource
-
-//- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
-//    
-//    NSUInteger index = [(APPChildViewController *)viewController index];
-//    
-//    if (index == 0) {
-//        return nil;
-//    }
-//    
-//    // Decrease the index by 1 to return
-//    index--;
-//    
-//    return [self viewControllerAtIndex:index];
-//    
-//}
-//
-//- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
-//    
-//    NSUInteger index = [(APPChildViewController *)viewController index];
-//    
-//    index++;
-//    
-//    if (index == 5) {
-//        return nil;
-//    }
-//    
-//    return [self viewControllerAtIndex:index];
-//    
-//}
-
-
 #pragma mark - UIGestureRecognizer action methods
-
 
 - (void)decrementPageNumber
 {
@@ -587,7 +660,7 @@
 		CGPoint contentOffset = theScrollView.contentOffset; // Offset
 
 		contentOffset.x += theScrollView.bounds.size.width; // View X++
-
+        
 		[theScrollView setContentOffset:contentOffset animated:YES];
 	}
 }

@@ -39,7 +39,7 @@
 
 @interface ReaderViewController : UIViewController
 
-@property (nonatomic, assign) id <ReaderViewControllerDelegate> delegate;
+@property (nonatomic, weak, readwrite) id <ReaderViewControllerDelegate> delegate;
 
 - (instancetype)initWithReaderDocument:(ReaderDocument *)object;
 
