@@ -44,34 +44,34 @@
 		<key>headerImageFill</key>
 		<false/>
 		<key>headerHeightPadLandscape</key>
-		<integer>215</integer>
+		<integer>250</integer>
 		<key>headerHeightPadPortrait</key>
-		<integer>215</integer>
+		<integer>250</integer>
 		<key>headerHeightPhoneLandscape</key>
 		<integer>107</integer>
 		<key>headerHeightPhonePortrait</key>
 		<integer>107</integer>
 	</dict>
 	<key>issuesTitleFont</key>
-	<string>Helvetica</string>
+	<string>Helvetica Bold</string>
 	<key>issuesTitleFontSize</key>
-	<integer>15</integer>
+	<integer>18</integer>
 	<key>issuesTitleColor</key>
-	<string>#000000</string>
+	<string>#333333</string>
 	<key>issuesInfoFont</key>
-	<string>Helvetica</string>
+	<string>Helvetica Bold</string>
 	<key>issuesInfoFontSize</key>
-	<integer>15</integer>
+	<integer>18</integer>
 	<key>issuesInfoColor</key>
-	<string>#929292</string>
+	<string>#666666</string>
 	<key>issuesPriceColor</key>
-	<string>#bc242a</string>
+	<string>#333333</string>
 	<key>issuesActionFont</key>
 	<string>Helvetica Bold</string>
 	<key>issuesActionFontSize</key>
 	<integer>11</integer>
 	<key>issuesActionBackgroundColor</key>
-	<string>#bc242a</string>
+	<string>#333333</string>
 	<key>issuesActionButtonColor</key>
 	<string>#ffffff</string>
 	<key>issuesArchiveFont</key>
@@ -79,14 +79,14 @@
 	<key>issuesArchiveFontSize</key>
 	<integer>11</integer>
 	<key>issuesArchiveBackgroundColor</key>
-	<string>#bc242a</string>
+	<string>#333333</string>
 	<key>issuesArchiveButtonColor</key>
 	<string>#ffffff</string>
 	<key>issuesLoadingLabelColor</key>
-	<string>#bc242a</string>
+	<string>#333333</string>
 	<key>issuesLoadingSpinnerColor</key>
-	<string>#929292</string>
+	<string>#666666</string>
 	<key>issuesProgressbarTintColor</key>
-	<string>#bc242a</string>
+	<string>#333333</string>
 </dict>
 </plist>
