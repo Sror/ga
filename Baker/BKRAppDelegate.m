@@ -42,6 +42,8 @@
 #import "BKRBookViewController.h"
 #import "BKRAnalyticsEvents.h"
 
+#import "MySHKConfigurator.h"
+
 #pragma mark - Initialization
 
 @implementation BKRAppDelegate
@@ -55,6 +57,10 @@
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
 
+    DefaultSHKConfigurator *configurator = [[MySHKConfigurator alloc] init];
+    [SHKConfiguration sharedInstanceWithConfigurator:configurator];
+    
+    
     if ([BKRSettings sharedSettings].isNewsstand) {
         [self configureNewsstandApp:application options:launchOptions];
     } else {
