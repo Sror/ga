@@ -18,8 +18,8 @@
 	<string></string>
 	<key>autoRenewableSubscriptionProductIds</key>
 	<array>
-		<string>com.aon.6m</string>
-		<string>com.aon.12m</string>
+		<string>com.aon.6month</string>
+		<string>com.aon.12month</string>
 	</array>
 	<key>requestTimeout</key>
 	<integer>15</integer>
