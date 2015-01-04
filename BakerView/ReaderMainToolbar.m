@@ -89,19 +89,19 @@
 
 #if (READER_STANDALONE == FALSE) // Option
 
-		UIFont *doneButtonFont = [UIFont systemFontOfSize:BUTTON_FONT_SIZE];
-		NSString *doneButtonText = NSLocalizedString(@"Done", @"button");
-		CGSize doneButtonSize = [doneButtonText sizeWithFont:doneButtonFont];
-		CGFloat doneButtonWidth = (doneButtonSize.width + TEXT_BUTTON_PADDING);
+//		UIFont *doneButtonFont = [UIFont systemFontOfSize:BUTTON_FONT_SIZE];
+//		NSString *doneButtonText = NSLocalizedString(@"Done", @"button");
+		//CGSize doneButtonSize = [doneButtonText sizeWithFont:doneButtonFont];
+		CGFloat doneButtonWidth = (iconButtonWidth);
 
 		UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		doneButton.frame = CGRectMake(leftButtonX, BUTTON_Y, doneButtonWidth, BUTTON_HEIGHT);
-		[doneButton setTitleColor:[UIColor colorWithWhite:0.0f alpha:1.0f] forState:UIControlStateNormal];
-		[doneButton setTitleColor:[UIColor colorWithWhite:1.0f alpha:1.0f] forState:UIControlStateHighlighted];
-		[doneButton setTitle:doneButtonText forState:UIControlStateNormal]; doneButton.titleLabel.font = doneButtonFont;
+		//[doneButton setTitleColor:[UIColor colorWithWhite:0.0f alpha:1.0f] forState:UIControlStateNormal];
+		//[doneButton setTitleColor:[UIColor colorWithWhite:1.0f alpha:1.0f] forState:UIControlStateHighlighted];
+		//[doneButton setTitle:doneButtonText forState:UIControlStateNormal]; doneButton.titleLabel.font = doneButtonFont;
 		[doneButton addTarget:self action:@selector(doneButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-		[doneButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
-		[doneButton setBackgroundImage:buttonN forState:UIControlStateNormal];
+		[doneButton setBackgroundImage:[UIImage imageNamed:@"backToRoot.png"] forState:UIControlStateHighlighted];
+		[doneButton setBackgroundImage:[UIImage imageNamed:@"backToRoot.png"] forState:UIControlStateNormal];
 		doneButton.autoresizingMask = UIViewAutoresizingNone;
 		//doneButton.backgroundColor = [UIColor grayColor];
 		doneButton.exclusiveTouch = YES;
@@ -202,59 +202,45 @@
 			}
 		}
 
-        rightButtonX -= (iconButtonWidth + buttonSpacing); // Next position
         
-        UIButton *exportButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        exportButton.frame = CGRectMake(rightButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
-        [exportButton setImage:[UIImage imageNamed:@"Reader-Export"] forState:UIControlStateNormal];
-        [exportButton addTarget:self action:@selector(exportButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [exportButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
-        [exportButton setBackgroundImage:buttonN forState:UIControlStateNormal];
-        exportButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-        //exportButton.backgroundColor = [UIColor grayColor];
-        exportButton.exclusiveTouch = YES;
-        
-        [self addSubview:exportButton]; titleWidth -= (iconButtonWidth + buttonSpacing);
+		if (document.canExport == YES) // Document export enabled
+		{
+			rightButtonX -= (iconButtonWidth + buttonSpacing); // Next position
 
-        
-//		if (document.canExport == YES) // Document export enabled
+			UIButton *exportButton = [UIButton buttonWithType:UIButtonTypeCustom];
+			exportButton.frame = CGRectMake(rightButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
+			[exportButton setImage:[UIImage imageNamed:@"Reader-Export"] forState:UIControlStateNormal];
+			[exportButton addTarget:self action:@selector(exportButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+			[exportButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
+			[exportButton setBackgroundImage:buttonN forState:UIControlStateNormal];
+			exportButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+			//exportButton.backgroundColor = [UIColor grayColor];
+			exportButton.exclusiveTouch = YES;
+
+			[self addSubview:exportButton]; titleWidth -= (iconButtonWidth + buttonSpacing);
+        }
+
+//		if (largeDevice == YES) // Show document filename in toolbar
 //		{
-//			rightButtonX -= (iconButtonWidth + buttonSpacing); // Next position
+//			CGRect titleRect = CGRectMake(titleX, BUTTON_Y, titleWidth, TITLE_HEIGHT);
 //
-//			UIButton *exportButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//			exportButton.frame = CGRectMake(rightButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
-//			[exportButton setImage:[UIImage imageNamed:@"Reader-Export"] forState:UIControlStateNormal];
-//			[exportButton addTarget:self action:@selector(exportButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-//			[exportButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
-//			[exportButton setBackgroundImage:buttonN forState:UIControlStateNormal];
-//			exportButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-//			//exportButton.backgroundColor = [UIColor grayColor];
-//			exportButton.exclusiveTouch = YES;
+//			UILabel *titleLabel = [[UILabel alloc] initWithFrame:titleRect];
 //
-//			[self addSubview:exportButton]; titleWidth -= (iconButtonWidth + buttonSpacing);
-//        }
-
-////		if (largeDevice == YES) // Show document filename in toolbar
-////		{
-////			CGRect titleRect = CGRectMake(titleX, BUTTON_Y, titleWidth, TITLE_HEIGHT);
-////
-////			UILabel *titleLabel = [[UILabel alloc] initWithFrame:titleRect];
-////
-////			titleLabel.textAlignment = NSTextAlignmentCenter;
-////			titleLabel.font = [UIFont systemFontOfSize:TITLE_FONT_SIZE];
-////			titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-////			titleLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
-////			titleLabel.textColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
-////			titleLabel.backgroundColor = [UIColor clearColor];
-////			titleLabel.adjustsFontSizeToFitWidth = YES;
-////			titleLabel.minimumScaleFactor = 0.75f;
-////			titleLabel.text = [document.fileName stringByDeletingPathExtension];
-////#if (READER_FLAT_UI == FALSE) // Option
-////			titleLabel.shadowColor = [UIColor colorWithWhite:0.75f alpha:1.0f];
-////			titleLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
-////#endif // end of READER_FLAT_UI Option
-////
-////			[self addSubview:titleLabel]; 
+//			titleLabel.textAlignment = NSTextAlignmentCenter;
+//			titleLabel.font = [UIFont systemFontOfSize:TITLE_FONT_SIZE];
+//			titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+//			titleLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+//			titleLabel.textColor = [UIColor colorWithWhite:0.0f alpha:1.0f];
+//			titleLabel.backgroundColor = [UIColor clearColor];
+//			titleLabel.adjustsFontSizeToFitWidth = YES;
+//			titleLabel.minimumScaleFactor = 0.75f;
+//			titleLabel.text = [document.fileName stringByDeletingPathExtension];
+//#if (READER_FLAT_UI == FALSE) // Option
+//			titleLabel.shadowColor = [UIColor colorWithWhite:0.75f alpha:1.0f];
+//			titleLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
+//#endif // end of READER_FLAT_UI Option
+//
+//			[self addSubview:titleLabel]; 
 //		}
 	}
 

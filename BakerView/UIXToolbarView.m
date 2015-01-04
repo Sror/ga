@@ -52,10 +52,11 @@
 	if ((self = [super initWithFrame:frame]))
 	{
         UIImageView *bgImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"navigation-bar-bg.png"]];
-        bgImage.frame = self.bounds;
+        bgImage.frame = CGRectMake(frame.origin.x, frame.origin.y, 1024, frame.size.height);
         
         [self addSubview:bgImage];
-		self.autoresizesSubviews = YES;
+        
+        self.autoresizesSubviews = YES;
 		self.userInteractionEnabled = YES;
 		self.contentMode = UIViewContentModeRedraw;
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth;

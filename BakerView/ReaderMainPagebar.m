@@ -149,6 +149,8 @@
 
 	if ((self = [super initWithFrame:frame]))
 	{
+        
+
 		self.autoresizesSubviews = YES;
 		self.userInteractionEnabled = YES;
 		self.contentMode = UIViewContentModeRedraw;
