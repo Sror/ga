@@ -176,6 +176,11 @@
                                  target:self
                                  action:@selector(handleSubscribeButtonPressed:)];
         
+//        [self.subscribeButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+//                                                      [UIFont fontWithName:@"budicon" size:28.0],NSFontAttributeName,
+//                                                      [UIColor blackColor], NSForegroundColorAttributeName,nil]
+//                                            forState:UIControlStateNormal];
+        
         self.categoryItem = [[BKRCategoryFilterItem alloc] initWithCategories:issuesManager.categories delegate:self];
 
         self.blockingProgressView = [[UIAlertView alloc]

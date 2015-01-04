@@ -64,6 +64,7 @@
 		C66857A01A07D38300776443 /* NSString+BakerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C668579D1A07D38300776443 /* NSString+BakerExtensions.m */; };
 		C66857A11A07D38300776443 /* UIColor+BakerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C668579F1A07D38300776443 /* UIColor+BakerExtensions.m */; };
 		C66857A41A07DDBE00776443 /* NSObject+BakerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66857A31A07DDBE00776443 /* NSObject+BakerExtensions.m */; };
+		C6D951301A59B1DC00163753 /* budicon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6D9512F1A59B1DC00163753 /* budicon.ttf */; };
 		C6F4FB991A0E6D9100E365F6 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F4FB981A0E6D9100E365F6 /* MBProgressHUD.m */; };
 		E34F22711A5729570013A8FE /* CGPDFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E34F224A1A5729570013A8FE /* CGPDFDocument.m */; };
 		E34F22721A5729570013A8FE /* ReaderConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E34F224C1A5729570013A8FE /* ReaderConstants.m */; };
@@ -191,6 +192,7 @@
 		C668579F1A07D38300776443 /* UIColor+BakerExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BakerExtensions.m"; sourceTree = "<group>"; };
 		C66857A21A07DDBE00776443 /* NSObject+BakerExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+BakerExtensions.h"; sourceTree = "<group>"; };
 		C66857A31A07DDBE00776443 /* NSObject+BakerExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BakerExtensions.m"; sourceTree = "<group>"; };
+		C6D9512F1A59B1DC00163753 /* budicon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = budicon.ttf; sourceTree = "<group>"; };
 		C6F4FB971A0E6D9100E365F6 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		C6F4FB981A0E6D9100E365F6 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		E1AC32A687F5F0CDAF092331 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 		ABAFB57C15AB9A2E002FA498 = {
 			isa = PBXGroup;
 			children = (
+				C6D951311A59B1E700163753 /* Assets */,
 				BF78D1AF180C8F070093DFBC /* BakerAssets.xcassets */,
 				AB40047B15B4B8B800D87E2A /* BakerShelf */,
 				AB40042915B4B83000D87E2A /* BakerView */,
@@ -474,6 +477,14 @@
 				C62D23531A0A748A003A26D2 /* zip.h */,
 			);
 			path = minizip;
+			sourceTree = "<group>";
+		};
+		C6D951311A59B1E700163753 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				C6D9512F1A59B1DC00163753 /* budicon.ttf */,
+			);
+			name = Assets;
 			sourceTree = "<group>";
 		};
 		E34F22481A5729420013A8FE /* vfr */ = {
@@ -589,6 +600,7 @@
 				20CC551D16AD346900DEFB5C /* Localizable.strings in Resources */,
 				BF0785EB1794AF4000EB988E /* info in Resources */,
 				C649F09D1A0926CD00B02548 /* settings.plist in Resources */,
+				C6D951301A59B1DC00163753 /* budicon.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
