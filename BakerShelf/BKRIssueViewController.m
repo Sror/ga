@@ -211,8 +211,8 @@
 
     // SETUP INFO LABEL
     self.infoLabel.font          = infoFont;
-    self.infoLabel.frame         = CGRectMake(ui.contentOffset, heightOffset, labelWidth, 60);
-    self.infoLabel.numberOfLines = 3;
+    self.infoLabel.frame         = CGRectMake(ui.contentOffset, heightOffset, labelWidth, 40);
+    self.infoLabel.numberOfLines = 2;
     self.infoLabel.text          = self.issue.info;
     [self.infoLabel sizeToFit];
 
