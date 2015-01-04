@@ -101,8 +101,8 @@
 
 // Subscriptions
 // (These are just examples: you'll need to provide your own product IDs and names)
-"com.aon.6m" = "6 Months Subscription";
-"com.aon.12m" = "1 Year Subscription";
+"com.aon.6month" = "6 Months Subscription";
+"com.aon.12month" = "1 Year Subscription";
 
 // Categories
 "ALL_CATEGORIES_TITLE" = "All Categories";

@@ -159,9 +159,9 @@
     SKProduct *product = self.products[productID];
     if(product) {
         //return product.localizedTitle;
-        if ([productID isEqualToString:@"com.aon.6m"]) {
+        if ([productID isEqualToString:@"com.aon.6month"]) {
             return @"6 months -";
-        } else if ([productID isEqualToString:@"com.aon.12m"]) {
+        } else if ([productID isEqualToString:@"com.aon.12month"]) {
             return @"1 year -";
         }
     }

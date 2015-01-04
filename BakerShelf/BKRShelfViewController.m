@@ -131,6 +131,7 @@
     self.layout.minimumLineSpacing      = 0;
     
     self.gridView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:self.layout];
+    self.gridView.pagingEnabled    = true; //TODO: TEST
     self.gridView.dataSource       = self;
     self.gridView.delegate         = self;
     self.gridView.backgroundColor  = [UIColor clearColor];
