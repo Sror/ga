@@ -232,9 +232,9 @@
     }
     
     // Add share button
-    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"web---share-network.png"] style:UIBarButtonItemStylePlain target:self action:@selector(handleShareButtonPressed:)];
+    self.shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"web---share-network.png"] style:UIBarButtonItemStylePlain target:self action:@selector(handleShareButtonPressed:)];
     
-    self.navigationItem.rightBarButtonItems = @[shareButton];
+    self.navigationItem.rightBarButtonItems = @[self.shareItem];
     
     // Add info button
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
@@ -244,34 +244,8 @@
     // Remove file info.html if you don't want the info button to be added to the shelf navigation bar
     NSString *infoPath = [[NSBundle mainBundle] pathForResource:@"info" ofType:@"html" inDirectory:@"info"];
     if ([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
-        self.navigationItem.rightBarButtonItems = @[shareButton, self.infoItem];
+        self.navigationItem.rightBarButtonItems = @[self.shareItem, self.infoItem];
     }
-}
-
-- (void)handleShareButtonPressed:(id)sender {
-    // Create the item to share (in this example, a url)
-    NSURL *url = [NSURL URLWithString:@"http://aviajournal.com"];
-    SHKItem *item = [SHKItem URL:url title:@"General Aviation Magazine" contentType:SHKURLContentTypeWebpage];
-    
-    // Get the ShareKit action sheet
-    SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
-    
-    // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
-    // but sometimes it may not find one. To be safe, set it explicitly
-    [SHK setRootViewController:self];
-    
-    // Display the action sheet
-    if (NSClassFromString(@"UIAlertController")) {
-        //iOS 8+
-        SHKAlertController *alertController = [SHKAlertController actionSheetForItem:item];
-        [alertController setModalPresentationStyle:UIModalPresentationPopover];
-        UIPopoverPresentationController *popPresenter = [alertController popoverPresentationController];
-        popPresenter.barButtonItem = self.toolbarItems[1];
-        [self presentViewController:alertController animated:YES completion:nil];
-    } else {
-        [actionSheet showFromToolbar:self.navigationController.toolbar];
-    }
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -816,6 +790,33 @@
 }
 
 #pragma mark - Buttons management
+
+- (void)handleShareButtonPressed:(id)sender {
+    // Create the item to share (in this example, a url)
+    NSURL *url = [NSURL URLWithString:@"http://aviajournal.com"];
+    SHKItem *item = [SHKItem URL:url title:@"General Aviation Magazine" contentType:SHKURLContentTypeWebpage];
+    
+    // Get the ShareKit action sheet
+    SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
+    
+    // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
+    // but sometimes it may not find one. To be safe, set it explicitly
+    [SHK setRootViewController:self];
+    
+    // Display the action sheet
+    if (NSClassFromString(@"UIAlertController")) {
+        //iOS 8+
+        SHKAlertController *alertController = [SHKAlertController actionSheetForItem:item];
+        [alertController setModalPresentationStyle:UIModalPresentationPopover];
+        UIPopoverPresentationController *popPresenter = [alertController popoverPresentationController];
+        popPresenter.barButtonItem = self.shareItem;
+        [self presentViewController:alertController animated:YES completion:nil];
+    } else {
+        [actionSheet showFromToolbar:self.navigationController.toolbar];
+    }
+    
+}
+
 
 - (void)setrefreshButtonEnabled:(BOOL)enabled {
     self.refreshButton.enabled = enabled;
