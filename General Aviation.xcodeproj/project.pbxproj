@@ -85,6 +85,7 @@
 		E34F22821A5729570013A8FE /* ThumbsMainToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = E34F226C1A5729570013A8FE /* ThumbsMainToolbar.m */; };
 		E34F22831A5729570013A8FE /* ThumbsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E34F226E1A5729570013A8FE /* ThumbsViewController.m */; };
 		E34F22841A5729570013A8FE /* UIXToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E34F22701A5729570013A8FE /* UIXToolbarView.m */; };
+		E384CB841A59AAE00019D690 /* navigation-bar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E384CB831A59AAE00019D690 /* navigation-bar-bg.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -233,6 +234,7 @@
 		E34F226E1A5729570013A8FE /* ThumbsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbsViewController.m; sourceTree = "<group>"; };
 		E34F226F1A5729570013A8FE /* UIXToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIXToolbarView.h; sourceTree = "<group>"; };
 		E34F22701A5729570013A8FE /* UIXToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIXToolbarView.m; sourceTree = "<group>"; };
+		E384CB831A59AAE00019D690 /* navigation-bar-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "navigation-bar-bg.png"; path = "Baker/BakerAssets.xcassets/navigation-bar-bg.imageset/navigation-bar-bg.png"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -278,6 +280,7 @@
 		9F58D85E15D6743C0027902C /* img */ = {
 			isa = PBXGroup;
 			children = (
+				E384CB831A59AAE00019D690 /* navigation-bar-bg.png */,
 			);
 			path = img;
 			sourceTree = "<group>";
@@ -578,6 +581,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E384CB841A59AAE00019D690 /* navigation-bar-bg.png in Resources */,
 				C659B2941A38BA3700CA238C /* newsstand-app-icon.png in Resources */,
 				C659B2951A38BA3700CA238C /* newsstand-app-icon@2x.png in Resources */,
 				C659B2961A38BA3700CA238C /* newsstand-app-icon@3x.png in Resources */,

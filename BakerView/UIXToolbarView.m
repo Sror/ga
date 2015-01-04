@@ -51,6 +51,10 @@
 {
 	if ((self = [super initWithFrame:frame]))
 	{
+        UIImageView *bgImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"navigation-bar-bg.png"]];
+        bgImage.frame = self.bounds;
+        
+        [self addSubview:bgImage];
 		self.autoresizesSubviews = YES;
 		self.userInteractionEnabled = YES;
 		self.contentMode = UIViewContentModeRedraw;
@@ -85,8 +89,8 @@
 			lineView.backgroundColor = [UIColor colorWithWhite:0.64f alpha:0.94f];
 			[self addSubview:lineView];
 		}
-	}
-
+    }
+    
 	return self;
 }
 
