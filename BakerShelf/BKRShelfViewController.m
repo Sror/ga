@@ -237,13 +237,13 @@
     [shareButton addTarget:self action:@selector(handleShareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.shareItem = [[UIBarButtonItem alloc] initWithCustomView:shareButton];
     
+    
+    self.navigationItem.rightBarButtonItems = @[self.shareItem];
+    
     // Add info button
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(handleInfoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.infoItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
-
-    
-    self.navigationItem.rightBarButtonItems = @[self.shareItem];
     
     // Remove file info.html if you don't want the info button to be added to the shelf navigation bar
     NSString *infoPath = [[NSBundle mainBundle] pathForResource:@"info" ofType:@"html" inDirectory:@"info"];
