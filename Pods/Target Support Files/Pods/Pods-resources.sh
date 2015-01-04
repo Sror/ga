@@ -47,7 +47,9 @@ install_resource()
       ;;
   esac
 }
-          install_resource "Reader/Graphics/Reader-Button-H.png"
+          install_resource "Facebook-iOS-SDK/src/FBUserSettingsViewResources.bundle"
+                    install_resource "Pinterest-iOS/PinItSDKiOS/Pinterest.embeddedframework/Pinterest.framework/Versions/A/Resources/PinterestSDKResources.bundle"
+                    install_resource "Reader/Graphics/Reader-Button-H.png"
                     install_resource "Reader/Graphics/Reader-Button-H@2x.png"
                     install_resource "Reader/Graphics/Reader-Button-N.png"
                     install_resource "Reader/Graphics/Reader-Button-N@2x.png"
@@ -63,6 +65,8 @@ install_resource()
                     install_resource "Reader/Graphics/Reader-Print@2x.png"
                     install_resource "Reader/Graphics/Reader-Thumbs.png"
                     install_resource "Reader/Graphics/Reader-Thumbs@2x.png"
+                    install_resource "ShareKit/Frameworks/GooglePlus.bundle"
+                    install_resource "${BUILT_PRODUCTS_DIR}/ShareKit.bundle"
           
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 if [[ "${ACTION}" == "install" ]]; then

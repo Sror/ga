@@ -1,1 +1,0 @@
-../../../Reader/Sources/ReaderThumbsView.h
