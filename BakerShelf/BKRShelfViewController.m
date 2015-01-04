@@ -45,6 +45,8 @@
 
 #import "MBProgressHUD.h"
 
+#import "ShareKit.h"
+
 @interface BKRShelfViewController ()
 
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
@@ -230,6 +232,13 @@
     }
     
     // Add info button
+    UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    [shareButton addTarget:self action:@selector(handleShareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    self.shareItem = [[UIBarButtonItem alloc] initWithCustomView:shareButton];
+    
+    
+    
+    // Add info button
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(handleInfoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.infoItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
@@ -239,6 +248,32 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
         self.navigationItem.rightBarButtonItem = self.infoItem;
     }
+}
+
+- (void)handleShareButtonPressed:(id)sender {
+    // Create the item to share (in this example, a url)
+    NSURL *url = [NSURL URLWithString:@"http://aviajournal.com"];
+    SHKItem *item = [SHKItem URL:url title:@"General Aviation Magazine" contentType:SHKURLContentTypeWebpage];
+    
+    // Get the ShareKit action sheet
+    SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
+    
+    // ShareKit detects top view controller (the one intended to present ShareKit UI) automatically,
+    // but sometimes it may not find one. To be safe, set it explicitly
+    [SHK setRootViewController:self];
+    
+    // Display the action sheet
+    if (NSClassFromString(@"UIAlertController")) {
+        //iOS 8+
+        SHKAlertController *alertController = [SHKAlertController actionSheetForItem:item];
+        [alertController setModalPresentationStyle:UIModalPresentationPopover];
+        UIPopoverPresentationController *popPresenter = [alertController popoverPresentationController];
+        popPresenter.barButtonItem = self.toolbarItems[1];
+        [self presentViewController:alertController animated:YES completion:nil];
+    } else {
+        [actionSheet showFromToolbar:self.navigationController.toolbar];
+    }
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {

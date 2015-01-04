@@ -5,7 +5,7 @@
 #platform :ios, '7.0'
 
 pod 'Reader', :git => 'https://github.com/vfr/Reader.git', :branch => 'master'
-pod 'ShareKit'
+pod 'ShareKit', '~> 2.5'
 
 target 'General Aviation' do
 end
