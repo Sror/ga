@@ -35,6 +35,8 @@
 #import "BKRInterceptorWindow.h"
 #import "BKRShelfViewController.h"
 #import "SHKConfiguration.h"
+#import "MySHKConfigurator.h"
+
 
 @interface BKRAppDelegate : UIResponder <UIApplicationDelegate>
 

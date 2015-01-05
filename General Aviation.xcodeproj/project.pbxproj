@@ -981,13 +981,88 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Leonid Stoianov (547352ADX4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Baker/General Aviation-Prefix.pch";
 				INFOPLIST_FILE = "Baker/General Aviation-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = (
+					"-l\"Pods-Bolts\"",
+					"-l\"Pods-Dropbox-iOS-SDK\"",
+					"-l\"Pods-Evernote-SDK-iOS\"",
+					"-l\"Pods-Facebook-iOS-SDK\"",
+					"-l\"Pods-PKMultipartInputStream\"",
+					"-l\"Pods-Pinterest-iOS\"",
+					"-l\"Pods-PocketAPI\"",
+					"-l\"Pods-Reader\"",
+					"-l\"Pods-SAMTextView\"",
+					"-l\"Pods-SDWebImage\"",
+					"-l\"Pods-SSKeychain\"",
+					"-l\"Pods-ShareKit\"",
+					"-l\"Pods-UIActivityIndicator-for-SDWebImage\"",
+					"-l\"xml2\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AddressBook\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"DropboxSDK\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GoogleOpenSource\"",
+					"-framework",
+					"\"GooglePlus\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Pinterest\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"Social\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"Twitter\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"Accounts\"",
+					"-weak_framework",
+					"\"SafariServices\"",
+					"-weak_framework",
+					"\"Security\"",
+					"-weak_framework",
+					"\"Social\"",
+					"-all_load",
+				);
 				PRODUCT_NAME = "General Aviation";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a33e5958-1d46-4368-a567-e1f291f8b2e3";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1001,13 +1076,88 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Naukovo Tekhnichny CENTR Aviatsii Zagalnogo Pryznachennya, TOV (FHNQP3YCB7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Baker/General Aviation-Prefix.pch";
 				INFOPLIST_FILE = "Baker/General Aviation-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = (
+					"-l\"Pods-Bolts\"",
+					"-l\"Pods-Dropbox-iOS-SDK\"",
+					"-l\"Pods-Evernote-SDK-iOS\"",
+					"-l\"Pods-Facebook-iOS-SDK\"",
+					"-l\"Pods-PKMultipartInputStream\"",
+					"-l\"Pods-Pinterest-iOS\"",
+					"-l\"Pods-PocketAPI\"",
+					"-l\"Pods-Reader\"",
+					"-l\"Pods-SAMTextView\"",
+					"-l\"Pods-SDWebImage\"",
+					"-l\"Pods-SSKeychain\"",
+					"-l\"Pods-ShareKit\"",
+					"-l\"Pods-UIActivityIndicator-for-SDWebImage\"",
+					"-l\"xml2\"",
+					"-framework",
+					"\"AVFoundation\"",
+					"-framework",
+					"\"AddressBook\"",
+					"-framework",
+					"\"AssetsLibrary\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreLocation\"",
+					"-framework",
+					"\"CoreMedia\"",
+					"-framework",
+					"\"CoreMotion\"",
+					"-framework",
+					"\"CoreText\"",
+					"-framework",
+					"\"DropboxSDK\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GoogleOpenSource\"",
+					"-framework",
+					"\"GooglePlus\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MediaPlayer\"",
+					"-framework",
+					"\"MessageUI\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"Pinterest\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"Social\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"Twitter\"",
+					"-framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"Accounts\"",
+					"-weak_framework",
+					"\"SafariServices\"",
+					"-weak_framework",
+					"\"Security\"",
+					"-weak_framework",
+					"\"Social\"",
+					"-all_load",
+				);
 				PRODUCT_NAME = "General Aviation";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a33e5958-1d46-4368-a567-e1f291f8b2e3";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};

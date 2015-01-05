@@ -4,8 +4,10 @@
 #source 'https://github.com/CocoaPods/Specs.git'
 #platform :ios, '7.0'
 
+pod 'Reader', :git => 'https://github.com/vfr/Reader.git', :branch => 'master'
+pod 'ShareKit'
+
 target 'General Aviation' do
-    pod 'Reader', :git => 'https://github.com/vfr/Reader.git', :branch => 'master'
-    pod 'ShareKit'
+
 end
 

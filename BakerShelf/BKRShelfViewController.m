@@ -30,6 +30,9 @@
 //  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+
+#import "ShareKit.h"
+
 #import "BKRShelfViewController.h"
 #import "BKRCustomNavigationBar.h"
 
@@ -44,8 +47,6 @@
 #import "BKRUtils.h"
 
 #import "MBProgressHUD.h"
-
-#import "ShareKit.h"
 
 @interface BKRShelfViewController ()
 

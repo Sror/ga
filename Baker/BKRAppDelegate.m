@@ -42,7 +42,6 @@
 #import "BKRBookViewController.h"
 #import "BKRAnalyticsEvents.h"
 
-#import "MySHKConfigurator.h"
 
 #pragma mark - Initialization
 
