@@ -31,7 +31,6 @@
 		AB5D48D01609178900828D16 /* NewsstandKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB5D48CD1609176A00828D16 /* NewsstandKit.framework */; };
 		AB67F5BA16EE99B2005A04F6 /* BKRReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = AB67F5B916EE99B2005A04F6 /* BKRReachability.m */; };
 		AB67F5BC16EE9B79005A04F6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB67F5BB16EE9B79005A04F6 /* SystemConfiguration.framework */; };
-		ABABF1A81646C06100A75E67 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABABF1A51646C04D00A75E67 /* StoreKit.framework */; };
 		ABADF3F916C7BAD900F52F3C /* NSURL+BakerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = ABADF3F816C7BAD900F52F3C /* NSURL+BakerExtensions.m */; };
 		ABAFB58C15AB9A2E002FA498 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABAFB58B15AB9A2E002FA498 /* UIKit.framework */; };
 		ABAFB58E15AB9A2E002FA498 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABAFB58D15AB9A2E002FA498 /* Foundation.framework */; };
@@ -109,6 +108,7 @@
 		C6D951861A59C2A000163753 /* web---upload-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D9515C1A59C2A000163753 /* web---upload-arrow.png */; };
 		C6D951891A59D3CC00163753 /* MySHKConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D951881A59D3CC00163753 /* MySHKConfigurator.m */; };
 		C6D9518F1A59F2FB00163753 /* backToRoot.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D9518E1A59F2FB00163753 /* backToRoot.png */; };
+		C6F1E1B01A5B6F3800930E39 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6F1E1AF1A5B6F3800930E39 /* StoreKit.framework */; };
 		C6F4FB991A0E6D9100E365F6 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F4FB981A0E6D9100E365F6 /* MBProgressHUD.m */; };
 		E34F22711A5729570013A8FE /* CGPDFDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = E34F224A1A5729570013A8FE /* CGPDFDocument.m */; };
 		E34F22721A5729570013A8FE /* ReaderConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E34F224C1A5729570013A8FE /* ReaderConstants.m */; };
@@ -177,7 +177,6 @@
 		AB67F5B816EE99B2005A04F6 /* BKRReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKRReachability.h; sourceTree = "<group>"; };
 		AB67F5B916EE99B2005A04F6 /* BKRReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKRReachability.m; sourceTree = "<group>"; };
 		AB67F5BB16EE9B79005A04F6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		ABABF1A51646C04D00A75E67 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		ABADF3F716C7BAD900F52F3C /* NSURL+BakerExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+BakerExtensions.h"; sourceTree = "<group>"; };
 		ABADF3F816C7BAD900F52F3C /* NSURL+BakerExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+BakerExtensions.m"; sourceTree = "<group>"; };
 		ABAFB58715AB9A2E002FA498 /* General Aviation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "General Aviation.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -282,6 +281,7 @@
 		C6D951871A59D3CC00163753 /* MySHKConfigurator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MySHKConfigurator.h; path = ../MySHKConfigurator.h; sourceTree = "<group>"; };
 		C6D951881A59D3CC00163753 /* MySHKConfigurator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MySHKConfigurator.m; path = ../MySHKConfigurator.m; sourceTree = "<group>"; };
 		C6D9518E1A59F2FB00163753 /* backToRoot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backToRoot.png; sourceTree = "<group>"; };
+		C6F1E1AF1A5B6F3800930E39 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C6F4FB971A0E6D9100E365F6 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		C6F4FB981A0E6D9100E365F6 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		E1AC32A687F5F0CDAF092331 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -335,7 +335,6 @@
 			files = (
 				AB67F5BC16EE9B79005A04F6 /* SystemConfiguration.framework in Frameworks */,
 				ABD245531639E3650080F056 /* AVFoundation.framework in Frameworks */,
-				ABABF1A81646C06100A75E67 /* StoreKit.framework in Frameworks */,
 				AB5D48D01609178900828D16 /* NewsstandKit.framework in Frameworks */,
 				ABAFB58C15AB9A2E002FA498 /* UIKit.framework in Frameworks */,
 				ABAFB58E15AB9A2E002FA498 /* Foundation.framework in Frameworks */,
@@ -344,6 +343,7 @@
 				AB40048115B4B90200D87E2A /* MessageUI.framework in Frameworks */,
 				AB40048315B4B90A00D87E2A /* libz.dylib in Frameworks */,
 				2B81B60AD10FC24A71D6F19A /* libPods.a in Frameworks */,
+				C6F1E1B01A5B6F3800930E39 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,8 +512,8 @@
 		ABAFB58A15AB9A2E002FA498 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C6F1E1AF1A5B6F3800930E39 /* StoreKit.framework */,
 				AB67F5BB16EE9B79005A04F6 /* SystemConfiguration.framework */,
-				ABABF1A51646C04D00A75E67 /* StoreKit.framework */,
 				ABD245521639E3650080F056 /* AVFoundation.framework */,
 				AB5D48CD1609176A00828D16 /* NewsstandKit.framework */,
 				ABAFB58B15AB9A2E002FA498 /* UIKit.framework */,
@@ -709,6 +709,11 @@
 				TargetAttributes = {
 					ABAFB58615AB9A2E002FA498 = {
 						DevelopmentTeam = FHNQP3YCB7;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1062,7 +1067,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "General Aviation";
-				PROVISIONING_PROFILE = "a33e5958-1d46-4368-a567-e1f291f8b2e3";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1075,8 +1080,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Baker/General Aviation-Prefix.pch";
 				INFOPLIST_FILE = "Baker/General Aviation-Info.plist";
@@ -1157,7 +1162,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "General Aviation";
-				PROVISIONING_PROFILE = "a33e5958-1d46-4368-a567-e1f291f8b2e3";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
