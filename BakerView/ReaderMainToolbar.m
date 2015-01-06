@@ -70,6 +70,11 @@
 
 	if ((self = [super initWithFrame:frame]))
 	{
+        UIImageView *bgImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"navigation-bar-bg.png"]];
+        bgImage.frame = CGRectMake(frame.origin.x, frame.origin.y, 1024, frame.size.height);
+        
+        [self addSubview:bgImage];
+
 		CGFloat viewWidth = self.bounds.size.width; // Toolbar view width
 
 #if (READER_FLAT_UI == TRUE) // Option
@@ -124,7 +129,7 @@
 		//thumbsButton.backgroundColor = [UIColor grayColor];
 		thumbsButton.exclusiveTouch = YES;
 
-		[self addSubview:thumbsButton]; //leftButtonX += (iconButtonWidth + buttonSpacing);
+		//[self addSubview:thumbsButton]; //leftButtonX += (iconButtonWidth + buttonSpacing);
 
 		titleX += (iconButtonWidth + buttonSpacing); titleWidth -= (iconButtonWidth + buttonSpacing);
 
@@ -309,7 +314,7 @@
 	if (self.hidden == YES)
 	{
 		[self updateBookmarkImage]; // First
-
+        
 		[UIView animateWithDuration:0.25 delay:0.0
 			options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
 			animations:^(void)

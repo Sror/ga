@@ -54,12 +54,14 @@
 
 #pragma mark - Constants
 
+#define THUMBS_BAR_WIDTH 180.0f
+
 #define STATUS_HEIGHT 20.0f
 
 #define TOOLBAR_HEIGHT 44.0f
 
 #define PAGE_THUMB_SMALL 160
-#define PAGE_THUMB_LARGE 256
+#define PAGE_THUMB_LARGE 160
 
 #pragma mark - Properties
 
@@ -76,6 +78,8 @@
 			updateBookmarked = YES; bookmarked = [NSMutableArray new]; // Bookmarked pages
 
 			document = object; // Retain the ReaderDocument object for our use
+            self.isHide = NO;
+            
 		}
 		else // Invalid ReaderDocument object
 		{
@@ -91,7 +95,8 @@
 	[super viewDidLoad];
 
 	assert(delegate != nil); assert(document != nil);
-
+    self.view.frame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+    
     UIColor *bgcolor = [[UIColor alloc] initWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
     self.view.backgroundColor = bgcolor;
     
@@ -501,5 +506,43 @@
 {
 	textLabel.text = text;
 }
+
+#pragma mark - Show/Hide
+
+- (void)hideSidebar
+{
+    if (self.hidden == NO) // Only if visible
+    {
+        [UIView animateWithDuration:0.25 delay:0.0
+                            options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
+                         animations:^(void)
+         {
+             self.alpha = 0.0f;
+         }
+                         completion:^(BOOL finished)
+         {
+             self.hidden = YES;
+         }
+         ];
+    }
+}
+
+- (void)showSidebar
+{
+    if (self.hidden == YES) // Only if hidden
+    {
+        [UIView animateWithDuration:0.25 delay:0.0
+                            options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
+                         animations:^(void)
+         {
+             self.hidden = NO;
+             self.alpha = 1.0f;
+         }
+                         completion:NULL
+         ];
+    }
+}
+
+
 
 @end
