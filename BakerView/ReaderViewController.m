@@ -76,6 +76,8 @@
 #define TOOLBAR_HEIGHT 44.0f
 #define PAGEBAR_HEIGHT 100.0f
 
+#define SIDEBAR_WIDTH 150.0f
+
 #define SCROLLVIEW_OUTSET_SMALL 4.0f
 #define SCROLLVIEW_OUTSET_LARGE 8.0f
 
@@ -466,11 +468,21 @@
 	mainToolbar.delegate = self; // ReaderMainToolbarDelegate
 	[self.view addSubview:mainToolbar];
 
-	CGRect pagebarRect = self.view.bounds; pagebarRect.size.height = PAGEBAR_HEIGHT;
-	pagebarRect.origin.y = (self.view.bounds.size.height - pagebarRect.size.height);
-	mainPagebar = [[ReaderMainPagebar alloc] initWithFrame:pagebarRect document:document]; // ReaderMainPagebar
-	mainPagebar.delegate = self; // ReaderMainPagebarDelegate
-	[self.view addSubview:mainPagebar];
+//    CGRect sidebarRect = self.view.bounds;
+//    sidebarRect.size.height = self.view.bounds.size.height - TOOLBAR_HEIGHT;
+//    sidebarRect.origin.y = TOOLBAR_HEIGHT;
+//    sidebarRect.origin.x = self.view.bounds.size.width - PAGEBAR_HEIGHT + 50;
+//    sidebarRect.size.width = PAGEBAR_HEIGHT + 50;
+    
+//    UIScrollView *sidebar = [[UIScrollView alloc] initWithFrame:sidebarRect];
+//    sidebar.backgroundColor = [UIColor redColor];
+//    [self.view addSubview:sidebar];
+    
+//	CGRect pagebarRect = self.view.bounds; pagebarRect.size.height = PAGEBAR_HEIGHT;
+//	pagebarRect.origin.y = (self.view.bounds.size.height - pagebarRect.size.height);
+//	mainPagebar = [[ReaderMainPagebar alloc] initWithFrame:pagebarRect document:document]; // ReaderMainPagebar
+//	mainPagebar.delegate = self; // ReaderMainPagebarDelegate
+//	[self.view addSubview:mainPagebar];
 
 	if (fakeStatusBar != nil) [self.view addSubview:fakeStatusBar]; // Add status bar background view
 
@@ -851,7 +863,7 @@
 	thumbsViewController.title = self.title; thumbsViewController.delegate = self; // ThumbsViewControllerDelegate
 
 	thumbsViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-	thumbsViewController.modalPresentationStyle = UIModalPresentationFullScreen;
+    thumbsViewController.modalPresentationStyle = UIModalPresentationFormSheet;
 
 	[self presentViewController:thumbsViewController animated:NO completion:NULL];
 

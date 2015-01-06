@@ -40,7 +40,7 @@
 
 @end
 
-@interface ReaderMainPagebar : UIScrollView
+@interface ReaderMainPagebar : UIView
 
 @property (nonatomic, weak, readwrite) id <ReaderMainPagebarDelegate> delegate;
 
