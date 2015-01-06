@@ -41,6 +41,8 @@
 @implementation ReaderViewController
 {
 	ReaderDocument *document;
+    
+    ThumbsViewController *sideBarViewController;
 
 	UIScrollView *theScrollView;
 
@@ -467,6 +469,14 @@
 	mainToolbar = [[ReaderMainToolbar alloc] initWithFrame:toolbarRect document:document]; // ReaderMainToolbar
 	mainToolbar.delegate = self; // ReaderMainToolbarDelegate
 	[self.view addSubview:mainToolbar];
+    
+    sideBarViewController = [[ThumbsViewController alloc] initWithReaderDocument:document];
+    sideBarViewController.delegate = self;
+    
+    [self addChildViewController:sideBarViewController];
+    
+    [self.view addSubview:sideBarViewController.view];
+    
 
 //    CGRect sidebarRect = self.view.bounds;
 //    sidebarRect.size.height = self.view.bounds.size.height - TOOLBAR_HEIGHT;
@@ -505,6 +515,15 @@
 	minimumPage = 1; maximumPage = [document.pageCount integerValue];
 }
 
+//- (void)showSidePageBar{
+//    if (childsvc.isHide == NO) {
+////        [childsvc.view ]
+//    }else{
+//        [self addChildViewController:childsvc];
+//        
+//        [self.view addSubview:childsvc.view];
+//    }
+//}
 
 
 - (void)viewWillAppear:(BOOL)animated
@@ -741,6 +760,7 @@
 					if ((mainToolbar.alpha < 1.0f) || (mainPagebar.alpha < 1.0f)) // Hidden
 					{
 						[mainToolbar showToolbar]; [mainPagebar showPagebar]; // Show
+                        [self showSidebar];
 					}
 				}
 			}
@@ -836,6 +856,7 @@
 		}
 
 		[mainToolbar hideToolbar]; [mainPagebar hidePagebar]; // Hide
+        [self hideSidebar];
 
 		lastHideTime = [NSDate date]; // Set last hide time
 	}
@@ -931,34 +952,51 @@
 
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar emailButton:(UIButton *)button
 {
-	if ([MFMailComposeViewController canSendMail] == NO) return;
-
-	if (printInteraction != nil) [printInteraction dismissAnimated:YES];
-
-	unsigned long long fileSize = [document.fileSize unsignedLongLongValue];
-
-	if (fileSize < 15728640ull) // Check attachment size limit (15MB)
-	{
-		NSURL *fileURL = document.fileURL; NSString *fileName = document.fileName;
-
-		NSData *attachment = [NSData dataWithContentsOfURL:fileURL options:(NSDataReadingMapped|NSDataReadingUncached) error:nil];
-
-		if (attachment != nil) // Ensure that we have valid document file attachment data available
-		{
-			MFMailComposeViewController *mailComposer = [MFMailComposeViewController new];
-
-			[mailComposer addAttachmentData:attachment mimeType:@"application/pdf" fileName:fileName];
-
-			[mailComposer setSubject:fileName]; // Use the document file name for the subject
-
-			mailComposer.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-			mailComposer.modalPresentationStyle = UIModalPresentationFormSheet;
-
-			mailComposer.mailComposeDelegate = self; // MFMailComposeViewControllerDelegate
-
-			[self presentViewController:mailComposer animated:YES completion:NULL];
-		}
-	}
+    if ([MFMailComposeViewController canSendMail] == NO) return;
+    MFMailComposeViewController *mailComposer = [MFMailComposeViewController new];
+    
+    //[mailComposer addAttachmentData:attachment mimeType:@"application/pdf" fileName:fileName];
+    
+    [mailComposer setSubject:@"Letter to the editor"]; // Use the document file name for the subject
+    [mailComposer setToRecipients:@[@"aviajournal.aon@gmail.com"]];
+    [mailComposer setMessageBody:@"Dear editor of General Aviation magazine! I'd like to discuss about the following: \n\n\n\n-----------------" isHTML:NO];
+    
+    mailComposer.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    mailComposer.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    mailComposer.mailComposeDelegate = self; // MFMailComposeViewControllerDelegate
+    
+    [self presentViewController:mailComposer animated:YES completion:NULL];
+//	if ([MFMailComposeViewController canSendMail] == NO) return;
+//    
+//    
+//
+//	if (printInteraction != nil) [printInteraction dismissAnimated:YES];
+//
+//	unsigned long long fileSize = [document.fileSize unsignedLongLongValue];
+//
+//	if (fileSize < 15728640ull) // Check attachment size limit (15MB)
+//	{
+//		NSURL *fileURL = document.fileURL; NSString *fileName = document.fileName;
+//
+//		NSData *attachment = [NSData dataWithContentsOfURL:fileURL options:(NSDataReadingMapped|NSDataReadingUncached) error:nil];
+//
+//		if (attachment != nil) // Ensure that we have valid document file attachment data available
+//		{
+//			MFMailComposeViewController *mailComposer = [MFMailComposeViewController new];
+//
+//			[mailComposer addAttachmentData:attachment mimeType:@"application/pdf" fileName:fileName];
+//
+//			[mailComposer setSubject:fileName]; // Use the document file name for the subject
+//
+//			mailComposer.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//			mailComposer.modalPresentationStyle = UIModalPresentationFormSheet;
+//
+//			mailComposer.mailComposeDelegate = self; // MFMailComposeViewControllerDelegate
+//
+//			[self presentViewController:mailComposer animated:YES completion:NULL];
+//		}
+//	}
 }
 
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar markButton:(UIButton *)button
@@ -1032,5 +1070,42 @@
 
 	if (userInterfaceIdiom == UIUserInterfaceIdiomPad) if (printInteraction != nil) [printInteraction dismissAnimated:NO];
 }
+
+
+
+- (void)hideSidebar
+{
+    if (sideBarViewController.view.hidden == NO) // Only if visible
+    {
+        [UIView animateWithDuration:0.25 delay:0.0
+                            options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
+                         animations:^(void)
+         {
+             sideBarViewController.view.alpha = 0.0f;
+         }
+                         completion:^(BOOL finished)
+         {
+             sideBarViewController.view.hidden = YES;
+         }
+         ];
+    }
+}
+
+- (void)showSidebar
+{
+    if (sideBarViewController.view.hidden == YES) // Only if hidden
+    {
+        [UIView animateWithDuration:0.25 delay:0.0
+                            options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
+                         animations:^(void)
+         {
+             sideBarViewController.view.hidden = NO;
+             sideBarViewController.view.alpha = 1.0f;
+         }
+                         completion:NULL
+         ];
+    }
+}
+
 
 @end
