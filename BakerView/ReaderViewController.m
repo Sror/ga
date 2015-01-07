@@ -78,6 +78,7 @@
 #define TOOLBAR_HEIGHT 44.0f
 #define PAGEBAR_HEIGHT 100.0f
 
+#define THUMBS_BAR_WIDTH 150.0f
 
 #define SCROLLVIEW_OUTSET_SMALL 4.0f
 #define SCROLLVIEW_OUTSET_LARGE 8.0f
@@ -475,8 +476,7 @@
     [self addChildViewController:sideBarViewController];
     
     [self.view addSubview:sideBarViewController.view];
-    sideBarViewController.view.autoresizingMask = UIViewAutoresizingNone;
-
+    
 //    CGRect sidebarRect = self.view.bounds;
 //    sidebarRect.size.height = self.view.bounds.size.height - TOOLBAR_HEIGHT;
 //    sidebarRect.origin.y = TOOLBAR_HEIGHT;
