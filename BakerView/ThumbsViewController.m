@@ -54,12 +54,14 @@
 
 #pragma mark - Constants
 
+#define THUMBS_BAR_WIDTH 180.0f
+
 #define STATUS_HEIGHT 20.0f
 
 #define TOOLBAR_HEIGHT 44.0f
 
 #define PAGE_THUMB_SMALL 160
-#define PAGE_THUMB_LARGE 256
+#define PAGE_THUMB_LARGE 160
 
 #pragma mark - Properties
 
@@ -76,6 +78,7 @@
 			updateBookmarked = YES; bookmarked = [NSMutableArray new]; // Bookmarked pages
 
 			document = object; // Retain the ReaderDocument object for our use
+                        
 		}
 		else // Invalid ReaderDocument object
 		{
@@ -91,8 +94,27 @@
 	[super viewDidLoad];
 
 	assert(delegate != nil); assert(document != nil);
+    
+    
+    CGRect rect;
+    if (UIInterfaceOrientationIsLandscape([[UIDevice currentDevice] orientation])) {
+        rect =  CGRectMake(CGRectGetHeight([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+    }else if (UIInterfaceOrientationIsPortrait([[UIDevice currentDevice] orientation])){
+        rect = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
 
-	self.view.backgroundColor = [UIColor grayColor]; // Neutral gray
+        
+    }
+   self.view.frame = rect;
+    
+    self.view.autoresizingMask = UIViewAutoresizingNone;
+
+    
+    
+    //self.view.frame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+    
+    UIColor *bgcolor = [[UIColor alloc] initWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
+    self.view.backgroundColor = bgcolor;
+    
 
 	CGRect scrollViewRect = self.view.bounds; UIView *fakeStatusBar = nil;
 
@@ -124,15 +146,17 @@
 
 	UIEdgeInsets scrollViewInsets = UIEdgeInsetsZero; // Scroll view toolbar insets
 
-	if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) // iPad
-	{
-		scrollViewRect.origin.y += TOOLBAR_HEIGHT; scrollViewRect.size.height -= TOOLBAR_HEIGHT;
-	}
-	else // Set UIScrollView insets for non-UIUserInterfaceIdiomPad case
-	{
-		scrollViewInsets.top = TOOLBAR_HEIGHT;
-	}
-
+//	if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) // iPad
+//	{
+//		scrollViewRect.origin.y += TOOLBAR_HEIGHT; scrollViewRect.size.height -= TOOLBAR_HEIGHT;
+//	}
+//	else // Set UIScrollView insets for non-UIUserInterfaceIdiomPad case
+//	{
+//		scrollViewInsets.top = TOOLBAR_HEIGHT;
+//	}
+    
+    scrollViewInsets.top = TOOLBAR_HEIGHT;
+    
 	theThumbsView = [[ReaderThumbsView alloc] initWithFrame:scrollViewRect]; // ReaderThumbsView
 	theThumbsView.contentInset = scrollViewInsets; theThumbsView.scrollIndicatorInsets = scrollViewInsets;
 	theThumbsView.delegate = self; // ReaderThumbsViewDelegate
@@ -142,6 +166,7 @@
 	CGFloat thumbSize = (large ? PAGE_THUMB_LARGE : PAGE_THUMB_SMALL); // Thumb dimensions
 	[theThumbsView setThumbSize:CGSizeMake(thumbSize, thumbSize)]; // Set the thumb size
 }
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -191,7 +216,7 @@
 	return YES;
 }
 
-/*
+
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 }
@@ -202,9 +227,21 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-	//if (fromInterfaceOrientation == self.interfaceOrientation) return;
+	if (fromInterfaceOrientation == self.interfaceOrientation) return;
+    CGRect rect;
+    if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)) {
+        rect = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+    }else{
+        rect = CGRectMake(CGRectGetHeight([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+
+    }
+    self.view.frame = rect;
+//
+//    
+//    self.view.frame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+    NSLog(@"%f, %f ",CGRectGetWidth([[UIScreen mainScreen] applicationFrame]), CGRectGetHeight([[UIScreen mainScreen] applicationFrame]));
 }
-*/
+
 
 - (void)didReceiveMemoryWarning
 {

@@ -46,7 +46,6 @@
 @property (nonatomic, weak, readwrite) id <ThumbsViewControllerDelegate> delegate;
 
 - (instancetype)initWithReaderDocument:(ReaderDocument *)object;
-
 @end
 
 #pragma mark -
