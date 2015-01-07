@@ -117,6 +117,18 @@
 
 #endif // end of READER_STANDALONE Option
 
+        UIButton *advertisersButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        advertisersButton.frame = CGRectMake(leftButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
+        //[thumbsButton setImage:[UIImage imageNamed:@"Reader-Thumbs"] forState:UIControlStateNormal];
+        advertisersButton.titleLabel.text = @"Advertisers";
+        [advertisersButton addTarget:self action:@selector(advertisersButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [advertisersButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
+        [advertisersButton setBackgroundImage:buttonN forState:UIControlStateNormal];
+        advertisersButton.autoresizingMask = UIViewAutoresizingNone;
+        //thumbsButton.backgroundColor = [UIColor grayColor];
+        advertisersButton.exclusiveTouch = YES;
+        [self addSubview:advertisersButton];
+
 #if (READER_ENABLE_THUMBS == TRUE) // Option
 
 		UIButton *thumbsButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -337,6 +349,10 @@
 - (void)thumbsButtonTapped:(UIButton *)button
 {
 	[delegate tappedInToolbar:self thumbsButton:button];
+}
+
+- (void)advertisersButtonTapped:(UIButton *)button {
+    [delegate tappedInToolbar:self advertisersButtonTapped:button];
 }
 
 - (void)exportButtonTapped:(UIButton *)button

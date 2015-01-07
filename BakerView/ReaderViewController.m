@@ -477,21 +477,6 @@
     
     [self.view addSubview:sideBarViewController.view];
     
-//    CGRect sidebarRect = self.view.bounds;
-//    sidebarRect.size.height = self.view.bounds.size.height - TOOLBAR_HEIGHT;
-//    sidebarRect.origin.y = TOOLBAR_HEIGHT;
-//    sidebarRect.origin.x = self.view.bounds.size.width - PAGEBAR_HEIGHT + 50;
-//    sidebarRect.size.width = PAGEBAR_HEIGHT + 50;
-    
-//    UIScrollView *sidebar = [[UIScrollView alloc] initWithFrame:sidebarRect];
-//    sidebar.backgroundColor = [UIColor redColor];
-//    [self.view addSubview:sidebar];
-    
-//	CGRect pagebarRect = self.view.bounds; pagebarRect.size.height = PAGEBAR_HEIGHT;
-//	pagebarRect.origin.y = (self.view.bounds.size.height - pagebarRect.size.height);
-//	mainPagebar = [[ReaderMainPagebar alloc] initWithFrame:pagebarRect document:document]; // ReaderMainPagebar
-//	mainPagebar.delegate = self; // ReaderMainPagebarDelegate
-//	[self.view addSubview:mainPagebar];
 
 	if (fakeStatusBar != nil) [self.view addSubview:fakeStatusBar]; // Add status bar background view
 
@@ -513,16 +498,6 @@
 
 	minimumPage = 1; maximumPage = [document.pageCount integerValue];
 }
-
-//- (void)showSidePageBar{
-//    if (childsvc.isHide == NO) {
-////        [childsvc.view ]
-//    }else{
-//        [self addChildViewController:childsvc];
-//        
-//        [self.view addSubview:childsvc.view];
-//    }
-//}
 
 
 - (void)viewWillAppear:(BOOL)animated
@@ -904,6 +879,21 @@
 
 #endif // end of READER_ENABLE_THUMBS Option
 }
+
+- (void)tappedInToolbar:(ReaderMainToolbar *)toolbar advertisersButtonTapped:(UIButton *)button
+{
+    
+    NSLog(@"%@",document.fileURL);
+//    
+//    NSURL *fileURL = document.fileURL; // Document file URL
+//    
+//    documentInteraction = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
+//    
+//    documentInteraction.delegate = self; // UIDocumentInteractionControllerDelegate
+//    
+//    [documentInteraction presentOpenInMenuFromRect:button.bounds inView:button animated:YES];
+}
+
 
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar exportButton:(UIButton *)button
 {

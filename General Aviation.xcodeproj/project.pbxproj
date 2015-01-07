@@ -132,6 +132,7 @@
 		E34F22831A5729570013A8FE /* ThumbsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E34F226E1A5729570013A8FE /* ThumbsViewController.m */; };
 		E34F22841A5729570013A8FE /* UIXToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E34F22701A5729570013A8FE /* UIXToolbarView.m */; };
 		E384CB841A59AAE00019D690 /* navigation-bar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E384CB831A59AAE00019D690 /* navigation-bar-bg.png */; };
+		E3FD6C491A5DDD6E007334AC /* ReaderAdvertisersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD6C481A5DDD6E007334AC /* ReaderAdvertisersViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -328,6 +329,8 @@
 		E34F226F1A5729570013A8FE /* UIXToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIXToolbarView.h; sourceTree = "<group>"; };
 		E34F22701A5729570013A8FE /* UIXToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIXToolbarView.m; sourceTree = "<group>"; };
 		E384CB831A59AAE00019D690 /* navigation-bar-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "navigation-bar-bg.png"; path = "Baker/BakerAssets.xcassets/navigation-bar-bg.imageset/navigation-bar-bg.png"; sourceTree = SOURCE_ROOT; };
+		E3FD6C471A5DDD6E007334AC /* ReaderAdvertisersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReaderAdvertisersViewController.h; sourceTree = "<group>"; };
+		E3FD6C481A5DDD6E007334AC /* ReaderAdvertisersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReaderAdvertisersViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -675,6 +678,8 @@
 				E34F226E1A5729570013A8FE /* ThumbsViewController.m */,
 				E34F226F1A5729570013A8FE /* UIXToolbarView.h */,
 				E34F22701A5729570013A8FE /* UIXToolbarView.m */,
+				E3FD6C471A5DDD6E007334AC /* ReaderAdvertisersViewController.h */,
+				E3FD6C481A5DDD6E007334AC /* ReaderAdvertisersViewController.m */,
 			);
 			name = vfr;
 			path = BakerView;
@@ -876,6 +881,7 @@
 				AB26005116011D9D00E9AA66 /* BKRBookStatus.m in Sources */,
 				ABD7D45F1616FC5B008B13B5 /* BKRIssue.m in Sources */,
 				ABC270D11616F3CB00AD97E9 /* BKRIssuesManager.m in Sources */,
+				E3FD6C491A5DDD6E007334AC /* ReaderAdvertisersViewController.m in Sources */,
 				ABD24C1E1620309B0042E49C /* BKRIssueViewController.m in Sources */,
 				C62D23551A0A748A003A26D2 /* ioapi.c in Sources */,
 				E34F227F1A5729570013A8FE /* ReaderThumbsView.m in Sources */,
