@@ -78,7 +78,7 @@
 #define TOOLBAR_HEIGHT 44.0f
 #define PAGEBAR_HEIGHT 100.0f
 
-#define THUMBS_BAR_WIDTH 150.0f
+#define THUMBS_BAR_WIDTH 180.0f
 
 #define SCROLLVIEW_OUTSET_SMALL 4.0f
 #define SCROLLVIEW_OUTSET_LARGE 8.0f
@@ -538,6 +538,14 @@
 
 		lastAppearSize = CGSizeZero; // Reset view size tracking
 	}
+    
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didRotate:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -569,6 +577,9 @@
 	[UIApplication sharedApplication].idleTimerDisabled = NO;
 
 #endif // end of READER_DISABLE_IDLE Option
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -616,7 +627,6 @@
 	if (userInterfaceIdiom == UIUserInterfaceIdiomPad) if (printInteraction != nil) [printInteraction dismissAnimated:NO];
 
 	ignoreDidScroll = YES;
-    [sideBarViewController.view removeFromSuperview];
     
 }
 
@@ -637,7 +647,6 @@
 {
 
 	ignoreDidScroll = NO;
-    [self.view addSubview:sideBarViewController.view];
 }
 
 - (void)didReceiveMemoryWarning
@@ -1111,6 +1120,45 @@
          ];
     }
 }
+
+- (void)didRotate:(NSNotification *)notification {
+    NSLog(@"CHanges");
+    
+    ;
+    
+    UIInterfaceOrientation  orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if(UIInterfaceOrientationIsLandscape(orientation))
+    {
+        NSLog(@"landscape");
+    }
+    else
+    {
+        NSLog(@"portrite");
+    }
+    
+    CGRect rect;
+    
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8) {
+        UIInterfaceOrientation newOrientation =  [UIApplication sharedApplication].statusBarOrientation;
+        if (UIInterfaceOrientationIsLandscape(newOrientation)) {
+            rect = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH,TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+        }else{
+            rect = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+        }
+        
+        
+        [UIView animateWithDuration:0.25 delay:0.0
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^(void)
+         {
+             sideBarViewController.view.frame = rect;
+         }
+                         completion:NULL
+         ];
+    }
+
+}
+
 
 
 @end
