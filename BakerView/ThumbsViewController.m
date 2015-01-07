@@ -94,7 +94,23 @@
 	[super viewDidLoad];
 
 	assert(delegate != nil); assert(document != nil);
-    self.view.frame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+    
+    
+    CGRect rect;
+    if (UIInterfaceOrientationIsLandscape([[UIDevice currentDevice] orientation])) {
+        rect =  CGRectMake(CGRectGetHeight([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+    }else if (UIInterfaceOrientationIsPortrait([[UIDevice currentDevice] orientation])){
+        rect = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+
+        
+    }
+   self.view.frame = rect;
+    
+    self.view.autoresizingMask = UIViewAutoresizingNone;
+
+    
+    
+    //self.view.frame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
     
     UIColor *bgcolor = [[UIColor alloc] initWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
     self.view.backgroundColor = bgcolor;
@@ -151,12 +167,6 @@
 	[theThumbsView setThumbSize:CGSizeMake(thumbSize, thumbSize)]; // Set the thumb size
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    self.view.frame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
-;
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
