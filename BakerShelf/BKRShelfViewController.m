@@ -768,13 +768,22 @@
   
     //NSArray *pdfs = [[NSBundle mainBundle] pathsForResourcesOfType:@"pdf" inDirectory:bookPath];
     //NSString *filePath = [pdfs firstObject]; assert(filePath != nil); // Path to first PDF file
+    
+    NSLog(@"Our Path \n%@\n", bookPath);
     NSError *error = nil;
-    NSArray *pdfs = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:bookPath error:&error];
-    NSString *filePathShort = [pdfs firstObject]; assert(filePathShort != nil);
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@", bookPath, filePathShort];
+    NSArray *dirContents = [[NSFileManager defaultManager]
+                            contentsOfDirectoryAtPath:bookPath error:&error];
     if (error) {
         NSLog(@"ERORR!!! \n %@",[error localizedDescription]);
     }
+    
+    NSArray *pdfs = [dirContents filteredArrayUsingPredicate:
+                     [NSPredicate predicateWithFormat:@"self ENDSWITH '.pdf'"]];
+    
+    NSString *filePathShort = [pdfs firstObject]; assert(filePathShort != nil);
+    
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@", bookPath, filePathShort];
+    
     ReaderDocument *document = [ReaderDocument withDocumentFilePath:filePath password:nil];
     if (document != nil) // Must have a valid ReaderDocument object in order to proceed with things
     {

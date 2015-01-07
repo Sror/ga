@@ -165,101 +165,36 @@
     }
 }
 
-//- (void)unpackAssetDownload:(NKAssetDownload*)newsstandAssetDownload toURL:(NSURL*)destinationURL {
-//
-//    UIApplication *application = [UIApplication sharedApplication];
-//    NKIssue *nkIssue           = newsstandAssetDownload.issue;
-//    NSString *destinationPath  = [[nkIssue contentURL] path];
-//
-//    __block UIBackgroundTaskIdentifier backgroundTask = [application beginBackgroundTaskWithExpirationHandler:^{
-//        [application endBackgroundTask:backgroundTask];
-//        backgroundTask = UIBackgroundTaskInvalid;
-//    }];
-//
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        NSLog(@"[BakerShelf] Newsstand - File is being unzipped to %@", destinationPath);
-//        BOOL unzipSuccessful = NO;
-//        unzipSuccessful = [BKRZipArchive unzipFileAtPath:[destinationURL path] toDestination:destinationPath];
-//        if (!unzipSuccessful) {
-//            NSLog(@"[BakerShelf] Newsstand - Unable to unzip file: %@. The file may not be a valid HPUB archive.", [destinationURL path]);
-//            dispatch_async(dispatch_get_main_queue(), ^(void) {
-//                [[NSNotificationCenter defaultCenter] postNotificationName:self.notificationUnzipErrorName object:self userInfo:nil];
-//            });
-//        }
-//
-//        NSLog(@"[BakerShelf] Newsstand - Removing temporary downloaded file %@", [destinationURL path]);
-//        NSFileManager *fileMgr = [NSFileManager defaultManager];
-//        NSError *error;
-//        if ([fileMgr removeItemAtPath:[destinationURL path] error:&error] != YES){
-//            NSLog(@"[BakerShelf] Newsstand - Unable to delete file: %@", [error localizedDescription]);
-//        }
-//
-//        if (unzipSuccessful) {
-//            // Notification and UI update have to be handled on the main thread
-//            dispatch_async(dispatch_get_main_queue(), ^(void) {
-//                [[NSNotificationCenter defaultCenter] postNotificationName:self.notificationDownloadFinishedName object:self userInfo:nil];
-//            });
-//        }
-//
-//        [self updateNewsstandIcon];
-//
-//        [application endBackgroundTask:backgroundTask];
-//        backgroundTask = UIBackgroundTaskInvalid;
-//    });
-//}
-
 - (void)unpackAssetDownload:(NKAssetDownload*)newsstandAssetDownload toURL:(NSURL*)destinationURL {
 
     UIApplication *application = [UIApplication sharedApplication];
     NKIssue *nkIssue           = newsstandAssetDownload.issue;
-    NSString *destinationPath  =[NSString stringWithFormat:@"%@/%@.pdf" ,[[nkIssue contentURL] path], [nkIssue name]];
-    self.full_path = destinationPath;
+    NSString *destinationPath  = [[nkIssue contentURL] path];
     
+    self.full_path = destinationPath;
+
     __block UIBackgroundTaskIdentifier backgroundTask = [application beginBackgroundTaskWithExpirationHandler:^{
         [application endBackgroundTask:backgroundTask];
         backgroundTask = UIBackgroundTaskInvalid;
     }];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        NSLog(@"[BakerShelf] Newsstand - File is being unzipped to %@", destinationPath);
-        BOOL unzipSuccessful = YES;
+        NSLog(@"[BakerShelf] Newsstand - File is being unzipped to %@", destinationPath);
+        BOOL unzipSuccessful = NO;
+        unzipSuccessful = [BKRZipArchive unzipFileAtPath:[destinationURL path] toDestination:destinationPath];
+        if (!unzipSuccessful) {
+            NSLog(@"[BakerShelf] Newsstand - Unable to unzip file: %@. The file may not be a valid ZIP archive.", [destinationURL path]);
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:self.notificationUnzipErrorName object:self userInfo:nil];
+            });
+        }
 
-//        [destinationURL path]
-        
-//        unzipSuccessful = [BKRZipArchive unzipFileAtPath:[destinationURL path] toDestination:destinationPath];
-//        if (!unzipSuccessful) {
-//            NSLog(@"[BakerShelf] Newsstand - Unable to unzip file: %@. The file may not be a valid HPUB archive.", [destinationURL path]);
-//            dispatch_async(dispatch_get_main_queue(), ^(void) {
-//                [[NSNotificationCenter defaultCenter] postNotificationName:self.notificationUnzipErrorName object:self userInfo:nil];
-//            });
-//        }
-
-//        NSLog(@"[BakerShelf] Newsstand - Removing temporary downloaded file %@", [destinationURL path]);
-//        NSFileManager *fileMgr = [NSFileManager defaultManager];
-//        NSError *error;
-//        if ([fileMgr removeItemAtPath:[destinationURL path] error:&error] != YES){
-//            NSLog(@"[BakerShelf] Newsstand - Unable to delete file: %@", [error localizedDescription]);
-//        }
-//        
-
-        NSFileManager *fileMgr = [NSFileManager defaultManager];
-        
-        NSLog(@"[BakerShelf] Newsstand - Copying file to destination %@", destinationPath);
-        NSError *error = nil;
-        
-        if ( [fileMgr isReadableFileAtPath:[destinationURL path]] )
-            [fileMgr copyItemAtPath:[destinationURL path] toPath:destinationPath error:&error];
-        
         NSLog(@"[BakerShelf] Newsstand - Removing temporary downloaded file %@", [destinationURL path]);
-        error = nil;
-        
+        NSFileManager *fileMgr = [NSFileManager defaultManager];
+        NSError *error;
         if ([fileMgr removeItemAtPath:[destinationURL path] error:&error] != YES){
             NSLog(@"[BakerShelf] Newsstand - Unable to delete file: %@", [error localizedDescription]);
         }
-        
-        
-        
-        // TODO: Save File PermanentNO!
 
         if (unzipSuccessful) {
             // Notification and UI update have to be handled on the main thread
