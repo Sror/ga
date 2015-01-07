@@ -63,6 +63,7 @@
 		C66857A01A07D38300776443 /* NSString+BakerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C668579D1A07D38300776443 /* NSString+BakerExtensions.m */; };
 		C66857A11A07D38300776443 /* UIColor+BakerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C668579F1A07D38300776443 /* UIColor+BakerExtensions.m */; };
 		C66857A41A07DDBE00776443 /* NSObject+BakerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66857A31A07DDBE00776443 /* NSObject+BakerExtensions.m */; };
+		C67AFBF31A5DBCC500151AEB /* plate.png in Resources */ = {isa = PBXBuildFile; fileRef = C67AFBF21A5DBCC500151AEB /* plate.png */; };
 		C6D951301A59B1DC00163753 /* budicon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6D9512F1A59B1DC00163753 /* budicon.ttf */; };
 		C6D9515D1A59C2A000163753 /* communication---bubble-chat-group-conversation.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D951331A59C2A000163753 /* communication---bubble-chat-group-conversation.png */; };
 		C6D9515E1A59C2A000163753 /* communication---bubble-chat-talk-conversation.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D951341A59C2A000163753 /* communication---bubble-chat-talk-conversation.png */; };
@@ -235,6 +236,7 @@
 		C668579F1A07D38300776443 /* UIColor+BakerExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+BakerExtensions.m"; sourceTree = "<group>"; };
 		C66857A21A07DDBE00776443 /* NSObject+BakerExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+BakerExtensions.h"; sourceTree = "<group>"; };
 		C66857A31A07DDBE00776443 /* NSObject+BakerExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BakerExtensions.m"; sourceTree = "<group>"; };
+		C67AFBF21A5DBCC500151AEB /* plate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plate.png; sourceTree = "<group>"; };
 		C6D9512F1A59B1DC00163753 /* budicon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = budicon.ttf; sourceTree = "<group>"; };
 		C6D951331A59C2A000163753 /* communication---bubble-chat-group-conversation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "communication---bubble-chat-group-conversation.png"; sourceTree = "<group>"; };
 		C6D951341A59C2A000163753 /* communication---bubble-chat-talk-conversation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "communication---bubble-chat-talk-conversation.png"; sourceTree = "<group>"; };
@@ -573,6 +575,7 @@
 		C6D951311A59B1E700163753 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				C67AFBF21A5DBCC500151AEB /* plate.png */,
 				C6D9518E1A59F2FB00163753 /* backToRoot.png */,
 				C6D951321A59C2A000163753 /* budicon-64px */,
 				C6D9512F1A59B1DC00163753 /* budicon.ttf */,
@@ -739,6 +742,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C67AFBF31A5DBCC500151AEB /* plate.png in Resources */,
 				C6D951831A59C2A000163753 /* web---download-arrow.png in Resources */,
 				C6D951821A59C2A000163753 /* web---browser-tab.png in Resources */,
 				C6D951781A59C2A000163753 /* tool---camera.png in Resources */,
