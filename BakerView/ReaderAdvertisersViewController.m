@@ -29,7 +29,7 @@
         
         NSString *pathToAds = [[[path path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"ads.html"];
         NSURL *url = [NSURL fileURLWithPath:pathToAds];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        self.request = [NSURLRequest requestWithURL:url];
         
     }
     return self;
@@ -39,9 +39,7 @@
     
     self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, TOOLBAR_HEIGHT + STATUS_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - 40)];
     
-    NSLog(@"OUR path: \n %@",self.pathToAds);
-    
-    [self.webView loadRequest:request];
+    [self.webView loadRequest:self.request];
     
     [self.view addSubview:self.webView];
     
@@ -57,8 +55,8 @@
     [self.toolBar addSubview:disMissButton];
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(5, 5, BUTTON_WIDTH, BUTTON_HEIGHT);
-    backButton.backgroundColor = [UIColor blackColor];
+    backButton.frame = CGRectMake(CGRectGetWidth(self.toolBar.bounds) - BUTTON_WIDTH - 5, 5, BUTTON_WIDTH, BUTTON_HEIGHT);
+    backButton.backgroundColor = [UIColor greenColor];
     [backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     backButton.titleLabel.text = @"Back";
     [self.toolBar addSubview:backButton];
@@ -83,7 +81,8 @@
 }
 
 - (void)backButtonAction:(UIButton *)sender{
-    self.webView
+    [self.webView loadRequest:self.request];
+    [self.webView reload];
 }
 
 /*
