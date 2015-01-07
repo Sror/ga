@@ -10,7 +10,8 @@
 
 @interface ReaderAdvertisersViewController : UIViewController <UIWebViewDelegate>
 
-@property (strong, nonatomic) UIWebView* webView;
-@property (strong, nonatomic) NSString *pathToAds;
+@property (strong, nonatomic) UIWebView *webView;
+@property (strong, nonatomic) NSURLRequest *pathToAds;
 
+- (instancetype)initWithPathToAds:(NSURL *)path;
 @end

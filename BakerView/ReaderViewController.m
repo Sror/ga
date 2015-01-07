@@ -33,6 +33,7 @@
 #import "ReaderThumbQueue.h"
 
 #import <MessageUI/MessageUI.h>
+#import "ReaderAdvertisersViewController.h"
 
 @interface ReaderViewController () <UIScrollViewDelegate, UIGestureRecognizerDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate,
 									ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate, ThumbsViewControllerDelegate>
@@ -884,7 +885,11 @@
 {
     
     NSLog(@"%@",document.fileURL);
-//    
+    ReaderAdvertisersViewController *advertiserVC = [[ReaderAdvertisersViewController alloc]initWithPathToAds:document.fileURL];
+    advertiserVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    advertiserVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:advertiserVC animated:NO completion:NULL];
+//
 //    NSURL *fileURL = document.fileURL; // Document file URL
 //    
 //    documentInteraction = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
