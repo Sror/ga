@@ -97,18 +97,26 @@
     
     
     CGRect rect;
-    if (UIInterfaceOrientationIsLandscape([[UIDevice currentDevice] orientation])) {
+    if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
         rect =  CGRectMake(CGRectGetHeight([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
-    }else if (UIInterfaceOrientationIsPortrait([[UIDevice currentDevice] orientation])){
+    }else if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])){
         rect = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
 
         
     }
-   self.view.frame = rect;
+    self.view.frame = rect;
     
     self.view.autoresizingMask = UIViewAutoresizingNone;
 
-    
+    UIInterfaceOrientation  orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if(UIInterfaceOrientationIsLandscape(orientation))
+    {
+        NSLog(@"landscape");
+    }
+    else
+    {
+        NSLog(@"portrite");
+    }
     
     //self.view.frame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
     
@@ -173,6 +181,7 @@
 	[super viewWillAppear:animated];
 
 	[theThumbsView reloadThumbsCenterOnIndex:([document.pageNumber integerValue] - 1)]; // Page
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -183,6 +192,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -223,19 +233,46 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
 {
+    
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-	if (fromInterfaceOrientation == self.interfaceOrientation) return;
+    
+    if (fromInterfaceOrientation == self.interfaceOrientation) return;
+
+    if ([[UIDevice currentDevice].systemVersion floatValue] < 8) {
     CGRect rect;
     if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)) {
         rect = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
     }else{
         rect = CGRectMake(CGRectGetHeight([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
-
+        
     }
-    self.view.frame = rect;
+        [UIView animateWithDuration:0.25 delay:0.0
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^(void)
+         {
+             self.view.frame = rect;
+         }
+                         completion:NULL
+         ];
+    }
+
+    
+    //IOS 8? 
+//    CGRect rect;
+//    if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)) {
+//        rect = CGRectMake(CGRectGetHeight([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+//    }else{
+//        rect = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+//        
+//    }
+//    [UIView animateWithDuration:0.2 animations:^{
+//        self.view.frame = rect;
+//    }];
+
+    NSLog(@"3");
 //
 //    
 //    self.view.frame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
@@ -251,6 +288,8 @@
 
 	[super didReceiveMemoryWarning];
 }
+
+
 
 #pragma mark - ThumbsMainToolbarDelegate methods
 
@@ -536,5 +575,7 @@
 {
 	textLabel.text = text;
 }
+
+
 
 @end
