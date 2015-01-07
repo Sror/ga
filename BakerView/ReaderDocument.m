@@ -162,6 +162,45 @@
 	return document;
 }
 
++ (ReaderDocument *)withDocumentDir:(NSString *)dirPath password:(NSString *)phrase
+{
+    [self scanDir:dirPath];
+    
+    NSError *error = nil;
+    NSArray *dirContents = [[NSFileManager defaultManager]
+                            contentsOfDirectoryAtPath:dirPath error:&error];
+    if (error) {
+        NSLog(@"ERORR!!! \n %@",[error localizedDescription]);
+    }
+    
+    NSArray *pdfs = [dirContents filteredArrayUsingPredicate:
+                     [NSPredicate predicateWithFormat:@"self ENDSWITH '.pdf'"]];
+    
+    NSString *fileName = [pdfs firstObject]; assert(fileName != nil);
+    
+    return [ReaderDocument withDocumentFilePath:
+            [dirPath stringByAppendingPathComponent:fileName] password:phrase];
+}
+
++ (void)scanDir:(NSString *)dirPath
+{
+    NSFileManager *localFileManager = [[NSFileManager alloc] init];
+    NSDirectoryEnumerator *dirEnum =
+                            [localFileManager enumeratorAtURL:
+                                [NSURL URLWithString:[dirPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
+                                includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
+                                                   options:NSDirectoryEnumerationSkipsHiddenFiles
+                                              errorHandler:nil];
+    
+    NSString *file;
+    while ((file = [dirEnum nextObject])) {
+        NSLog(@"%@", file);
+        if ([[file pathExtension] isEqualToString: @"doc"]) {
+            //
+        }
+    }
+}
+
 + (BOOL)isPDF:(NSString *)filePath
 {
 	BOOL state = NO;

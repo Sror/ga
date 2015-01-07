@@ -767,21 +767,8 @@
 //    [self.navigationController pushViewController:bakerViewController animated:YES]    NSLog(@"Our Path \n%@\n", bookPath);
     
     NSLog(@"Our Path \n%@\n", bookPath);
-    NSError *error = nil;
-    NSArray *dirContents = [[NSFileManager defaultManager]
-                            contentsOfDirectoryAtPath:bookPath error:&error];
-    if (error) {
-        NSLog(@"ERORR!!! \n %@",[error localizedDescription]);
-    }
     
-    NSArray *pdfs = [dirContents filteredArrayUsingPredicate:
-                     [NSPredicate predicateWithFormat:@"self ENDSWITH '.pdf'"]];
-    
-    NSString *filePathShort = [pdfs firstObject]; assert(filePathShort != nil);
-    
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@", bookPath, filePathShort];
-    
-    ReaderDocument *document = [ReaderDocument withDocumentFilePath:filePath password:nil];
+    ReaderDocument *document = [ReaderDocument withDocumentDir:bookPath password:nil];
     if (document != nil) // Must have a valid ReaderDocument object in order to proceed with things
     {
         ReaderViewController *readerViewController = [[ReaderViewController alloc] initWithReaderDocument:document];

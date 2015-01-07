@@ -38,11 +38,16 @@
 @property (nonatomic, strong, readonly) NSString *fileName;
 @property (nonatomic, strong, readonly) NSURL *fileURL;
 
+@property (nonatomic, strong, readonly) NSDictionary *images;
+@property (nonatomic, strong, readonly) NSDictionary *video;
+
 @property (nonatomic, readonly) BOOL canEmail;
 @property (nonatomic, readonly) BOOL canExport;
 @property (nonatomic, readonly) BOOL canPrint;
 
 + (ReaderDocument *)withDocumentFilePath:(NSString *)filePath password:(NSString *)phrase;
+
++ (ReaderDocument *)withDocumentDir:(NSString *)dirPath password:(NSString *)phrase;
 
 + (ReaderDocument *)unarchiveFromFileName:(NSString *)filePath password:(NSString *)phrase;
 
