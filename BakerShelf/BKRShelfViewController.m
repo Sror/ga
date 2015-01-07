@@ -765,9 +765,6 @@
 {
 //    BKRBookViewController *bakerViewController = [[BKRBookViewController alloc] initWithBook:book];
 //    [self.navigationController pushViewController:bakerViewController animated:YES]    NSLog(@"Our Path \n%@\n", bookPath);
-  
-    //NSArray *pdfs = [[NSBundle mainBundle] pathsForResourcesOfType:@"pdf" inDirectory:bookPath];
-    //NSString *filePath = [pdfs firstObject]; assert(filePath != nil); // Path to first PDF file
     
     NSLog(@"Our Path \n%@\n", bookPath);
     NSError *error = nil;
