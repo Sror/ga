@@ -78,7 +78,6 @@
 #define TOOLBAR_HEIGHT 44.0f
 #define PAGEBAR_HEIGHT 100.0f
 
-#define SIDEBAR_WIDTH 150.0f
 
 #define SCROLLVIEW_OUTSET_SMALL 4.0f
 #define SCROLLVIEW_OUTSET_LARGE 8.0f
@@ -476,7 +475,7 @@
     [self addChildViewController:sideBarViewController];
     
     [self.view addSubview:sideBarViewController.view];
-    
+    sideBarViewController.view.autoresizingMask = UIViewAutoresizingNone;
 
 //    CGRect sidebarRect = self.view.bounds;
 //    sidebarRect.size.height = self.view.bounds.size.height - TOOLBAR_HEIGHT;
@@ -588,8 +587,11 @@
 	theScrollView = nil; contentViews = nil; lastHideTime = nil;
 
 	documentInteraction = nil; printInteraction = nil;
-
+    
+    sideBarViewController = nil;
+    
 	lastAppearSize = CGSizeZero; currentPage = 0;
+    
 
 	[super viewDidUnload];
 }
@@ -614,6 +616,8 @@
 	if (userInterfaceIdiom == UIUserInterfaceIdiomPad) if (printInteraction != nil) [printInteraction dismissAnimated:NO];
 
 	ignoreDidScroll = YES;
+    [sideBarViewController.view removeFromSuperview];
+    
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
@@ -631,8 +635,9 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    
+
 	ignoreDidScroll = NO;
+    [self.view addSubview:sideBarViewController.view];
 }
 
 - (void)didReceiveMemoryWarning

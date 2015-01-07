@@ -42,14 +42,10 @@
 @end
 
 @interface ThumbsViewController : UIViewController
-@property (assign, nonatomic) BOOL isHide;
 
 @property (nonatomic, weak, readwrite) id <ThumbsViewControllerDelegate> delegate;
 
 - (instancetype)initWithReaderDocument:(ReaderDocument *)object;
-- (void)showSidebar;
-- (void)hideSidebar;
-
 @end
 
 #pragma mark -

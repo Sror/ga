@@ -78,8 +78,7 @@
 			updateBookmarked = YES; bookmarked = [NSMutableArray new]; // Bookmarked pages
 
 			document = object; // Retain the ReaderDocument object for our use
-            self.isHide = NO;
-            
+                        
 		}
 		else // Invalid ReaderDocument object
 		{
@@ -131,15 +130,17 @@
 
 	UIEdgeInsets scrollViewInsets = UIEdgeInsetsZero; // Scroll view toolbar insets
 
-	if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) // iPad
-	{
-		scrollViewRect.origin.y += TOOLBAR_HEIGHT; scrollViewRect.size.height -= TOOLBAR_HEIGHT;
-	}
-	else // Set UIScrollView insets for non-UIUserInterfaceIdiomPad case
-	{
-		scrollViewInsets.top = TOOLBAR_HEIGHT;
-	}
-
+//	if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) // iPad
+//	{
+//		scrollViewRect.origin.y += TOOLBAR_HEIGHT; scrollViewRect.size.height -= TOOLBAR_HEIGHT;
+//	}
+//	else // Set UIScrollView insets for non-UIUserInterfaceIdiomPad case
+//	{
+//		scrollViewInsets.top = TOOLBAR_HEIGHT;
+//	}
+    
+    scrollViewInsets.top = TOOLBAR_HEIGHT;
+    
 	theThumbsView = [[ReaderThumbsView alloc] initWithFrame:scrollViewRect]; // ReaderThumbsView
 	theThumbsView.contentInset = scrollViewInsets; theThumbsView.scrollIndicatorInsets = scrollViewInsets;
 	theThumbsView.delegate = self; // ReaderThumbsViewDelegate
@@ -148,6 +149,13 @@
 	BOOL large = ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad);
 	CGFloat thumbSize = (large ? PAGE_THUMB_LARGE : PAGE_THUMB_SMALL); // Thumb dimensions
 	[theThumbsView setThumbSize:CGSizeMake(thumbSize, thumbSize)]; // Set the thumb size
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    self.view.frame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -198,7 +206,7 @@
 	return YES;
 }
 
-/*
+
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 }
@@ -209,9 +217,21 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-	//if (fromInterfaceOrientation == self.interfaceOrientation) return;
+	if (fromInterfaceOrientation == self.interfaceOrientation) return;
+    CGRect rect;
+    if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)) {
+        rect = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+    }else{
+        rect = CGRectMake(CGRectGetHeight([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+
+    }
+    self.view.frame = rect;
+//
+//    
+//    self.view.frame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
+    NSLog(@"%f, %f ",CGRectGetWidth([[UIScreen mainScreen] applicationFrame]), CGRectGetHeight([[UIScreen mainScreen] applicationFrame]));
 }
-*/
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -506,43 +526,5 @@
 {
 	textLabel.text = text;
 }
-
-#pragma mark - Show/Hide
-
-- (void)hideSidebar
-{
-    if (self.hidden == NO) // Only if visible
-    {
-        [UIView animateWithDuration:0.25 delay:0.0
-                            options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
-                         animations:^(void)
-         {
-             self.alpha = 0.0f;
-         }
-                         completion:^(BOOL finished)
-         {
-             self.hidden = YES;
-         }
-         ];
-    }
-}
-
-- (void)showSidebar
-{
-    if (self.hidden == YES) // Only if hidden
-    {
-        [UIView animateWithDuration:0.25 delay:0.0
-                            options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
-                         animations:^(void)
-         {
-             self.hidden = NO;
-             self.alpha = 1.0f;
-         }
-                         completion:NULL
-         ];
-    }
-}
-
-
 
 @end
