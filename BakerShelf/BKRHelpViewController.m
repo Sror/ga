@@ -37,7 +37,7 @@
     [self.view addSubview:self.toolBar];
     
     UIButton *disMissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    disMissButton.frame = CGRectMake(STATUS_HEIGHT + 5, 5, BUTTON_WIDTH, BUTTON_HEIGHT);
+    disMissButton.frame = CGRectMake(5, STATUS_HEIGHT + 5, BUTTON_WIDTH, BUTTON_HEIGHT);
     disMissButton.backgroundColor = [UIColor clearColor];
     [disMissButton addTarget:self action:@selector(disMissButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [disMissButton setTitle:@"Close" forState:UIControlStateNormal];
