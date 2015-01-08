@@ -242,26 +242,26 @@
     NSMutableArray *barButtonsArray = [NSMutableArray new];
     
     // Add share button
-    self.shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Bar_share.png"] style:UIBarButtonItemStylePlain target:self action:@selector(handleShareButtonPressed:)];
+    self.shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Bar_share"] style:UIBarButtonItemStylePlain target:self action:@selector(handleShareButtonPressed:)];
     
     [barButtonsArray addObject:self.shareItem];
     
     // Add info button
-    self.infoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Info.png"] style:UIBarButtonItemStylePlain target:self action:@selector(handleInfoButtonPressed:)];
+    self.infoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Info"] style:UIBarButtonItemStylePlain target:self action:@selector(handleInfoButtonPressed:)];
     NSString *infoPath = [[NSBundle mainBundle] pathForResource:@"info" ofType:@"html" inDirectory:@"info"];
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:infoPath])
         [barButtonsArray addObject:self.infoItem];
     
     // Add help button
-    self.helpItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Bar_help.png"] style:UIBarButtonItemStylePlain target:self action:@selector(helpItemAction:)];
+    self.helpItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Bar_help"] style:UIBarButtonItemStylePlain target:self action:@selector(helpItemAction:)];
     NSString *path = [[NSBundle mainBundle] pathForResource:@"help" ofType:@"html"];
     
     if (path != nil)
         [barButtonsArray addObject:self.helpItem];
     
     //Add editor send email button
-    self.editorMessageItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Bar_editor.png"] style:UIBarButtonItemStylePlain target:self action:@selector(editorMessageItemAction:)];
+    self.editorMessageItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Bar_editor"] style:UIBarButtonItemStylePlain target:self action:@selector(editorMessageItemAction:)];
     
     if ([MFMailComposeViewController canSendMail] == YES)
         [barButtonsArray addObject:self.editorMessageItem];
