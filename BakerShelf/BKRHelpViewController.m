@@ -13,7 +13,7 @@
 @end
 
 #define TOOLBAR_HEIGHT 50.0f
-#define BUTTON_HEIGHT 60.0f
+#define BUTTON_HEIGHT 40.0f
 #define BUTTON_WIDTH 80.0f
 #define STATUS_HEIGHT 20.0f
 
@@ -37,7 +37,7 @@
     [self.view addSubview:self.toolBar];
     
     UIButton *disMissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    disMissButton.frame = CGRectMake(5, STATUS_HEIGHT + 5, BUTTON_WIDTH, BUTTON_HEIGHT);
+    disMissButton.frame = CGRectMake(5, STATUS_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
     disMissButton.backgroundColor = [UIColor clearColor];
     [disMissButton addTarget:self action:@selector(disMissButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [disMissButton setTitle:@"Close" forState:UIControlStateNormal];
