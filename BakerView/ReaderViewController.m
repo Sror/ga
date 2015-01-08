@@ -1114,20 +1114,6 @@
 }
 
 - (void)didRotate:(NSNotification *)notification {
-    NSLog(@"CHanges");
-    
-    ;
-    
-    UIInterfaceOrientation  orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if(UIInterfaceOrientationIsLandscape(orientation))
-    {
-        NSLog(@"landscape");
-    }
-    else
-    {
-        NSLog(@"portrite");
-    }
-    
     CGRect rect;
     
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8) {
