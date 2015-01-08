@@ -100,9 +100,11 @@
 		CGFloat doneButtonWidth = (iconButtonWidth);
 
 		UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		doneButton.frame = CGRectMake(leftButtonX, BUTTON_Y, doneButtonWidth, BUTTON_HEIGHT);
+		doneButton.frame = CGRectMake(leftButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
+        
+        [doneButton setImage:[UIImage imageNamed:@"backToRoot.png"] forState:UIControlStateNormal];
+        [doneButton setImage:[UIImage imageNamed:@"backToRoot_tapped.png"] forState:UIControlStateHighlighted];
         [doneButton addTarget:self action:@selector(doneButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-		[doneButton setBackgroundImage:[UIImage imageNamed:@"backToRoot.png"] forState:UIControlStateNormal];
         doneButton.autoresizingMask = UIViewAutoresizingNone;
 		//doneButton.backgroundColor = [UIColor grayColor];
 		doneButton.exclusiveTouch = YES;
@@ -114,11 +116,11 @@
 #endif // end of READER_STANDALONE Option
         
         UIButton *advertisersButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        advertisersButton.frame = CGRectMake(leftButtonX, BUTTON_Y, iconButtonWidth * 4, BUTTON_HEIGHT);
-        [advertisersButton setTitle:@"Advertisers" forState:UIControlStateNormal];
-        [advertisersButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [advertisersButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+        advertisersButton.frame = CGRectMake(leftButtonX, BUTTON_Y, 30, BUTTON_HEIGHT);
+        [advertisersButton setImage:[UIImage imageNamed:@"advertising.png"] forState:UIControlStateNormal];
+        [advertisersButton setImage:[UIImage imageNamed:@"advertising_tapped.png"] forState:UIControlStateHighlighted];
         [advertisersButton addTarget:self action:@selector(advertisersButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        
         advertisersButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         advertisersButton.exclusiveTouch = YES;
         [self addSubview:advertisersButton];
@@ -132,7 +134,6 @@
 		[thumbsButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
 		[thumbsButton setBackgroundImage:buttonN forState:UIControlStateNormal];
 		thumbsButton.autoresizingMask = UIViewAutoresizingNone;
-		//thumbsButton.backgroundColor = [UIColor grayColor];
 		thumbsButton.exclusiveTouch = YES;
 
 		//[self addSubview:thumbsButton]; //leftButtonX += (iconButtonWidth + buttonSpacing);
@@ -165,31 +166,49 @@
 		markImageY = [UIImage imageNamed:@"Reader-Mark-Y"]; // Y image
 
 #endif // end of READER_BOOKMARKS Option
+        
+        if ([MFMailComposeViewController canSendMail] == YES) // Can email
+        {
+            rightButtonX -= (iconButtonWidth + buttonSpacing); // Next position
+            
+            UIButton *emailButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            emailButton.frame = CGRectMake(rightButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
+            [emailButton setImage:[UIImage imageNamed:@"Reader-Email"] forState:UIControlStateNormal];
+            [emailButton addTarget:self action:@selector(emailButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [emailButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
+            [emailButton setBackgroundImage:buttonN forState:UIControlStateNormal];
+            emailButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+            //emailButton.backgroundColor = [UIColor grayColor];
+            emailButton.exclusiveTouch = YES;
+            
+            [self addSubview:emailButton]; titleWidth -= (iconButtonWidth + buttonSpacing);
+        }
 
-		if (document.canEmail == YES) // Document email enabled
-		{
-			if ([MFMailComposeViewController canSendMail] == YES) // Can email
-			{
-				unsigned long long fileSize = [document.fileSize unsignedLongLongValue];
-
-				if (fileSize < 15728640ull) // Check attachment size limit (15MB)
-				{
-					rightButtonX -= (iconButtonWidth + buttonSpacing); // Next position
-
-					UIButton *emailButton = [UIButton buttonWithType:UIButtonTypeCustom];
-					emailButton.frame = CGRectMake(rightButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
-					[emailButton setImage:[UIImage imageNamed:@"Reader-Email"] forState:UIControlStateNormal];
-					[emailButton addTarget:self action:@selector(emailButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-					[emailButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
-					[emailButton setBackgroundImage:buttonN forState:UIControlStateNormal];
-					emailButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-					//emailButton.backgroundColor = [UIColor grayColor];
-					emailButton.exclusiveTouch = YES;
-
-					[self addSubview:emailButton]; titleWidth -= (iconButtonWidth + buttonSpacing);
-				}
-			}
-		}
+        
+//		if (document.canEmail == YES) // Document email enabled
+//		{
+//			if ([MFMailComposeViewController canSendMail] == YES) // Can email
+//			{
+//				unsigned long long fileSize = [document.fileSize unsignedLongLongValue];
+//
+//				if (fileSize < 15728640ull) // Check attachment size limit (15MB)
+//				{
+//					rightButtonX -= (iconButtonWidth + buttonSpacing); // Next position
+//
+//					UIButton *emailButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//					emailButton.frame = CGRectMake(rightButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
+//					[emailButton setImage:[UIImage imageNamed:@"Reader-Email"] forState:UIControlStateNormal];
+//					[emailButton addTarget:self action:@selector(emailButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+//					[emailButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
+//					[emailButton setBackgroundImage:buttonN forState:UIControlStateNormal];
+//					emailButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+//					//emailButton.backgroundColor = [UIColor grayColor];
+//					emailButton.exclusiveTouch = YES;
+//
+//					[self addSubview:emailButton]; titleWidth -= (iconButtonWidth + buttonSpacing);
+//				}
+//			}
+//		}
 
 		if ((document.canPrint == YES) && (document.password == nil)) // Document print enabled
 		{

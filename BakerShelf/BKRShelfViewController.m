@@ -181,6 +181,12 @@
                                  action:@selector(handleSubscribeButtonPressed:)];
         
         
+//        //self.calendarButton = [[UIBarButtonItem alloc]
+//                               initWithTitle: NSLocalizedString(@"SUBSCRIBE_BUTTON_TEXT", nil)
+//                               style:UIBarButtonItemStylePlain
+//                               target:self
+//                               action:@selector(handleSubscribeButtonPressed:)];
+        
         self.categoryItem = [[BKRCategoryFilterItem alloc] initWithCategories:issuesManager.categories delegate:self];
 
         self.blockingProgressView = [[UIAlertView alloc]
@@ -233,32 +239,35 @@
         [[SKPaymentQueue defaultQueue] addTransactionObserver:purchasesManager];
     }
     
+    NSMutableArray *barButtonsArray = [NSMutableArray new];
+    
     // Add share button
-    self.shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"web---share-network.png"] style:UIBarButtonItemStylePlain target:self action:@selector(handleShareButtonPressed:)];
+    self.shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Bar_share.png"] style:UIBarButtonItemStylePlain target:self action:@selector(handleShareButtonPressed:)];
     
-    
+    [barButtonsArray addObject:self.shareItem];
     
     // Add info button
-    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
-    [infoButton addTarget:self action:@selector(handleInfoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    self.infoItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+    self.infoItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Info.png"] style:UIBarButtonItemStylePlain target:self action:@selector(handleInfoButtonPressed:)];
+    NSString *infoPath = [[NSBundle mainBundle] pathForResource:@"info" ofType:@"html" inDirectory:@"info"];
     
-    self.navigationItem.rightBarButtonItems = @[self.shareItem];
-
+    if ([[NSFileManager defaultManager] fileExistsAtPath:infoPath])
+        [barButtonsArray addObject:self.infoItem];
     
     // Add help button
-    self.helpItem = [[UIBarButtonItem alloc]initWithTitle:@"Help" style:UIBarButtonItemStylePlain target:self action:@selector(helpItemAction:)];
+    self.helpItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Bar_help.png"] style:UIBarButtonItemStylePlain target:self action:@selector(helpItemAction:)];
     NSString *path = [[NSBundle mainBundle] pathForResource:@"help" ofType:@"html"];
     
-    if (path != nil) {
-        self.navigationItem.rightBarButtonItems = @[self.shareItem, self.helpItem];
-    }
+    if (path != nil)
+        [barButtonsArray addObject:self.helpItem];
     
-        // Remove file info.html if you don't want the info button to be added to the shelf navigation bar
-    NSString *infoPath = [[NSBundle mainBundle] pathForResource:@"info" ofType:@"html" inDirectory:@"info"];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
-        self.navigationItem.rightBarButtonItems = @[self.shareItem, self.infoItem, self.helpItem];
-    }
+    //Add editor send email button
+    self.editorMessageItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Bar_editor.png"] style:UIBarButtonItemStylePlain target:self action:@selector(editorMessageItemAction:)];
+    
+    if ([MFMailComposeViewController canSendMail] == YES)
+        [barButtonsArray addObject:self.editorMessageItem];
+    
+    self.navigationItem.rightBarButtonItems = barButtonsArray;
+    // Remove file info.html if you don't want the info button to be added to the shelf navigation bar
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -856,7 +865,7 @@
                                                                 @"app_id": [BKRUtils appID]}];
 }
 
-- (void)handleInfoButtonPressed:(id)sender {
+- (void)handleInfoButtonPressed:(UIBarButtonItem * )sender {
    
     // If the button is pressed when the info box is open, close it
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -906,6 +915,24 @@
 
     }
     
+}
+
+- (void)editorMessageItemAction:(UIBarButtonItem *)sender {
+    if ([MFMailComposeViewController canSendMail] == NO) return;
+    MFMailComposeViewController *mailComposer = [MFMailComposeViewController new];
+    
+    //[mailComposer addAttachmentData:attachment mimeType:@"application/pdf" fileName:fileName];
+    
+    [mailComposer setSubject:@"Letter to the editor"]; // Use the document file name for the subject
+    [mailComposer setToRecipients:@[@"aviajournal.aon@gmail.com"]];
+    [mailComposer setMessageBody:@"Dear editor of General Aviation magazine! I'd like to discuss about the following: \n\n\n\n-----------------" isHTML:NO];
+    
+    mailComposer.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    mailComposer.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    mailComposer.mailComposeDelegate = self; // MFMailComposeViewControllerDelegate
+    
+    [self presentViewController:mailComposer animated:YES completion:NULL];
 }
 
 #pragma mark - Helper methods

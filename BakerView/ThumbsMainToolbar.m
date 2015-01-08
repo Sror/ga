@@ -113,7 +113,7 @@
 		showControl.frame = CGRectMake(5, BUTTON_Y, self.bounds.size.width - 10, BUTTON_HEIGHT);
 		showControl.tintColor = [UIColor whiteColor];
 		showControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-		showControl.segmentedControlStyle = UISegmentedControlStylePlain;
+		//showControl.segmentedControlStyle = UISegmentedControlStylePlain;
 		showControl.selectedSegmentIndex = 0; // Default segment index
 		//showControl.backgroundColor = [UIColor grayColor];
 		showControl.exclusiveTouch = YES;

@@ -67,6 +67,7 @@
 @property (strong, nonatomic) UIBarButtonItem *infoItem;
 @property (strong, nonatomic) UIBarButtonItem *shareItem;
 @property (strong, nonatomic) UIBarButtonItem *helpItem;
+@property (strong, nonatomic) UIBarButtonItem *editorMessageItem;
 @property (strong, nonatomic) BKRCategoryFilterItem *categoryItem;
 
 @property (nonatomic, strong) UIActionSheet *subscriptionsActionSheet;
