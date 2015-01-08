@@ -163,13 +163,14 @@
 		document = [[ReaderDocument alloc] initWithFilePath:filePath password:phrase];
 	}
 
-    [document scanForMedia:[filePath stringByDeletingLastPathComponent]
-                 directory:@"images"
-                 extension:@"jpg"];
+
+    document.images = [document scanForMedia:[filePath stringByDeletingLastPathComponent]
+                                       directory:@"images"
+                                       extension:@"jpg"];
     
-    [document scanForMedia:[filePath stringByDeletingLastPathComponent]
-                 directory:@"video"
-                 extension:@"mp4"];
+    document.video = [document scanForMedia:[filePath stringByDeletingLastPathComponent]
+                                  directory:@"video"
+                                  extension:@"mp4"];
     
 	return document;
 }

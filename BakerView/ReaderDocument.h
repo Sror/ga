@@ -38,8 +38,8 @@
 @property (nonatomic, strong, readonly) NSString *fileName;
 @property (nonatomic, strong, readonly) NSURL *fileURL;
 
-@property (nonatomic, strong, readonly) NSDictionary *images;
-@property (nonatomic, strong, readonly) NSDictionary *video;
+@property (nonatomic, strong) NSDictionary *images;
+@property (nonatomic, strong) NSDictionary *video;
 
 @property (nonatomic, readonly) BOOL canEmail;
 @property (nonatomic, readonly) BOOL canExport;
