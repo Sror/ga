@@ -64,6 +64,7 @@
 		C66857A11A07D38300776443 /* UIColor+BakerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C668579F1A07D38300776443 /* UIColor+BakerExtensions.m */; };
 		C66857A41A07DDBE00776443 /* NSObject+BakerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66857A31A07DDBE00776443 /* NSObject+BakerExtensions.m */; };
 		C67AFBF31A5DBCC500151AEB /* plate.png in Resources */ = {isa = PBXBuildFile; fileRef = C67AFBF21A5DBCC500151AEB /* plate.png */; };
+		C67AFBF81A5EFEAB00151AEB /* help.html in Resources */ = {isa = PBXBuildFile; fileRef = C67AFBF71A5EFEAB00151AEB /* help.html */; };
 		C6D951301A59B1DC00163753 /* budicon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6D9512F1A59B1DC00163753 /* budicon.ttf */; };
 		C6D9515D1A59C2A000163753 /* communication---bubble-chat-group-conversation.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D951331A59C2A000163753 /* communication---bubble-chat-group-conversation.png */; };
 		C6D9515E1A59C2A000163753 /* communication---bubble-chat-talk-conversation.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D951341A59C2A000163753 /* communication---bubble-chat-talk-conversation.png */; };
@@ -238,6 +239,7 @@
 		C66857A21A07DDBE00776443 /* NSObject+BakerExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+BakerExtensions.h"; sourceTree = "<group>"; };
 		C66857A31A07DDBE00776443 /* NSObject+BakerExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BakerExtensions.m"; sourceTree = "<group>"; };
 		C67AFBF21A5DBCC500151AEB /* plate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plate.png; sourceTree = "<group>"; };
+		C67AFBF71A5EFEAB00151AEB /* help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = help.html; sourceTree = "<group>"; };
 		C6D9512F1A59B1DC00163753 /* budicon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = budicon.ttf; sourceTree = "<group>"; };
 		C6D951331A59C2A000163753 /* communication---bubble-chat-group-conversation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "communication---bubble-chat-group-conversation.png"; sourceTree = "<group>"; };
 		C6D951341A59C2A000163753 /* communication---bubble-chat-talk-conversation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "communication---bubble-chat-talk-conversation.png"; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 		ABAFB57C15AB9A2E002FA498 = {
 			isa = PBXGroup;
 			children = (
+				C67AFBF61A5EFE7600151AEB /* Help */,
 				C6D951311A59B1E700163753 /* Assets */,
 				BF78D1AF180C8F070093DFBC /* BakerAssets.xcassets */,
 				AB40047B15B4B8B800D87E2A /* BakerShelf */,
@@ -573,6 +576,14 @@
 				C62D23531A0A748A003A26D2 /* zip.h */,
 			);
 			path = minizip;
+			sourceTree = "<group>";
+		};
+		C67AFBF61A5EFE7600151AEB /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				C67AFBF71A5EFEAB00151AEB /* help.html */,
+			);
+			name = Help;
 			sourceTree = "<group>";
 		};
 		C6D951311A59B1E700163753 /* Assets */ = {
@@ -748,6 +759,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C67AFBF31A5DBCC500151AEB /* plate.png in Resources */,
+				C67AFBF81A5EFEAB00151AEB /* help.html in Resources */,
 				C6D951831A59C2A000163753 /* web---download-arrow.png in Resources */,
 				C6D951821A59C2A000163753 /* web---browser-tab.png in Resources */,
 				C6D951781A59C2A000163753 /* tool---camera.png in Resources */,
