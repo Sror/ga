@@ -57,6 +57,10 @@
 	NSString *_filePath;
 
 	NSURL *_fileURL;
+    
+    NSDictionary *_images;
+    
+    NSDictionary *_video;
 }
 
 #pragma mark - Properties
@@ -159,7 +163,71 @@
 		document = [[ReaderDocument alloc] initWithFilePath:filePath password:phrase];
 	}
 
+
+    document.images = [document scanForMedia:[filePath stringByDeletingLastPathComponent]
+                                       directory:@"images"
+                                       extension:@"jpg"];
+    
+    document.video = [document scanForMedia:[filePath stringByDeletingLastPathComponent]
+                                  directory:@"video"
+                                  extension:@"mp4"];
+    
 	return document;
+}
+
++ (ReaderDocument *)withDocumentDir:(NSString *)dirPath password:(NSString *)phrase
+{
+    NSError *error = nil;
+    NSArray *dirContents = [[NSFileManager defaultManager]
+                            contentsOfDirectoryAtPath:dirPath error:&error];
+    if (error) {
+        NSLog(@"ERORR!!! \n %@",[error localizedDescription]);
+    }
+    
+    NSArray *pdfs = [dirContents filteredArrayUsingPredicate:
+                     [NSPredicate predicateWithFormat:@"self ENDSWITH '.pdf'"]];
+    
+    NSString *fileName = [pdfs firstObject]; assert(fileName != nil);
+    
+    return [ReaderDocument withDocumentFilePath:
+            [dirPath stringByAppendingPathComponent:fileName] password:phrase];
+}
+
+- (NSDictionary *)scanForMedia:(NSString *)path directory:(NSString *)type extension:(NSString *)ext
+{
+    NSMutableDictionary *dict = [NSMutableDictionary new];
+    
+    BOOL hasMedia = NO;
+    NSString *mediaPath = [path stringByAppendingPathComponent:type];
+    [[NSFileManager defaultManager] fileExistsAtPath:mediaPath
+                           isDirectory:&hasMedia];
+    
+    if (hasMedia) {
+        NSArray *pagesWithMedia =  [[NSFileManager defaultManager]
+                                    contentsOfDirectoryAtURL:[NSURL fileURLWithPath:mediaPath]
+                                    includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
+                                    options:NSDirectoryEnumerationSkipsHiddenFiles
+                                    error:nil];
+        
+        
+        if ([pagesWithMedia count] > 0) {
+            for (NSURL *pageURL in pagesWithMedia) {
+                
+                NSArray *mediaArray =  [[NSFileManager defaultManager]
+                                            contentsOfDirectoryAtURL:pageURL
+                                          includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
+                                                             options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                               error:nil];
+                
+                [dict setObject:mediaArray
+                         forKey:[pageURL lastPathComponent]];
+                
+            }
+        }
+        
+    }
+    
+    return dict;
 }
 
 + (BOOL)isPDF:(NSString *)filePath
