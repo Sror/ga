@@ -163,13 +163,19 @@
 		document = [[ReaderDocument alloc] initWithFilePath:filePath password:phrase];
 	}
 
+    [document scanForMedia:[filePath stringByDeletingLastPathComponent]
+                 directory:@"images"
+                 extension:@"jpg"];
+    
+    [document scanForMedia:[filePath stringByDeletingLastPathComponent]
+                 directory:@"video"
+                 extension:@"mp4"];
+    
 	return document;
 }
 
 + (ReaderDocument *)withDocumentDir:(NSString *)dirPath password:(NSString *)phrase
 {
-    [self scanDir:dirPath];
-    
     NSError *error = nil;
     NSArray *dirContents = [[NSFileManager defaultManager]
                             contentsOfDirectoryAtPath:dirPath error:&error];
@@ -186,37 +192,41 @@
             [dirPath stringByAppendingPathComponent:fileName] password:phrase];
 }
 
-+ (void)scanDir:(NSString *)dirPath
+- (NSDictionary *)scanForMedia:(NSString *)path directory:(NSString *)type extension:(NSString *)ext
 {
-    NSFileManager *localFileManager = [[NSFileManager alloc] init];
+    NSMutableDictionary *dict = [NSMutableDictionary new];
     
-    BOOL hasImages = NO;
-    NSString *imagesPath = [dirPath stringByAppendingPathComponent:@"images"];
-    [localFileManager fileExistsAtPath:imagesPath
-                           isDirectory:&hasImages];
-    if (hasImages) {
-        NSArray *pagesWithImages = [localFileManager contentsOfDirectoryAtPath:dirPath error:nil];
+    BOOL hasMedia = NO;
+    NSString *mediaPath = [path stringByAppendingPathComponent:type];
+    [[NSFileManager defaultManager] fileExistsAtPath:mediaPath
+                           isDirectory:&hasMedia];
+    
+    if (hasMedia) {
+        NSArray *pagesWithMedia =  [[NSFileManager defaultManager]
+                                    contentsOfDirectoryAtURL:[NSURL fileURLWithPath:mediaPath]
+                                    includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
+                                    options:NSDirectoryEnumerationSkipsHiddenFiles
+                                    error:nil];
         
-        if ([pagesWithImages count] > 0) {
-            // if ([[file pathExtension] isEqualToString: @"jpg"])
+        
+        if ([pagesWithMedia count] > 0) {
+            for (NSURL *pageURL in pagesWithMedia) {
+                
+                NSArray *mediaArray =  [[NSFileManager defaultManager]
+                                            contentsOfDirectoryAtURL:pageURL
+                                          includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
+                                                             options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                               error:nil];
+                
+                [dict setObject:mediaArray
+                         forKey:[pageURL lastPathComponent]];
+                
+            }
         }
         
     }
     
-    BOOL hasVideo = NO;
-    NSString *videoPath = [dirPath stringByAppendingPathComponent:@"video"];
-    [localFileManager fileExistsAtPath:videoPath
-                           isDirectory:&hasVideo];
-    
-    if (hasVideo) {
-        NSArray *pagesWithVideo = [localFileManager contentsOfDirectoryAtPath:dirPath error:nil];
-        
-        if ([pagesWithVideo count] > 0) {
-            // if ([[file pathExtension] isEqualToString: @"mp4"])
-        }
-    }
-    
-   
+    return dict;
 }
 
 + (BOOL)isPDF:(NSString *)filePath
