@@ -935,6 +935,17 @@
     [self presentViewController:mailComposer animated:YES completion:NULL];
 }
 
+#pragma mark - MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+#ifdef DEBUG
+    if ((result == MFMailComposeResultFailed) && (error != NULL)) NSLog(@"%@", error);
+#endif
+    
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
 #pragma mark - Helper methods
 
 - (void)addPurchaseObserver:(SEL)notificationSelector name:(NSString*)notificationName {

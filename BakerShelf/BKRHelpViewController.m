@@ -41,7 +41,7 @@
     disMissButton.backgroundColor = [UIColor clearColor];
     [disMissButton addTarget:self action:@selector(disMissButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [disMissButton setTitle:@"Close" forState:UIControlStateNormal];
-    [disMissButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [disMissButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [disMissButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [self.toolBar addSubview:disMissButton];
     
