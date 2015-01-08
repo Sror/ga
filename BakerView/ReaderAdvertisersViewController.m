@@ -18,8 +18,8 @@
 
 #define TOOLBAR_HEIGHT 50.0f
 #define BUTTON_HEIGHT 40.0f
-#define BUTTON_WIDTH 40.0f
-#define STATUS_HEIGHT 20.0f
+#define BUTTON_WIDTH 80.0f
+#define STATUS_HEIGHT 0.0f
 
 
 - (instancetype)initWithPathToAds:(NSURL *)path
@@ -38,27 +38,34 @@
     [super viewDidLoad];
     
     self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, TOOLBAR_HEIGHT + STATUS_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - 40)];
-    
+    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.webView.delegate = self;
     [self.webView loadRequest:self.request];
     
     [self.view addSubview:self.webView];
     
     self.toolBar = [[UIView alloc]initWithFrame:CGRectMake(0, STATUS_HEIGHT, CGRectGetWidth(self.view.bounds), TOOLBAR_HEIGHT)];
     self.toolBar.backgroundColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1.0f];
+    self.toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:self.toolBar];
     
     UIButton *disMissButton = [UIButton buttonWithType:UIButtonTypeCustom];
     disMissButton.frame = CGRectMake(5, 5, BUTTON_WIDTH, BUTTON_HEIGHT);
-    disMissButton.backgroundColor = [UIColor blackColor];
+    disMissButton.backgroundColor = [UIColor clearColor];
     [disMissButton addTarget:self action:@selector(disMissButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    disMissButton.titleLabel.text = @"Back";
+    [disMissButton setTitle:@"Back" forState:UIControlStateNormal];
+    [disMissButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [disMissButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [self.toolBar addSubview:disMissButton];
     
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(CGRectGetWidth(self.toolBar.bounds) - BUTTON_WIDTH - 5, 5, BUTTON_WIDTH, BUTTON_HEIGHT);
-    backButton.backgroundColor = [UIColor greenColor];
+    backButton.frame = CGRectMake(CGRectGetWidth(self.toolBar.bounds) - BUTTON_WIDTH * 2 - 5, 5, BUTTON_WIDTH * 2, BUTTON_HEIGHT);
+    backButton.backgroundColor = [UIColor clearColor];
+    backButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     [backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    backButton.titleLabel.text = @"Back";
+    [backButton setTitle:@"Advertisers" forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [self.toolBar addSubview:backButton];
     
     
@@ -82,8 +89,16 @@
 
 - (void)backButtonAction:(UIButton *)sender{
     [self.webView loadRequest:self.request];
-    [self.webView reload];
+    //[self.webView reload];
 }
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    
+    NSLog(@"shouldStartLoadWithRequest %@", [request debugDescription]);
+  
+    return YES;
+}
+
 
 /*
 #pragma mark - Navigation

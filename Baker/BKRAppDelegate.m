@@ -65,7 +65,24 @@
     } else {
         [self configureStandAloneApp:application options:launchOptions];
     }
-
+    
+//    if ([@"1" isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"Startup"]]) {
+//        
+//        self.rootNavigationController = [[BKRCustomNavigationController alloc] initWithRootViewController:self.rootViewController];
+//        
+//        [self configureNavigationBar];
+//        [self configureAnalytics];
+//        
+//        self.window = [[BKRInterceptorWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//        self.window.backgroundColor    = [UIColor whiteColor];
+//        self.window.rootViewController = self.rootNavigationController;
+//        
+//    } else {
+//        
+//        BKRInfoViewController *viewControllerFirst = [[BKRInfoViewController alloc] init];
+//        self.window.rootViewController = viewControllerFirst;
+//    }
+    
     self.rootNavigationController = [[BKRCustomNavigationController alloc] initWithRootViewController:self.rootViewController];
 
     [self configureNavigationBar];

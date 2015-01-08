@@ -500,11 +500,16 @@
 	minimumPage = 1; maximumPage = [document.pageCount integerValue];
 }
 
+- (void)viewDidLayoutSubviews {
+    
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+    
     self.navigationController.navigationBar.hidden = YES;
+    
 	if (CGSizeEqualToSize(lastAppearSize, CGSizeZero) == false)
 	{
 		if (CGSizeEqualToSize(lastAppearSize, self.view.bounds.size) == false)
@@ -540,10 +545,16 @@
 #endif // end of READER_DISABLE_IDLE Option
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    self.navigationController.navigationBar.hidden = NO;
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
-    
 	[super viewWillDisappear:animated];
+    
     self.navigationController.navigationBar.hidden = NO;
     
 	lastAppearSize = self.view.bounds.size; // Track view size
@@ -556,11 +567,6 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
 }
 
 - (void)viewDidUnload
@@ -884,19 +890,10 @@
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar advertisersButtonTapped:(UIButton *)button
 {
     
-    NSLog(@"%@",document.fileURL);
     ReaderAdvertisersViewController *advertiserVC = [[ReaderAdvertisersViewController alloc]initWithPathToAds:document.fileURL];
-    advertiserVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    advertiserVC.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:advertiserVC animated:NO completion:NULL];
-//
-//    NSURL *fileURL = document.fileURL; // Document file URL
-//    
-//    documentInteraction = [UIDocumentInteractionController interactionControllerWithURL:fileURL];
-//    
-//    documentInteraction.delegate = self; // UIDocumentInteractionControllerDelegate
-//    
-//    [documentInteraction presentOpenInMenuFromRect:button.bounds inView:button animated:YES];
+    advertiserVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    advertiserVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:advertiserVC animated:YES completion:NULL];
 }
 
 

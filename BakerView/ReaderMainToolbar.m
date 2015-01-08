@@ -101,13 +101,9 @@
 
 		UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		doneButton.frame = CGRectMake(leftButtonX, BUTTON_Y, doneButtonWidth, BUTTON_HEIGHT);
-		//[doneButton setTitleColor:[UIColor colorWithWhite:0.0f alpha:1.0f] forState:UIControlStateNormal];
-		//[doneButton setTitleColor:[UIColor colorWithWhite:1.0f alpha:1.0f] forState:UIControlStateHighlighted];
-		//[doneButton setTitle:doneButtonText forState:UIControlStateNormal]; doneButton.titleLabel.font = doneButtonFont;
-		[doneButton addTarget:self action:@selector(doneButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-		[doneButton setBackgroundImage:[UIImage imageNamed:@"backToRoot.png"] forState:UIControlStateHighlighted];
+        [doneButton addTarget:self action:@selector(doneButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 		[doneButton setBackgroundImage:[UIImage imageNamed:@"backToRoot.png"] forState:UIControlStateNormal];
-		doneButton.autoresizingMask = UIViewAutoresizingNone;
+        doneButton.autoresizingMask = UIViewAutoresizingNone;
 		//doneButton.backgroundColor = [UIColor grayColor];
 		doneButton.exclusiveTouch = YES;
 
@@ -118,29 +114,15 @@
 #endif // end of READER_STANDALONE Option
         
         UIButton *advertisersButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        advertisersButton.frame = CGRectMake(leftButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
-        advertisersButton.titleLabel.text = @"1";
+        advertisersButton.frame = CGRectMake(leftButtonX, BUTTON_Y, iconButtonWidth * 4, BUTTON_HEIGHT);
+        [advertisersButton setTitle:@"Advertisers" forState:UIControlStateNormal];
+        [advertisersButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [advertisersButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
         [advertisersButton addTarget:self action:@selector(advertisersButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        //[advertisersButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
-        //[advertisersButton setBackgroundImage:buttonN forState:UIControlStateNormal];
         advertisersButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         advertisersButton.exclusiveTouch = YES;
         [self addSubview:advertisersButton];
-        /*
-        UIButton *advertisersButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        advertisersButton.frame = CGRectMake(leftButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
-        //[thumbsButton setImage:[UIImage imageNamed:@"Reader-Thumbs"] forState:UIControlStateNormal];
-       // advertisersButton.tintColor = [UIColor blackColor];
-        advertisersButton.titleLabel.text = @"Advertisers";
-        advertisersButton.titleLabel.textColor = [UIColor blackColor];
-//        [advertisersButton setTitleColor:[UIColor colorWithWhite:0.0f alpha:1.0f] forState:UIControlStateNormal];
-//        [advertisersButton setTitleColor:[UIColor colorWithWhite:1.0f alpha:1.0f] forState:UIControlStateHighlighted];
-//        [advertisersButton setBackgroundColor:[UIColor clearColor]];
-        [advertisersButton addTarget:self action:@selector(advertisersButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        advertisersButton.autoresizingMask = UIViewAutoresizingNone;
-        advertisersButton.exclusiveTouch = YES;
-        [self addSubview:advertisersButton];
-         */
+
 #if (READER_ENABLE_THUMBS == TRUE) // Option
 
 		UIButton *thumbsButton = [UIButton buttonWithType:UIButtonTypeCustom];
