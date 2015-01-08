@@ -41,6 +41,7 @@
 #import "BKRShelfHeaderView.h"
 #import "BKRShelfViewLayout.h"
 #import "BKRSettings.h"
+#import "BKRHelpViewController.h"
 
 #import "NSData+BakerExtensions.h"
 #import "NSString+BakerExtensions.h"
@@ -235,17 +236,28 @@
     // Add share button
     self.shareItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"web---share-network.png"] style:UIBarButtonItemStylePlain target:self action:@selector(handleShareButtonPressed:)];
     
-    self.navigationItem.rightBarButtonItems = @[self.shareItem];
+    
     
     // Add info button
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(handleInfoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.infoItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
     
-    // Remove file info.html if you don't want the info button to be added to the shelf navigation bar
+    self.navigationItem.rightBarButtonItems = @[self.shareItem];
+
+    
+    // Add help button
+    self.helpItem = [[UIBarButtonItem alloc]initWithTitle:@"Help" style:UIBarButtonItemStylePlain target:self action:@selector(helpItemAction:)];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"help" ofType:@"html"];
+    
+    if (path != nil) {
+        self.navigationItem.rightBarButtonItems = @[self.shareItem, self.helpItem];
+    }
+    
+        // Remove file info.html if you don't want the info button to be added to the shelf navigation bar
     NSString *infoPath = [[NSBundle mainBundle] pathForResource:@"info" ofType:@"html" inDirectory:@"info"];
     if ([[NSFileManager defaultManager] fileExistsAtPath:infoPath]) {
-        self.navigationItem.rightBarButtonItems = @[self.shareItem, self.infoItem];
+        self.navigationItem.rightBarButtonItems = @[self.shareItem, self.infoItem, self.helpItem];
     }
 }
 
@@ -845,7 +857,7 @@
 }
 
 - (void)handleInfoButtonPressed:(id)sender {
-    
+   
     // If the button is pressed when the info box is open, close it
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         if (infoPopover.isPopoverVisible) {
@@ -876,6 +888,22 @@
     } else {
         // On iPhone push the view controller to the navigation
         [self.navigationController pushViewController:popoverContent animated:YES];
+    }
+}
+
+- (void)helpItemAction:(UIBarButtonItem *)sender{
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"help" ofType:@"html"];
+    
+    if (path != nil) {
+        NSURL *url = [NSURL fileURLWithPath:path];
+        NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
+        
+        BKRHelpViewController *helpVC = [[BKRHelpViewController alloc]initWithRequest:request];
+        helpVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        helpVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [self presentViewController:helpVC animated:YES completion:NULL];
+
     }
     
 }

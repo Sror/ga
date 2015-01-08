@@ -117,20 +117,25 @@
 
     // SETUP ACTION BUTTON
     self.actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.actionButton.backgroundColor = [UIColor bkrColorWithHexString:[BKRSettings sharedSettings].issuesActionBackgroundColor];
-
+    self.actionButton.backgroundColor = [UIColor clearColor];
+    //[UIColor bkrColorWithHexString:[BKRSettings sharedSettings].issuesActionBackgroundColor];
+    
+    [self.actionButton setBackgroundImage:[UIImage imageNamed:@"plate.png"] forState:UIControlStateNormal];
     [self.actionButton setTitle:NSLocalizedString(@"ACTION_DOWNLOADED_TEXT", nil) forState:UIControlStateNormal];
     [self.actionButton setTitleColor:[UIColor bkrColorWithHexString:[BKRSettings sharedSettings].issuesActionButtonColor] forState:UIControlStateNormal];
+    [self.actionButton setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
     [self.actionButton addTarget:self action:@selector(actionButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 
     [self.view addSubview:self.actionButton];
 
     // SETUP ARCHIVE BUTTON
     self.archiveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.archiveButton.backgroundColor = [UIColor bkrColorWithHexString:[BKRSettings sharedSettings].issuesArchiveBackgroundColor];
-
+    self.archiveButton.backgroundColor = [UIColor clearColor];
+    //[UIColor bkrColorWithHexString:[BKRSettings sharedSettings].issuesArchiveBackgroundColor];
+    [self.archiveButton setBackgroundImage:[UIImage imageNamed:@"plate.png"] forState:UIControlStateNormal];
     [self.archiveButton setTitle:NSLocalizedString(@"ARCHIVE_TEXT", nil) forState:UIControlStateNormal];
     [self.archiveButton setTitleColor:[UIColor bkrColorWithHexString:[BKRSettings sharedSettings].issuesArchiveButtonColor] forState:UIControlStateNormal];
+    [self.archiveButton setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
 
     if ([BKRSettings sharedSettings].isNewsstand) {
         [self.archiveButton addTarget:self action:@selector(archiveButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -248,6 +253,7 @@
 - (void)preferredContentSizeChanged:(NSNotification*)notification {
     [self refreshContentWithCache:YES];
 }
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

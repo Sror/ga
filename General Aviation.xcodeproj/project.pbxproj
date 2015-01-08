@@ -133,6 +133,7 @@
 		E34F22831A5729570013A8FE /* ThumbsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E34F226E1A5729570013A8FE /* ThumbsViewController.m */; };
 		E34F22841A5729570013A8FE /* UIXToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = E34F22701A5729570013A8FE /* UIXToolbarView.m */; };
 		E384CB841A59AAE00019D690 /* navigation-bar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E384CB831A59AAE00019D690 /* navigation-bar-bg.png */; };
+		E39AB1771A5E2B4600CE9709 /* BKRHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E39AB1761A5E2B4600CE9709 /* BKRHelpViewController.m */; };
 		E3FD6C491A5DDD6E007334AC /* ReaderAdvertisersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD6C481A5DDD6E007334AC /* ReaderAdvertisersViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -331,6 +332,8 @@
 		E34F226F1A5729570013A8FE /* UIXToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIXToolbarView.h; sourceTree = "<group>"; };
 		E34F22701A5729570013A8FE /* UIXToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIXToolbarView.m; sourceTree = "<group>"; };
 		E384CB831A59AAE00019D690 /* navigation-bar-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "navigation-bar-bg.png"; path = "Baker/BakerAssets.xcassets/navigation-bar-bg.imageset/navigation-bar-bg.png"; sourceTree = SOURCE_ROOT; };
+		E39AB1751A5E2B4600CE9709 /* BKRHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BKRHelpViewController.h; sourceTree = "<group>"; };
+		E39AB1761A5E2B4600CE9709 /* BKRHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BKRHelpViewController.m; sourceTree = "<group>"; };
 		E3FD6C471A5DDD6E007334AC /* ReaderAdvertisersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReaderAdvertisersViewController.h; sourceTree = "<group>"; };
 		E3FD6C481A5DDD6E007334AC /* ReaderAdvertisersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReaderAdvertisersViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -488,6 +491,8 @@
 				ABDC05B116A4CB3900F6B63D /* BKRShelfStatus.m */,
 				9FF795A515B4C57D00899E51 /* BKRShelfViewController.h */,
 				9FF795A615B4C57E00899E51 /* BKRShelfViewController.m */,
+				E39AB1751A5E2B4600CE9709 /* BKRHelpViewController.h */,
+				E39AB1761A5E2B4600CE9709 /* BKRHelpViewController.m */,
 			);
 			path = BakerShelf;
 			sourceTree = "<group>";
@@ -867,6 +872,7 @@
 				C6D951891A59D3CC00163753 /* MySHKConfigurator.m in Sources */,
 				E34F227D1A5729570013A8FE /* ReaderThumbRender.m in Sources */,
 				AB40045F15B4B83000D87E2A /* BKRIndexViewController.m in Sources */,
+				E39AB1771A5E2B4600CE9709 /* BKRHelpViewController.m in Sources */,
 				E34F22781A5729570013A8FE /* ReaderMainPagebar.m in Sources */,
 				AB40046115B4B83000D87E2A /* BKRInterceptorWindow.m in Sources */,
 				C62D23571A0A748A003A26D2 /* unzip.c in Sources */,
