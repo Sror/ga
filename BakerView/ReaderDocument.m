@@ -57,6 +57,10 @@
 	NSString *_filePath;
 
 	NSURL *_fileURL;
+    
+    NSDictionary *_images;
+    
+    NSDictionary *_video;
 }
 
 #pragma mark - Properties
@@ -185,20 +189,34 @@
 + (void)scanDir:(NSString *)dirPath
 {
     NSFileManager *localFileManager = [[NSFileManager alloc] init];
-    NSDirectoryEnumerator *dirEnum =
-                            [localFileManager enumeratorAtURL:
-                                [NSURL URLWithString:[dirPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
-                                includingPropertiesForKeys:[NSArray arrayWithObject:NSURLNameKey]
-                                                   options:NSDirectoryEnumerationSkipsHiddenFiles
-                                              errorHandler:nil];
     
-    NSString *file;
-    while ((file = [dirEnum nextObject])) {
-        NSLog(@"%@", file);
-        if ([[file pathExtension] isEqualToString: @"doc"]) {
-            //
+    BOOL hasImages = NO;
+    NSString *imagesPath = [dirPath stringByAppendingPathComponent:@"images"];
+    [localFileManager fileExistsAtPath:imagesPath
+                           isDirectory:&hasImages];
+    if (hasImages) {
+        NSArray *pagesWithImages = [localFileManager contentsOfDirectoryAtPath:dirPath error:nil];
+        
+        if ([pagesWithImages count] > 0) {
+            // if ([[file pathExtension] isEqualToString: @"jpg"])
+        }
+        
+    }
+    
+    BOOL hasVideo = NO;
+    NSString *videoPath = [dirPath stringByAppendingPathComponent:@"video"];
+    [localFileManager fileExistsAtPath:videoPath
+                           isDirectory:&hasVideo];
+    
+    if (hasVideo) {
+        NSArray *pagesWithVideo = [localFileManager contentsOfDirectoryAtPath:dirPath error:nil];
+        
+        if ([pagesWithVideo count] > 0) {
+            // if ([[file pathExtension] isEqualToString: @"mp4"])
         }
     }
+    
+   
 }
 
 + (BOOL)isPDF:(NSString *)filePath
