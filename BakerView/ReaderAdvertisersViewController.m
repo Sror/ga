@@ -54,7 +54,7 @@
     disMissButton.backgroundColor = [UIColor clearColor];
     [disMissButton addTarget:self action:@selector(disMissButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [disMissButton setTitle:@"Back" forState:UIControlStateNormal];
-    [disMissButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [disMissButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [disMissButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [self.toolBar addSubview:disMissButton];
     
@@ -64,7 +64,7 @@
     backButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     [backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setTitle:@"Advertisers" forState:UIControlStateNormal];
-    [backButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [backButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [self.toolBar addSubview:backButton];
     
