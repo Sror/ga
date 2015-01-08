@@ -49,7 +49,7 @@
 
 #import "MBProgressHUD.h"
 
-@interface BKRShelfViewController ()
+@interface BKRShelfViewController ()<MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
 

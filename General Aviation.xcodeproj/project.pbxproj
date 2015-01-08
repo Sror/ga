@@ -140,6 +140,7 @@
 		E39AB18B1A5F0AF000CE9709 /* Info.png in Resources */ = {isa = PBXBuildFile; fileRef = E39AB18A1A5F0AF000CE9709 /* Info.png */; };
 		E39AB18D1A5F0B3000CE9709 /* Bar_share.png in Resources */ = {isa = PBXBuildFile; fileRef = E39AB18C1A5F0B3000CE9709 /* Bar_share.png */; };
 		E39AB1931A5F14EC00CE9709 /* Bar_editor.png in Resources */ = {isa = PBXBuildFile; fileRef = E39AB1921A5F14EC00CE9709 /* Bar_editor.png */; };
+		E39AB1951A5F2F1000CE9709 /* backToRoot.png in Resources */ = {isa = PBXBuildFile; fileRef = E39AB1941A5F2F1000CE9709 /* backToRoot.png */; };
 		E3FD6C491A5DDD6E007334AC /* ReaderAdvertisersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3FD6C481A5DDD6E007334AC /* ReaderAdvertisersViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -346,6 +347,7 @@
 		E39AB18A1A5F0AF000CE9709 /* Info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Info.png; sourceTree = "<group>"; };
 		E39AB18C1A5F0B3000CE9709 /* Bar_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bar_share.png; sourceTree = "<group>"; };
 		E39AB1921A5F14EC00CE9709 /* Bar_editor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bar_editor.png; sourceTree = "<group>"; };
+		E39AB1941A5F2F1000CE9709 /* backToRoot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backToRoot.png; sourceTree = "<group>"; };
 		E3FD6C471A5DDD6E007334AC /* ReaderAdvertisersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReaderAdvertisersViewController.h; sourceTree = "<group>"; };
 		E3FD6C481A5DDD6E007334AC /* ReaderAdvertisersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReaderAdvertisersViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -606,6 +608,7 @@
 		C6D951311A59B1E700163753 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E39AB1941A5F2F1000CE9709 /* backToRoot.png */,
 				E39AB1921A5F14EC00CE9709 /* Bar_editor.png */,
 				E39AB18A1A5F0AF000CE9709 /* Info.png */,
 				E39AB18C1A5F0B3000CE9709 /* Bar_share.png */,
@@ -824,6 +827,7 @@
 				C6D951761A59C2A000163753 /* music---song-note-playlist.png in Resources */,
 				BF0785EB1794AF4000EB988E /* info in Resources */,
 				E39AB1931A5F14EC00CE9709 /* Bar_editor.png in Resources */,
+				E39AB1951A5F2F1000CE9709 /* backToRoot.png in Resources */,
 				C6D951801A59C2A000163753 /* weather---cloud-stormy.png in Resources */,
 				E39AB18D1A5F0B3000CE9709 /* Bar_share.png in Resources */,
 				C649F09D1A0926CD00B02548 /* settings.plist in Resources */,

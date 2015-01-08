@@ -63,19 +63,19 @@
 		CGFloat viewWidth = self.bounds.size.width; // Toolbar view width
         self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
 #if (READER_FLAT_UI == TRUE) // Option
-		UIImage *buttonH = nil; UIImage *buttonN = nil;
+		//UIImage *buttonH = nil; UIImage *buttonN = nil;
 #else
 		UIImage *buttonH = [[UIImage imageNamed:@"Reader-Button-H"] stretchableImageWithLeftCapWidth:5 topCapHeight:0];
 		UIImage *buttonN = [[UIImage imageNamed:@"Reader-Button-N"] stretchableImageWithLeftCapWidth:5 topCapHeight:0];
 #endif // end of READER_FLAT_UI Option
 
-		BOOL largeDevice = ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad);
+		//BOOL largeDevice = ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad);
 
 		const CGFloat buttonSpacing = BUTTON_SPACE; //const CGFloat iconButtonWidth = ICON_BUTTON_WIDTH;
 
 		CGFloat titleX = BUTTON_X; CGFloat titleWidth = (viewWidth - (titleX + titleX));
 
-		CGFloat leftButtonX = BUTTON_X; // Left-side button start X position
+		//CGFloat leftButtonX = BUTTON_X; // Left-side button start X position
 
 //		UIFont *doneButtonFont = [UIFont systemFontOfSize:BUTTON_FONT_SIZE];
 //		NSString *doneButtonText = NSLocalizedString(@"Done", @"button");
@@ -100,14 +100,14 @@
 
 #if (READER_BOOKMARKS == TRUE) // Option
 
-		CGFloat showControlX = (viewWidth - (SHOW_CONTROL_WIDTH + buttonSpacing));
+		//CGFloat showControlX = (viewWidth - (SHOW_CONTROL_WIDTH + buttonSpacing));
 
 		//UIImage *thumbsImage = [UIImage imageNamed:@"Reader-Thumbs"];
         //UIImage *bookmarkImage = [UIImage imageNamed:@"Reader-Mark-Y"];
         
         NSArray *buttonItems = @[@"ALL PAGES", @"BOOKMARK"];
 
-		BOOL useTint = [self respondsToSelector:@selector(tintColor)]; // iOS 7 and up
+		//BOOL useTint = [self respondsToSelector:@selector(tintColor)]; // iOS 7 and up
         
 		UISegmentedControl *showControl = [[UISegmentedControl alloc] initWithItems:buttonItems];
 		showControl.frame = CGRectMake(5, BUTTON_Y, self.bounds.size.width - 10, BUTTON_HEIGHT);
