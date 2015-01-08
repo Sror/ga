@@ -102,7 +102,7 @@
 		UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		doneButton.frame = CGRectMake(leftButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
         
-        [doneButton setImage:[UIImage imageNamed:@"backToRoot.png"] forState:UIControlStateNormal];
+        [doneButton setImage:[UIImage imageNamed:@"backToRoot"] forState:UIControlStateNormal];
         [doneButton setImage:[UIImage imageNamed:@"backToRoot_tapped.png"] forState:UIControlStateHighlighted];
         [doneButton addTarget:self action:@selector(doneButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         doneButton.autoresizingMask = UIViewAutoresizingNone;
