@@ -54,6 +54,7 @@
 @interface BKRShelfViewController ()<MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) UICollectionViewFlowLayout *layout;
+@property (strong, nonatomic) NSString *localPath;
 
 @end
 
@@ -132,6 +133,7 @@
     
    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(archiveButtonPushed:) name:@"archive_button_notification" object:nil];
     
+    
     self.navigationItem.title = NSLocalizedString(@"SHELF_NAVIGATION_TITLE", nil);
     
     self.layout = [[BKRShelfViewLayout alloc] initWithSticky:[[BKRSettings sharedSettings].issuesShelfOptions[@"headerSticky"] boolValue]
@@ -192,6 +194,8 @@
                                style:UIBarButtonItemStylePlain
                                target:self
                                action:@selector(backToReadItemAction:)];
+    
+        
         
 //        //self.calendarButton = [[UIBarButtonItem alloc]
 //                               initWithTitle: NSLocalizedString(@"SUBSCRIBE_BUTTON_TEXT", nil)
@@ -221,13 +225,21 @@
     }
 }
 
+
+- (void)viewWillDisappear:(BOOL)animated{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:self.path forKey:@"current_book_path"];
+    [defaults synchronize];
+}
+
+
 - (void)archiveButtonPushed:(NSNotification *)notification {
-    NSString *path = [notification.userInfo objectForKey:@"archive_button_notification_info_key"];
-    NSLog(@"File deleted!!!");
-    NSLog(@"%@",path);
     
-    self.backToReadItem.enabled = [path isEqualToString:[self.path stringByDeletingLastPathComponent]] ? NO : YES;
-   // ([[NSFileManager defaultManager] fileExistsAtPath:self.path] == YES ) ? YES : NO;
+    NSString *path = [notification.userInfo objectForKey:@"archive_button_notification_info_key"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        self.backToReadItem.enabled = [path isEqualToString:[[self.localPath stringByAppendingPathComponent: self.path] stringByDeletingLastPathComponent]] == YES ? NO : YES;
+    }
+    
     NSLog(@"%@",self.path);
 }
 
@@ -236,7 +248,16 @@
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar setTranslucent:NO];
     [self willRotateToInterfaceOrientation:self.interfaceOrientation duration:0];
+    
+    NSURL *destination = [[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]URLByAppendingPathComponent:@""];
+    self.localPath = [[destination path] stringByDeletingLastPathComponent];
 
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (self.path == nil) {
+        self.path = [defaults objectForKey:@"current_book_path"];
+    }
+    
     for (BKRIssueViewController *controller in self.issueViewControllers) {
         controller.issue.transientStatus = BakerIssueTransientStatusNone;
         [controller refresh];
@@ -245,15 +266,22 @@
     if ([BKRSettings sharedSettings].isNewsstand) {
 
         NSMutableArray *buttonItems = [NSMutableArray arrayWithObject:self.refreshButton];
+        
+        [buttonItems addObject:self.backToReadItem];
         if ([purchasesManager hasSubscriptions] || [issuesManager hasProductIDs]) {
             [buttonItems addObject:self.subscribeButton];
         }
         
-        [buttonItems addObject:self.backToReadItem];
-        
-        self.backToReadItem.enabled = ([[NSFileManager defaultManager] fileExistsAtPath:self.path]);
         self.navigationItem.leftBarButtonItems = buttonItems;
+        if (self.path != nil) {
+            self.backToReadItem.enabled = [[NSFileManager defaultManager] fileExistsAtPath:[self.localPath stringByAppendingPathComponent:self.path]];
+        }else{
+            self.backToReadItem.enabled = NO;
+        }
         
+                                       
+                                       //[NSString stringWithFormat:@"%@/%@", self.localPath, self.path]];
+
         // Remove limbo transactions
         // take current payment queue
         SKPaymentQueue* currentQueue = [SKPaymentQueue defaultQueue];
@@ -848,8 +876,11 @@
 #pragma mark - Buttons management
 
 - (void)backToReadItemAction:(UIBarButtonItem *)sender {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:self.path]) {
-        ReaderDocument *document = [ReaderDocument withDocumentFilePath:self.path password:nil];
+    
+    NSString *fullPath = [self.localPath stringByAppendingPathComponent:self.path];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
+        ReaderDocument *document = [ReaderDocument withDocumentFilePath:fullPath password:nil];
         if (document != nil) // Must have a valid ReaderDocument object in order to proceed with things
         {
             ReaderViewController *readerViewController = [[ReaderViewController alloc] initWithReaderDocument:document];
