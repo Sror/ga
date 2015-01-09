@@ -383,14 +383,14 @@
 
 	[[ReaderThumbCache sharedInstance] removeAllObjects]; // Empty the thumb cache
 
-	if ([delegate respondsToSelector:@selector(dismissReaderViewController:)] == YES)
-	{
-		[delegate dismissReaderViewController:self]; // Dismiss the ReaderViewController
-	}
-	else // We have a "Delegate must respond to -dismissReaderViewController:" error
-	{
-		NSAssert(NO, @"Delegate must respond to -dismissReaderViewController:");
-	}
+//	if ([delegate respondsToSelector:@selector(dismissReaderViewController:)] == YES)
+//	{
+//		[delegate dismissReaderViewController:self]; // Dismiss the ReaderViewController
+//	}
+//	else // We have a "Delegate must respond to -dismissReaderViewController:" error
+//	{
+//		NSAssert(NO, @"Delegate must respond to -dismissReaderViewController:");
+//	}
 }
 
 #pragma mark - UIViewController methods
