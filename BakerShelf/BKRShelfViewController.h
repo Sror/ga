@@ -64,6 +64,7 @@
 @property (nonatomic, strong) BKRShelfHeaderView *headerView;
 @property (nonatomic, strong) UIBarButtonItem *refreshButton;
 @property (nonatomic, strong) UIBarButtonItem *subscribeButton;
+@property (strong, nonatomic) UIBarButtonItem *backToReadItem;
 @property (strong, nonatomic) UIBarButtonItem *infoItem;
 @property (strong, nonatomic) UIBarButtonItem *shareItem;
 @property (strong, nonatomic) UIBarButtonItem *helpItem;
@@ -73,6 +74,7 @@
 @property (nonatomic, strong) UIActionSheet *subscriptionsActionSheet;
 @property (nonatomic, strong) NSArray *subscriptionsActionSheetActions;
 @property (nonatomic, strong) UIAlertView *blockingProgressView;
+@property (nonatomic, strong) NSString *path;
 
 @property (nonatomic, copy) NSString *bookToBeProcessed;
 
@@ -97,7 +99,7 @@
 - (void)setrefreshButtonEnabled:(BOOL)enabled;
 - (void)setSubscribeButtonEnabled:(BOOL)enabled;
 - (void)handleSubscribeButtonPressed:(NSNotification *)notification;
-
+- (void)readLastBook:(NSString *) path;
 #pragma mark - Helper methods
 - (int)getBannerHeight;
 

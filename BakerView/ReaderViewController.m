@@ -31,6 +31,7 @@
 #import "ReaderContentView.h"
 #import "ReaderThumbCache.h"
 #import "ReaderThumbQueue.h"
+#import "BKRShelfViewController.h"
 
 #import <MessageUI/MessageUI.h>
 #import "ReaderAdvertisersViewController.h"
@@ -865,6 +866,11 @@
 #if (READER_STANDALONE == FALSE) // Option
 
 	//[self closeDocument]; // Close ReaderViewController
+    NSString *path = [document.fileURL path];
+    //BKRIssueViewController *vc = [[[[UIApplication sharedApplication]windows] lastObject] rootViewController];
+    BKRShelfViewController *vc = self.navigationController.viewControllers.firstObject;
+    vc.path = path;
+    //[[self.navigationController.viewControllers firstObject] path] = path;
     [self.navigationController popToRootViewControllerAnimated:YES];
 #endif // end of READER_STANDALONE Option
 }
