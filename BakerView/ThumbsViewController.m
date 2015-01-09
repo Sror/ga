@@ -41,7 +41,7 @@
 
 	ThumbsMainToolbar *mainToolbar;
 
-	ReaderThumbsView *theThumbsView;
+//	ReaderThumbsView *_currentThumbsView;
 
 	NSMutableArray *bookmarked;
 
@@ -172,14 +172,14 @@
     
     scrollViewInsets.top = TOOLBAR_HEIGHT;
     
-	theThumbsView = [[ReaderThumbsView alloc] initWithFrame:scrollViewRect]; // ReaderThumbsView
-	theThumbsView.contentInset = scrollViewInsets; theThumbsView.scrollIndicatorInsets = scrollViewInsets;
-	theThumbsView.delegate = self; // ReaderThumbsViewDelegate
-	[self.view insertSubview:theThumbsView belowSubview:mainToolbar];
+	_currentThumbsView = [[ReaderThumbsView alloc] initWithFrame:scrollViewRect]; // ReaderThumbsView
+	_currentThumbsView.contentInset = scrollViewInsets; _currentThumbsView.scrollIndicatorInsets = scrollViewInsets;
+	_currentThumbsView.delegate = self; // ReaderThumbsViewDelegate
+	[self.view insertSubview:_currentThumbsView belowSubview:mainToolbar];
 
 	BOOL large = ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad);
 	CGFloat thumbSize = (large ? PAGE_THUMB_LARGE : PAGE_THUMB_SMALL); // Thumb dimensions
-	[theThumbsView setThumbSize:CGSizeMake(thumbSize, thumbSize)]; // Set the thumb size
+	[_currentThumbsView setThumbSize:CGSizeMake(thumbSize, thumbSize)]; // Set the thumb size
 }
 
 
@@ -187,7 +187,7 @@
 {
 	[super viewWillAppear:animated];
 
-	[theThumbsView reloadThumbsCenterOnIndex:([document.pageNumber integerValue] - 1)]; // Page
+	[_currentThumbsView reloadThumbsCenterOnIndex:([document.pageNumber integerValue] - 1)]; // Page
     
 }
 
@@ -213,7 +213,7 @@
 	NSLog(@"%s", __FUNCTION__);
 #endif
 
-	mainToolbar = nil; theThumbsView = nil;
+	mainToolbar = nil; _currentThumbsView = nil;
 
 	[super viewDidUnload];
 }
@@ -308,9 +308,9 @@
 		{
 			showBookmarked = NO; // Show all thumbs
 
-			markedOffset = [theThumbsView insetContentOffset];
+			markedOffset = [_currentThumbsView insetContentOffset];
 
-			[theThumbsView reloadThumbsContentOffset:thumbsOffset];
+			[_currentThumbsView reloadThumbsContentOffset:thumbsOffset];
 
 			break; // We're done
 		}
@@ -319,7 +319,7 @@
 		{
 			showBookmarked = YES; // Only bookmarked
 
-			thumbsOffset = [theThumbsView insetContentOffset];
+			thumbsOffset = [_currentThumbsView insetContentOffset];
 
 			if (updateBookmarked == YES) // Update bookmarked list
 			{
@@ -335,7 +335,7 @@
 				markedOffset = CGPointZero; updateBookmarked = NO; // Reset
 			}
 
-			[theThumbsView reloadThumbsContentOffset:markedOffset];
+			[_currentThumbsView reloadThumbsContentOffset:markedOffset];
 
 			break; // We're done
 		}
@@ -346,6 +346,7 @@
 {
 	[delegate dismissThumbsViewController:self]; // Dismiss thumbs display
 }
+
 
 #pragma mark - UIThumbsViewDelegate methods
 

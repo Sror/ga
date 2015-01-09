@@ -36,7 +36,7 @@
 #import "ReaderAdvertisersViewController.h"
 
 @interface ReaderViewController () <UIScrollViewDelegate, UIGestureRecognizerDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate,
-									ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate, ThumbsViewControllerDelegate>
+									ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate, ThumbsViewControllerDelegate, ReaderThumbsViewDelegate>
 @end
 
 @implementation ReaderViewController
@@ -145,6 +145,10 @@
     [self updateContentViews:theScrollView];
     //Force recompute view
     [self showDocumentPage:futureCurrentPage forceRedraw:true];
+}
+
+- (void)upView {
+    [self updateContentViews:theScrollView];
 }
 
 - (void)updateContentViews:(UIScrollView *)scrollView
@@ -472,6 +476,7 @@
 	[self.view addSubview:mainToolbar];
     
     sideBarViewController = [[ThumbsViewController alloc] initWithReaderDocument:document];
+    sideBarViewController.currentThumbsView.delegate = self;
     sideBarViewController.delegate = self;
     
     [self addChildViewController:sideBarViewController];
@@ -1019,9 +1024,18 @@
 	{
 		[document.bookmarks addIndex:currentPage]; [mainToolbar setBookmarkState:YES];
 	}
-
+    [sideBarViewController.currentThumbsView refreshThumbWithIndex:currentPage];
+    [sideBarViewController.currentThumbsView refreshVisibleThumbs];
+//    [sideBarViewController.currentThumbsView thumbsView1:sideBarViewController.currentThumbsView didPressThumbWithIndex:currentPage];
+////    updateBookmarked = YES; [thumbsView refreshThumbWithIndex:index]; // Refresh page thumb
+//    [sideBarViewController.currentThumbsView refr
+////    [sideBarViewController.currentThumbsView refreshThumbWithIndex1:currentPage];
+//    //[sideBarViewController.currentThumbsView refreshVisibleThumbs];
 #endif // end of READER_BOOKMARKS Option
 }
+
+
+
 
 #pragma mark - MFMailComposeViewControllerDelegate methods
 

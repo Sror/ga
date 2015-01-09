@@ -28,6 +28,7 @@
 #import "ThumbsMainToolbar.h"
 #import "ReaderThumbsView.h"
 
+
 @class ReaderDocument;
 @class ThumbsViewController;
 
@@ -44,6 +45,7 @@
 @interface ThumbsViewController : UIViewController
 
 @property (nonatomic, weak, readwrite) id <ThumbsViewControllerDelegate> delegate;
+@property (nonatomic, strong) ReaderThumbsView *currentThumbsView;
 
 - (instancetype)initWithReaderDocument:(ReaderDocument *)object;
 @end
@@ -61,5 +63,6 @@
 - (void)showText:(NSString *)text;
 
 - (void)showBookmark:(BOOL)show;
+
 
 @end
