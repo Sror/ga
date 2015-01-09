@@ -1025,7 +1025,8 @@
 	{
 		[document.bookmarks addIndex:currentPage]; [mainToolbar setBookmarkState:YES];
 	}
-
+    
+    [sideBarViewController markThumbAndRefresh:currentPage];
 #endif // end of READER_BOOKMARKS Option
 }
 

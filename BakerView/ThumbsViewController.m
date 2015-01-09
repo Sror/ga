@@ -89,6 +89,13 @@
 	return self;
 }
 
+- (ReaderThumbsView *)getThumbsView
+{
+    return theThumbsView;
+}
+
+
+
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
@@ -400,7 +407,55 @@
 
 	if ([document.bookmarks containsIndex:page]) [document.bookmarks removeIndex:page]; else [document.bookmarks addIndex:page];
 
-	updateBookmarked = YES; [thumbsView refreshThumbWithIndex:index]; // Refresh page thumb
+	updateBookmarked = YES;
+    // TODO: CHECK ORIENTATION to mark correctly
+    [thumbsView refreshThumbWithIndex:index]; // Refresh page thumb
+}
+
+- (void)markThumbAndRefresh:(NSInteger)index
+{
+//    if (showBookmarked == NO) {
+        //[self thumbsView:theThumbsView didPressThumbWithIndex:index];
+//        markedOffset = [theThumbsView insetContentOffset];
+//        [theThumbsView reloadThumbsContentOffset:thumbsOffset];
+        
+//        NSInteger page = index + 1;
+//        if ([document.bookmarks containsIndex:page]) {
+//            [document.bookmarks removeIndex:page];
+//        }
+//        else {
+//            [document.bookmarks addIndex:page];
+//        }
+//        
+//        updateBookmarked = YES;
+//        [theThumbsView refreshThumbWithIndex:index];
+//    } else {
+//        [bookmarked removeAllObjects]; // Empty the list first
+//            
+//        [document.bookmarks enumerateIndexesUsingBlock: // Enumerate
+//             ^(NSUInteger page, BOOL *stop)
+//             {
+//                 [bookmarked addObject:[NSNumber numberWithInteger:page]];
+//             }
+//             ];
+//            
+//            markedOffset = CGPointZero; updateBookmarked = NO; // Reset
+//        
+//        [theThumbsView reloadThumbsContentOffset:markedOffset];
+//    }
+    
+    [bookmarked removeAllObjects]; // Empty the list first
+    
+    [document.bookmarks enumerateIndexesUsingBlock: // Enumerate
+     ^(NSUInteger page, BOOL *stop)
+     {
+         [bookmarked addObject:[NSNumber numberWithInteger:page]];
+     }
+     ];
+    
+    markedOffset = CGPointZero; updateBookmarked = NO; // Reset
+    
+    [theThumbsView reloadThumbsContentOffset:[theThumbsView insetContentOffset]];
 }
 
 @end
