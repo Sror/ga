@@ -210,6 +210,19 @@
 
 	NSURL *fileURL = document.fileURL; NSString *phrase = document.password; NSString *guid = document.guid; // Document properties
 
+    NSString *pageStr = [NSString stringWithFormat:@"%d", page];
+    if ([document.images objectForKey:pageStr]) {
+        //addGalleryView for page
+        NSLog(@"Fuck has img");
+        NSLog(@"%@", [document.images objectForKey:pageStr]);
+    }
+    
+    if ([document.video objectForKey:pageStr]) {
+        //addGalleryView for page
+        NSLog(@"Fuck has video");
+        NSLog(@"%@", [document.video objectForKey:pageStr]);
+    }
+    
 	ReaderContentView *contentView = [[ReaderContentView alloc] initWithFrame:viewRect fileURL:fileURL page:renderPage password:phrase doublePage:renderDoublePage]; // ReaderContentView
 
 	contentView.message = self; [contentViews setObject:contentView forKey:[NSNumber numberWithInteger:page]]; [scrollView addSubview:contentView];
