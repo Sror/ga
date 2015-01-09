@@ -31,6 +31,7 @@
 #import "ReaderContentView.h"
 #import "ReaderThumbCache.h"
 #import "ReaderThumbQueue.h"
+#import "BKRShelfViewController.h"
 
 #import <MessageUI/MessageUI.h>
 #import "ReaderAdvertisersViewController.h"
@@ -382,14 +383,14 @@
 
 	[[ReaderThumbCache sharedInstance] removeAllObjects]; // Empty the thumb cache
 
-	if ([delegate respondsToSelector:@selector(dismissReaderViewController:)] == YES)
-	{
-		[delegate dismissReaderViewController:self]; // Dismiss the ReaderViewController
-	}
-	else // We have a "Delegate must respond to -dismissReaderViewController:" error
-	{
-		NSAssert(NO, @"Delegate must respond to -dismissReaderViewController:");
-	}
+//	if ([delegate respondsToSelector:@selector(dismissReaderViewController:)] == YES)
+//	{
+//		[delegate dismissReaderViewController:self]; // Dismiss the ReaderViewController
+//	}
+//	else // We have a "Delegate must respond to -dismissReaderViewController:" error
+//	{
+//		NSAssert(NO, @"Delegate must respond to -dismissReaderViewController:");
+//	}
 }
 
 #pragma mark - UIViewController methods
@@ -864,7 +865,12 @@
 {
 #if (READER_STANDALONE == FALSE) // Option
 
-	//[self closeDocument]; // Close ReaderViewController
+	[self closeDocument]; // Close ReaderViewController
+    NSString *path = [document.fileURL path];
+    //BKRIssueViewController *vc = [[[[UIApplication sharedApplication]windows] lastObject] rootViewController];
+    BKRShelfViewController *vc = self.navigationController.viewControllers.firstObject;
+    vc.path = path;
+    //[[self.navigationController.viewControllers firstObject] path] = path;
     [self.navigationController popToRootViewControllerAnimated:YES];
 #endif // end of READER_STANDALONE Option
 }
@@ -1019,7 +1025,8 @@
 	{
 		[document.bookmarks addIndex:currentPage]; [mainToolbar setBookmarkState:YES];
 	}
-
+    
+    [sideBarViewController markThumbAndRefresh:currentPage];
 #endif // end of READER_BOOKMARKS Option
 }
 

@@ -36,6 +36,7 @@
 #import "BKRIssueViewController.h"
 #import "BKRZipArchive.h"
 #import "BKRPurchasesManager.h"
+#import "BKRShelfViewController.h"
 
 #import "UIColor+BakerExtensions.h"
 #import "UIScreen+BakerExtensions.h"
@@ -80,6 +81,9 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
 
+    
+    
+    
     UI ui = [BKRIssueViewController getIssueContentMeasures];
 
     self.issueCover = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -176,6 +180,7 @@
     
     [self refreshContentWithCache:NO];
 }
+
 
 - (void)refreshContentWithCache:(bool)cache {
     UIFont *titleFont = [UIFont fontWithName:[BKRSettings sharedSettings].issuesTitleFont
@@ -545,6 +550,12 @@
 
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1){
+        
+        NSDictionary* dictionary = [NSDictionary dictionaryWithObject:self.issue.path forKey:@"archive_button_notification_info_key"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"archive_button_notification"
+                                                            object:nil
+                                                          userInfo:dictionary];
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"BakerIssueArchive" object:self]; // -> Baker Analytics Event
         
         NKLibrary *nkLib = [NKLibrary sharedLibrary];
@@ -621,12 +632,13 @@
     
     CGFloat screenWidth = [[UIScreen mainScreen] bkrWidthForOrientation:orientation];
     int cellHeight      = [BKRIssueViewController getIssueCellHeight];
+    return CGSizeMake((screenWidth - 10)/2, cellHeight);
     
-    if (screenWidth > 700) {
-        return CGSizeMake(screenWidth/2, cellHeight);
-    } else {
-        return CGSizeMake(screenWidth, cellHeight);
-    }
+//    if (screenWidth > 700) {
+//        return CGSizeMake(screenWidth/2, cellHeight);
+//    } else {
+//        return CGSizeMake(screenWidth, cellHeight);
+//    }
     
     /*
     CGRect screenRect   = [UIScreen mainScreen].bounds;

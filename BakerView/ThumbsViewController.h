@@ -46,6 +46,8 @@
 @property (nonatomic, weak, readwrite) id <ThumbsViewControllerDelegate> delegate;
 
 - (instancetype)initWithReaderDocument:(ReaderDocument *)object;
+- (ReaderThumbsView *)getThumbsView;
+- (void)markThumbAndRefresh:(NSInteger)index;
 @end
 
 #pragma mark -

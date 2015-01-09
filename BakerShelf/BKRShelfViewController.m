@@ -47,6 +47,8 @@
 #import "NSString+BakerExtensions.h"
 #import "BKRUtils.h"
 
+#import <objc/runtime.h>
+
 #import "MBProgressHUD.h"
 
 @interface BKRShelfViewController ()<MFMailComposeViewControllerDelegate>
@@ -121,9 +123,14 @@
 }
 
 #pragma mark - View lifecycle
+//- (void)dealloc {
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(archiveButtonPushed:) name:@"archive_button_notification" object:nil];
     
     self.navigationItem.title = NSLocalizedString(@"SHELF_NAVIGATION_TITLE", nil);
     
@@ -180,6 +187,11 @@
                                  target:self
                                  action:@selector(handleSubscribeButtonPressed:)];
         
+        self.backToReadItem = [[UIBarButtonItem alloc]
+                               initWithImage:[UIImage imageNamed:@"bar_read"]
+                               style:UIBarButtonItemStylePlain
+                               target:self
+                               action:@selector(backToReadItemAction:)];
         
 //        //self.calendarButton = [[UIBarButtonItem alloc]
 //                               initWithTitle: NSLocalizedString(@"SUBSCRIBE_BUTTON_TEXT", nil)
@@ -209,6 +221,16 @@
     }
 }
 
+- (void)archiveButtonPushed:(NSNotification *)notification {
+    NSString *path = [notification.userInfo objectForKey:@"archive_button_notification_info_key"];
+    NSLog(@"File deleted!!!");
+    NSLog(@"%@",path);
+    
+    self.backToReadItem.enabled = [path isEqualToString:[self.path stringByDeletingLastPathComponent]] ? NO : YES;
+   // ([[NSFileManager defaultManager] fileExistsAtPath:self.path] == YES ) ? YES : NO;
+    NSLog(@"%@",self.path);
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
@@ -226,6 +248,10 @@
         if ([purchasesManager hasSubscriptions] || [issuesManager hasProductIDs]) {
             [buttonItems addObject:self.subscribeButton];
         }
+        
+        [buttonItems addObject:self.backToReadItem];
+        
+        self.backToReadItem.enabled = ([[NSFileManager defaultManager] fileExistsAtPath:self.path]);
         self.navigationItem.leftBarButtonItems = buttonItems;
         
         // Remove limbo transactions
@@ -322,6 +348,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleReadIssue:) name:@"read_issue_request" object:controller];
     return controller;
 }
+
 
 - (BOOL)prefersStatusBarHidden {
     return NO;
@@ -730,6 +757,7 @@
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
 }
 
+
 - (void)readIssue:(BKRIssue*)issue
 {
     BKRBook *book = nil;
@@ -805,6 +833,25 @@
 }
 
 #pragma mark - Buttons management
+
+- (void)backToReadItemAction:(UIBarButtonItem *)sender {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.path]) {
+        ReaderDocument *document = [ReaderDocument withDocumentFilePath:self.path password:nil];
+        if (document != nil) // Must have a valid ReaderDocument object in order to proceed with things
+        {
+            ReaderViewController *readerViewController = [[ReaderViewController alloc] initWithReaderDocument:document];
+            readerViewController.delegate = self; // Set the ReaderViewController delegate to self
+            [self.navigationController pushViewController:readerViewController animated:YES];
+        }
+        else // Log an error so that we know that something went wrong
+        {
+            NSLog(@"%s [ReaderDocument withDocumentFilePath:'%@' password:'%@'] failed.", __FUNCTION__, nil);
+        }
+    }else{
+        [[[UIAlertView alloc]initWithTitle:@"Error" message:@"Sorry, last read book does`t exist" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil]show];
+    }
+    
+}
 
 - (void)handleShareButtonPressed:(id)sender {
     // Create the item to share (in this example, a url)
@@ -957,6 +1004,8 @@
 }
 
 - (NSString *)getOrientationString {
+//    return @"Landscape";
+    NSLog(@"%d",UIInterfaceOrientationIsLandscape(self.interfaceOrientation));
     return UIInterfaceOrientationIsLandscape(self.interfaceOrientation) ? @"Landscape" : @"Portrait";
 }
 

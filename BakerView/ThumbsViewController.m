@@ -89,6 +89,13 @@
 	return self;
 }
 
+- (ReaderThumbsView *)getThumbsView
+{
+    return theThumbsView;
+}
+
+
+
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
@@ -400,7 +407,55 @@
 
 	if ([document.bookmarks containsIndex:page]) [document.bookmarks removeIndex:page]; else [document.bookmarks addIndex:page];
 
-	updateBookmarked = YES; [thumbsView refreshThumbWithIndex:index]; // Refresh page thumb
+	updateBookmarked = YES;
+    // TODO: CHECK ORIENTATION to mark correctly
+    [thumbsView refreshThumbWithIndex:index]; // Refresh page thumb
+}
+
+- (void)markThumbAndRefresh:(NSInteger)index
+{
+//    if (showBookmarked == NO) {
+        //[self thumbsView:theThumbsView didPressThumbWithIndex:index];
+//        markedOffset = [theThumbsView insetContentOffset];
+//        [theThumbsView reloadThumbsContentOffset:thumbsOffset];
+        
+//        NSInteger page = index + 1;
+//        if ([document.bookmarks containsIndex:page]) {
+//            [document.bookmarks removeIndex:page];
+//        }
+//        else {
+//            [document.bookmarks addIndex:page];
+//        }
+//        
+//        updateBookmarked = YES;
+//        [theThumbsView refreshThumbWithIndex:index];
+//    } else {
+//        [bookmarked removeAllObjects]; // Empty the list first
+//            
+//        [document.bookmarks enumerateIndexesUsingBlock: // Enumerate
+//             ^(NSUInteger page, BOOL *stop)
+//             {
+//                 [bookmarked addObject:[NSNumber numberWithInteger:page]];
+//             }
+//             ];
+//            
+//            markedOffset = CGPointZero; updateBookmarked = NO; // Reset
+//        
+//        [theThumbsView reloadThumbsContentOffset:markedOffset];
+//    }
+    
+    [bookmarked removeAllObjects]; // Empty the list first
+    
+    [document.bookmarks enumerateIndexesUsingBlock: // Enumerate
+     ^(NSUInteger page, BOOL *stop)
+     {
+         [bookmarked addObject:[NSNumber numberWithInteger:page]];
+     }
+     ];
+    
+    markedOffset = CGPointZero; updateBookmarked = NO; // Reset
+    
+    [theThumbsView reloadThumbsContentOffset:[theThumbsView insetContentOffset]];
 }
 
 @end
@@ -459,20 +514,24 @@
 
 		imageView.frame = defaultRect; // Update the image view frame
 
-		CGFloat fontSize = (([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) ? 19.0f : 16.0f);
-
-		textLabel = [[UILabel alloc] initWithFrame:defaultRect];
-
+        CGFloat fontSize = 20.0f;
+        //(([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) ? 19.0f : 16.0f);
+        //CHANGE NUMBERS IMAGING ON THUMBS
+        textLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0, self.bounds.size.height/2 - 40 , 80, 80)];
+                     //frame];
+        //textLabel.frame.origin = CGRectMake( -100, frame.size.height/2 - 40 , 80, 80);
 		textLabel.autoresizesSubviews = NO;
 		textLabel.userInteractionEnabled = NO;
 		textLabel.contentMode = UIViewContentModeRedraw;
 		textLabel.autoresizingMask = UIViewAutoresizingNone;
 		textLabel.textAlignment = NSTextAlignmentCenter;
 		textLabel.font = [UIFont systemFontOfSize:fontSize];
-		textLabel.textColor = [UIColor colorWithWhite:0.24f alpha:1.0f];
-		textLabel.backgroundColor = [UIColor whiteColor];
-
-		[self insertSubview:textLabel belowSubview:imageView];
+		textLabel.textColor = [UIColor whiteColor];
+		textLabel.backgroundColor = [UIColor clearColor];
+        //[UIColor clearColor];
+        
+        [self addSubview:textLabel];
+		//[self insertSubview:textLabel aboveSubview:imageView];
 
 		backView = [[UIView alloc] initWithFrame:defaultRect];
 
@@ -480,7 +539,8 @@
 		backView.userInteractionEnabled = NO;
 		backView.contentMode = UIViewContentModeRedraw;
 		backView.autoresizingMask = UIViewAutoresizingNone;
-		backView.backgroundColor = [UIColor whiteColor];
+        backView.backgroundColor = [UIColor clearColor];
+//        [UIColor colorWithWhite:0.25 alpha:0.9];
 
 #if (READER_SHOW_SHADOWS == TRUE) // Option
 
@@ -534,7 +594,7 @@
 
 	CGRect viewRect = CGRectZero; viewRect.size = image.size;
 
-	textLabel.bounds = viewRect; textLabel.center = location; // Position
+	textLabel.frame = viewRect; textLabel.center = CGPointMake(10, y); // Position
 
 	imageView.bounds = viewRect; imageView.center = location; imageView.image = image;
 
