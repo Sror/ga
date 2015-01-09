@@ -865,7 +865,7 @@
 {
 #if (READER_STANDALONE == FALSE) // Option
 
-	//[self closeDocument]; // Close ReaderViewController
+	[self closeDocument]; // Close ReaderViewController
 
     NSArray *pathComponents = [document.fileURL pathComponents];
     
