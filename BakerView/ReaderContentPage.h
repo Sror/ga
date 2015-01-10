@@ -27,8 +27,7 @@
 
 @interface ReaderContentPage : UIView
 
-- (instancetype)initWithURL:(NSURL *)fileURL page:(NSInteger)page password:(NSString *)phrase;
-
+- (instancetype)initWithURL:(NSURL *)fileURL page:(NSInteger)page password:(NSString *)phrase videos:(NSArray *)videosArray images:(NSArray *)imagesArray;
 - (id)processSingleTap:(UITapGestureRecognizer *)recognizer;
 
 @end

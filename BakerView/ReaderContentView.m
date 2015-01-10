@@ -31,7 +31,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface ReaderContentView () <UIScrollViewDelegate>
-
+@property (strong, nonatomic) UIButton *videoButton;
+@property (strong, nonatomic) UIButton *imageButton;
 @end
 
 @implementation ReaderContentView
@@ -53,6 +54,9 @@
 	BOOL zoomBounced;
     
     BOOL hasLandscapeDoublePage;
+    
+    NSArray *arrayOfVideos;
+    NSArray *arrayOfImages;
 }
 
 #pragma mark - Constants
@@ -62,6 +66,9 @@
 
 #define PAGE_THUMB_LARGE 240
 #define PAGE_THUMB_SMALL 144
+
+#define BUTTON_WIDTH 40.0f
+#define BUTTON_HEIGHT 40.0f
 
 static void *ReaderContentViewContext = &ReaderContentViewContext;
 
@@ -116,7 +123,7 @@ static inline CGFloat zoomScaleThatFits(CGSize target, CGSize source, CGFloat bf
 	if (UIEdgeInsetsEqualToEdgeInsets(self.contentInset, insets) == false) self.contentInset = insets;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame fileURL:(NSURL *)fileURL page:(NSUInteger)page password:(NSString *)phrase doublePage:(BOOL)doublePage
+- (instancetype)initWithFrame:(CGRect)frame fileURL:(NSURL *)fileURL page:(NSUInteger)page password:(NSString *)phrase doublePage:(BOOL)doublePage videoFiles:(NSArray *)videos imageFiles:(NSArray *)images nextVideo:(NSArray *) video1 nextImage:(NSArray *)image1
 {
 	if ((self = [super initWithFrame:frame]))
 	{
@@ -130,7 +137,8 @@ static inline CGFloat zoomScaleThatFits(CGSize target, CGSize source, CGFloat bf
 		self.autoresizesSubviews = NO;
 		self.clipsToBounds = NO;
 		self.delegate = self;
-
+        
+        
 		userInterfaceIdiom = [UIDevice currentDevice].userInterfaceIdiom; // User interface idiom
 
 #ifndef __arm64__ // Only under 32-bit iOS
@@ -145,7 +153,7 @@ static inline CGFloat zoomScaleThatFits(CGSize target, CGSize source, CGFloat bf
 		}
 #endif // End of only under 32-bit iOS code
 
-		theContentPage = [[ReaderContentPage alloc] initWithURL:fileURL page:page password:phrase];
+		theContentPage = [[ReaderContentPage alloc] initWithURL:fileURL page:page password:phrase videos:videos images:images];
 
         theContentPage1 = nil;
         theThumbView1 = nil;
@@ -159,7 +167,7 @@ static inline CGFloat zoomScaleThatFits(CGSize target, CGSize source, CGFloat bf
             if(doublePage){
                 theContentPage.frame=CGRectMake(theContentPage.frame.origin.x, theContentPage.frame.origin.y,theContentPage.frame.size.width/2, theContentPage.frame.size.height/2);
                 //if double page 2
-                theContentPage1 = [[ReaderContentPage alloc] initWithURL:fileURL page:page+1 password:phrase];
+                theContentPage1 = [[ReaderContentPage alloc] initWithURL:fileURL page:page+1 password:phrase videos:video1 images:image1];
                 theContentPage1.frame =CGRectMake(theContentPage.frame.size.width, theContentPage.frame.origin.y,theContentPage.frame.size.width, theContentPage.frame.size.height);
                 
                 containerFrame = CGRectMake(theContentPage.frame.origin.x, theContentPage.frame.origin.y, theContentPage.frame.size.width*2, theContentPage.frame.size.height);
@@ -189,7 +197,8 @@ static inline CGFloat zoomScaleThatFits(CGSize target, CGSize source, CGFloat bf
 			theThumbView = [[ReaderContentThumb alloc] initWithFrame:theContentPage.bounds]; // Page thumb view
             
             [theContainerView addSubview:theThumbView]; // Add the page thumb view to the container view
-
+            
+            
             if (theContentPage1) {
                 theThumbView1 = [[ReaderContentThumb alloc] initWithFrame:theContentPage1.frame];
                 [theContainerView addSubview:theThumbView1]; // Add the page thumb view to the container view
@@ -200,6 +209,7 @@ static inline CGFloat zoomScaleThatFits(CGSize target, CGSize source, CGFloat bf
             if (theContentPage1) {
                 [theContainerView addSubview:theContentPage1];
             }
+            
 			[self addSubview:theContainerView]; // Add the container view to the scroll view
 
 			[self updateMinimumMaximumZoom]; // Update the minimum and maximum zoom scales
@@ -214,10 +224,17 @@ static inline CGFloat zoomScaleThatFits(CGSize target, CGSize source, CGFloat bf
 
 	return self;
 }
+-(void)videoButtonAction:(UIButton *) sender{
+    NSLog(@"VIDEO");
+}
+
+-(void)imageButtonAction:(UIButton *) sender{
+    NSLog(@"IMAGE");
+}
 
 - (instancetype)initWithFrame:(CGRect)frame fileURL:(NSURL *)fileURL page:(NSUInteger)page password:(NSString *)phrase
 {
-    return [self initWithFrame:frame fileURL:fileURL page:page password:phrase doublePage:false];
+    return [self initWithFrame:frame fileURL:fileURL page:page password:phrase doublePage:false videoFiles:nil imageFiles:nil nextVideo:nil nextImage:nil];
 }
 
 - (void)dealloc

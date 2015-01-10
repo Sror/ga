@@ -286,11 +286,9 @@
 //        self.view.frame = rect;
 //    }];
 
-    NSLog(@"3");
-//
+
 //    
 //    self.view.frame = CGRectMake(CGRectGetWidth([[UIScreen mainScreen] bounds]) - THUMBS_BAR_WIDTH, TOOLBAR_HEIGHT, THUMBS_BAR_WIDTH, CGRectGetHeight([[UIScreen mainScreen] bounds]) - TOOLBAR_HEIGHT);
-    NSLog(@"%f, %f ",CGRectGetWidth([[UIScreen mainScreen] applicationFrame]), CGRectGetHeight([[UIScreen mainScreen] applicationFrame]));
 }
 
 
@@ -500,7 +498,7 @@
 {
 	if ((self = [super initWithFrame:frame]))
 	{
-		imageView.contentMode = UIViewContentModeCenter;
+        imageView.contentMode = UIViewContentModeCenter;
 
 		defaultRect = CGRectInset(self.bounds, CONTENT_INSET, CONTENT_INSET);
 
@@ -515,11 +513,10 @@
 		imageView.frame = defaultRect; // Update the image view frame
 
         CGFloat fontSize = 20.0f;
-        //(([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) ? 19.0f : 16.0f);
+       
         //CHANGE NUMBERS IMAGING ON THUMBS
         textLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0, self.bounds.size.height/2 - 40 , 80, 80)];
-                     //frame];
-        //textLabel.frame.origin = CGRectMake( -100, frame.size.height/2 - 40 , 80, 80);
+        
 		textLabel.autoresizesSubviews = NO;
 		textLabel.userInteractionEnabled = NO;
 		textLabel.contentMode = UIViewContentModeRedraw;

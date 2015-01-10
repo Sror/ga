@@ -61,7 +61,7 @@
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(CGRectGetWidth(self.toolBar.bounds) - BUTTON_WIDTH * 2 - 5, 5, BUTTON_WIDTH * 2, BUTTON_HEIGHT);
     backButton.backgroundColor = [UIColor clearColor];
-    backButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+    backButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [backButton addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setTitle:@"Advertisers" forState:UIControlStateNormal];
     [backButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];

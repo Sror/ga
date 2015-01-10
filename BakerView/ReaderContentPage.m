@@ -43,6 +43,9 @@
 
 	CGFloat _pageOffsetX;
 	CGFloat _pageOffsetY;
+    
+    NSArray *videos;
+    NSArray *images;
 }
 
 #pragma mark - ReaderContentPage class methods
@@ -420,7 +423,7 @@
 	return self;
 }
 
-- (instancetype)initWithURL:(NSURL *)fileURL page:(NSInteger)page password:(NSString *)phrase
+- (instancetype)initWithURL:(NSURL *)fileURL page:(NSInteger)page password:(NSString *)phrase videos:(NSArray *)videosArray images:(NSArray *)imagesArray
 {
 	CGRect viewRect = CGRectZero; // View rect
 
@@ -493,13 +496,42 @@
 	{
 		NSAssert(NO, @"fileURL == nil");
 	}
-
+    
+    videos = videosArray;
+    images = imagesArray;
+    
 	ReaderContentPage *view = [self initWithFrame:viewRect];
 
 	if (view != nil) [self buildAnnotationLinksList];
-
-	return view;
+    
+    if (videos) {
+        UIButton *videoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        videoButton.frame = CGRectMake(200 ,200, 40, 40);
+        [videoButton addTarget:self action:@selector(videoButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        videoButton.backgroundColor = [UIColor blackColor];
+        [view addSubview:videoButton];
+        videoButton.exclusiveTouch = YES;
+    }
+    
+    if (images) {
+        UIButton *imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        imageButton.frame = CGRectMake(200 , 200, 40, 40);
+        [imageButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        imageButton.backgroundColor = [UIColor redColor];
+        [view addSubview:imageButton];
+        imageButton.exclusiveTouch = YES;
+    }
+    return view;
 }
+
+- (void)imageButtonAction:(UIButton *)sender{
+    NSLog(@"IMAGE");
+}
+
+- (void)videoButtonAction:(UIButton *)sender{
+    NSLog(@"VIDEO");
+}
+
 
 - (void)removeFromSuperview
 {

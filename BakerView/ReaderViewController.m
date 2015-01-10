@@ -32,6 +32,7 @@
 #import "ReaderThumbCache.h"
 #import "ReaderThumbQueue.h"
 #import "BKRShelfViewController.h"
+#import "ReaderMediaViewController.h"
 
 #import <MessageUI/MessageUI.h>
 #import "ReaderAdvertisersViewController.h"
@@ -51,6 +52,8 @@
 	ReaderMainToolbar *mainToolbar;
 
 	ReaderMainPagebar *mainPagebar;
+    
+    ReaderMediaViewController *view;
 
 	NSMutableDictionary *contentViews;
 
@@ -71,6 +74,10 @@
 	NSDate *lastHideTime;
 
 	BOOL ignoreDidScroll;
+    UIButton *videoButton;
+    UIButton *videoButton1;
+    UIButton *imageButton;
+    UIButton *imageButton1;
 }
 
 #pragma mark - Constants
@@ -87,6 +94,10 @@
 
 #define LANDSCAPE_DOUBLE_PAGE true
 #define LANDSCAPE_SINGLE_FIRST_PAGE true
+
+#define ICON_WIDTH 30.0f
+#define ICON_HEIGHT 30.0f
+
 
 #define TAP_AREA_SIZE 48.0f
 
@@ -211,6 +222,7 @@
 	NSURL *fileURL = document.fileURL; NSString *phrase = document.password; NSString *guid = document.guid; // Document properties
 
     NSString *pageStr = [NSString stringWithFormat:@"%d", page];
+    NSString *nextPageStr = [NSString stringWithFormat:@"%d",page+1];
     if ([document.images objectForKey:pageStr]) {
         //addGalleryView for page
         NSLog(@"Fuck has img");
@@ -223,7 +235,7 @@
         NSLog(@"%@", [document.video objectForKey:pageStr]);
     }
     
-	ReaderContentView *contentView = [[ReaderContentView alloc] initWithFrame:viewRect fileURL:fileURL page:renderPage password:phrase doublePage:renderDoublePage]; // ReaderContentView
+    ReaderContentView *contentView = [[ReaderContentView alloc] initWithFrame:viewRect fileURL:fileURL page:renderPage password:phrase doublePage:renderDoublePage videoFiles:[document.video objectForKey:pageStr] imageFiles:[document.images objectForKey:pageStr] nextVideo:[document.video objectForKey:nextPageStr] nextImage:[document.images objectForKey:nextPageStr]];// ReaderContentView
 
 	contentView.message = self; [contentViews setObject:contentView forKey:[NSNumber numberWithInteger:page]]; [scrollView addSubview:contentView];
 
@@ -327,6 +339,41 @@
 
 - (void)showDocumentPage:(NSInteger)page {
     [self showDocumentPage:page forceRedraw:false];
+    if ([document.video objectForKey:[NSString stringWithFormat:@"%ld",(long)page]]) {
+        videoButton.hidden = NO;
+        [self.view bringSubviewToFront:videoButton];
+        
+//        if (view.view.hidden == YES) // Only if hidden
+//        {
+//            [UIView animateWithDuration:0.25 delay:0.0
+//                                options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
+//                             animations:^(void)
+//             {
+//                 view.view.hidden = NO;
+//                 view.view.alpha = 1.0f;
+//             }
+//                             completion:NULL
+//             ];
+//        }
+
+    }else{
+        videoButton.hidden = YES;
+//        if (view.view.hidden == NO) // Only if visible
+//        {
+//            [UIView animateWithDuration:0.25 delay:0.0
+//                                options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
+//                             animations:^(void)
+//             {
+//                 view.view.alpha = 0.0f;
+//             }
+//                             completion:^(BOOL finished)
+//             {
+//                 view.view.hidden = YES;
+//             }
+//             ];
+//        }
+//
+    }
 }
 - (void)showDocumentPage:(NSInteger)page forceRedraw:(bool)forceRedraw
 {
@@ -470,6 +517,44 @@
 			viewRect.origin.y += STATUS_HEIGHT; viewRect.size.height -= STATUS_HEIGHT;
 		}
 	}
+    
+    videoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    videoButton.frame = CGRectMake(0, TOOLBAR_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+    videoButton.backgroundColor = [UIColor clearColor];
+    [videoButton setImage:[UIImage imageNamed:@"video"] forState:UIControlStateNormal];
+    [videoButton setImage:nil forState:UIControlStateHighlighted];
+    [videoButton addTarget:self action:@selector(videoButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:videoButton];
+    
+    imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    imageButton.frame = CGRectMake(ICON_WIDTH + 5, TOOLBAR_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+    imageButton.backgroundColor = [UIColor clearColor];
+    [imageButton setImage:[UIImage imageNamed:@"images"] forState:UIControlStateNormal];
+    [imageButton setImage:nil forState:UIControlStateHighlighted];
+    [imageButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:imageButton];
+    
+    videoButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    videoButton1.frame = CGRectMake(0, TOOLBAR_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+    videoButton1.backgroundColor = [UIColor clearColor];
+    [videoButton1 setImage:[UIImage imageNamed:@"video"] forState:UIControlStateNormal];
+    [videoButton1 setImage:nil forState:UIControlStateHighlighted];
+    [videoButton1 addTarget:self action:@selector(videoButton1Action:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:videoButton];
+    
+    imageButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    imageButton1.frame = CGRectMake(ICON_WIDTH + 5, TOOLBAR_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+    imageButton1.backgroundColor = [UIColor clearColor];
+    [imageButton1 setImage:[UIImage imageNamed:@"images"] forState:UIControlStateNormal];
+    [imageButton1 setImage:nil forState:UIControlStateHighlighted];
+    [imageButton1 addTarget:self action:@selector(imageButton1Action:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:imageButton1];
+    
+//    view = [[ReaderMediaViewController  alloc]initWithFrame:CGRectMake(100, 100, 300, 300)];
+//    [self addChildViewController:view];
+//    
+//    [self.view addSubview:view.view];
+    
 
 	CGRect scrollViewRect = CGRectInset(viewRect, -scrollViewOutset, 0.0f);
 	theScrollView = [[UIScrollView alloc] initWithFrame:scrollViewRect]; // All
@@ -513,6 +598,24 @@
 
 	minimumPage = 1; maximumPage = [document.pageCount integerValue];
 }
+
+- (void)videoButtonAction:(UIButton *)sender {
+    NSLog(@"FUCK VIDEO");
+}
+
+- (void)videoButton1Action:(UIButton *)sender {
+    NSLog(@"FUCK VIDEO");
+}
+
+- (void)imageButtonAction:(UIButton *)sender {
+    NSLog(@"FUCK VIDEO");
+}
+
+- (void)imageButton1Action:(UIButton *)sender {
+    NSLog(@"FUCK VIDEO");
+}
+
+
 
 - (void)viewDidLayoutSubviews {
     
