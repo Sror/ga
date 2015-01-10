@@ -982,11 +982,18 @@
 #if (READER_STANDALONE == FALSE) // Option
 
 	[self closeDocument]; // Close ReaderViewController
-    NSString *path = [document.fileURL path];
-    //BKRIssueViewController *vc = [[[[UIApplication sharedApplication]windows] lastObject] rootViewController];
+
+    NSArray *pathComponents = [document.fileURL pathComponents];
+    
+    NSString *path = @"";
+    
+    for (int i = [pathComponents count] - 5; i< [pathComponents count]; i++) {
+        path = [path stringByAppendingPathComponent:pathComponents[i]];
+    }
+    
+    
     BKRShelfViewController *vc = self.navigationController.viewControllers.firstObject;
     vc.path = path;
-    //[[self.navigationController.viewControllers firstObject] path] = path;
     [self.navigationController popToRootViewControllerAnimated:YES];
 #endif // end of READER_STANDALONE Option
 }

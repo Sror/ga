@@ -76,6 +76,8 @@
 @property (nonatomic, strong) UIAlertView *blockingProgressView;
 @property (nonatomic, strong) NSString *path;
 
+@property (strong, nonatomic) BKRIssue *currentIssue;
+
 @property (nonatomic, copy) NSString *bookToBeProcessed;
 
 #pragma mark - Init
