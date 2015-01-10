@@ -32,7 +32,6 @@
 #import "ReaderThumbCache.h"
 #import "ReaderThumbQueue.h"
 #import "BKRShelfViewController.h"
-#import "ReaderMediaViewController.h"
 
 #import <MessageUI/MessageUI.h>
 #import "ReaderAdvertisersViewController.h"
@@ -52,8 +51,6 @@
 	ReaderMainToolbar *mainToolbar;
 
 	ReaderMainPagebar *mainPagebar;
-    
-    ReaderMediaViewController *view;
 
 	NSMutableDictionary *contentViews;
 
