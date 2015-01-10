@@ -855,8 +855,8 @@
 
 - (void)handleShareButtonPressed:(id)sender {
     // Create the item to share (in this example, a url)
-    NSURL *url = [NSURL URLWithString:@"http://aviajournal.com"];
-    SHKItem *item = [SHKItem URL:url title:@"General Aviation Magazine" contentType:SHKURLContentTypeWebpage];
+    NSURL *url = [NSURL URLWithString:@"http://goo.gl/tglXBe"];
+    SHKItem *item = [SHKItem URL:url title:@"\"General Aviation EuroAsian Review\" journal" contentType:SHKURLContentTypeWebpage];
     
     // Get the ShareKit action sheet
     SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
@@ -957,9 +957,9 @@
     
     //[mailComposer addAttachmentData:attachment mimeType:@"application/pdf" fileName:fileName];
     
-    [mailComposer setSubject:@"Letter to the editor"]; // Use the document file name for the subject
+    [mailComposer setSubject:@"Letter to editor in chief of GA EuroAsian Review"];
     [mailComposer setToRecipients:@[@"aviajournal.aon@gmail.com"]];
-    [mailComposer setMessageBody:@"Dear editor of General Aviation magazine! I'd like to discuss about the following: \n\n\n\n-----------------" isHTML:NO];
+    [mailComposer setMessageBody:@"Dear editor of \"General Aviation EuroAsian Review\" journal, I'd like to discuss about the following: \n\n\n\n-----------------" isHTML:NO];
     
     mailComposer.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     mailComposer.modalPresentationStyle = UIModalPresentationFormSheet;
