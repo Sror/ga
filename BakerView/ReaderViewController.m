@@ -32,9 +32,12 @@
 #import "ReaderThumbCache.h"
 #import "ReaderThumbQueue.h"
 #import "BKRShelfViewController.h"
+#import "ReaderMediaViewController.h"
+#import "ReaderImagesGalleryControllerViewController.h"
 
 #import <MessageUI/MessageUI.h>
 #import "ReaderAdvertisersViewController.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface ReaderViewController () <UIScrollViewDelegate, UIGestureRecognizerDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate,
 									ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate, ThumbsViewControllerDelegate>
@@ -545,34 +548,49 @@
     
 }
 
+-(void)showImages:(NSInteger)page{
+   ReaderImagesGalleryControllerViewController *vc = [[ReaderImagesGalleryControllerViewController alloc]
+    initWithImages:[document.video objectForKey:[NSString stringWithFormat: @"%d", page]]];
+    vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    vc.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:vc animated:YES completion:NULL];
+}
+
+- (void)playVideo:(NSInteger)page
+{
+    NSURL *myURL = [[document.video objectForKey:[NSString stringWithFormat: @"%d", page]] firstObject];
+    ReaderMediaViewController *vc = [[ReaderMediaViewController alloc]initWithURL:myURL];
+    vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    vc.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:vc animated:YES completion:NULL];
+}
+
 - (void)videoButtonAction:(UIButton *)sender {
     NSLog(@"Video page numbder %d",myCurrentPage);
+    [self playVideo:myCurrentPage];
 }
 
 - (void)videoButton1Action:(UIButton *)sender {
     NSLog(@"Video page numbder %d",myCurrentPage + 1);
+    [self playVideo:(myCurrentPage+1)];
 }
 
 - (void)imageButtonAction:(UIButton *)sender {
-    NSLog(@"Image page numbder %d",myCurrentPage);
+   [self showImages:myCurrentPage];
 }
 
 - (void)imageButton1Action:(UIButton *)sender {
-    NSLog(@"Image page numbder %d",myCurrentPage + 1);
+   [self showImages:myCurrentPage+1];
 }
 
 - (void)mainVideoButtonAction:(UIButton *)sender {
     NSLog(@"Image page numbder %d",myCurrentPage);
-}
-
-- (void)mainVideoButtonAction:(UIButton *)sender {
-    NSLog(@"Image page numbder %d",myCurrentPage);
+    [self playVideo:myCurrentPage];
 }
 
 - (void)mainImageButtonAction:(UIButton *)sender {
-    NSLog(@"Image page numbder %d",myCurrentPage);
+    [self showImages:myCurrentPage];
 }
-
 
 
 - (void)dealloc
