@@ -95,7 +95,6 @@
 		C66857A41A07DDBE00776443 /* NSObject+BakerExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66857A31A07DDBE00776443 /* NSObject+BakerExtensions.m */; };
 		C67AFBF31A5DBCC500151AEB /* plate.png in Resources */ = {isa = PBXBuildFile; fileRef = C67AFBF21A5DBCC500151AEB /* plate.png */; };
 		C67AFBF81A5EFEAB00151AEB /* help.html in Resources */ = {isa = PBXBuildFile; fileRef = C67AFBF71A5EFEAB00151AEB /* help.html */; };
-		C67F40AD1A62F68D002E963C /* ReaderImagesGalleryControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C67F40AC1A62F68D002E963C /* ReaderImagesGalleryControllerViewController.m */; };
 		C6D951301A59B1DC00163753 /* budicon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6D9512F1A59B1DC00163753 /* budicon.ttf */; };
 		C6D9515D1A59C2A000163753 /* communication---bubble-chat-group-conversation.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D951331A59C2A000163753 /* communication---bubble-chat-group-conversation.png */; };
 		C6D9515E1A59C2A000163753 /* communication---bubble-chat-talk-conversation.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D951341A59C2A000163753 /* communication---bubble-chat-talk-conversation.png */; };
@@ -320,8 +319,6 @@
 		C66857A31A07DDBE00776443 /* NSObject+BakerExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+BakerExtensions.m"; sourceTree = "<group>"; };
 		C67AFBF21A5DBCC500151AEB /* plate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plate.png; sourceTree = "<group>"; };
 		C67AFBF71A5EFEAB00151AEB /* help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = help.html; sourceTree = "<group>"; };
-		C67F40AB1A62F68D002E963C /* ReaderImagesGalleryControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReaderImagesGalleryControllerViewController.h; sourceTree = "<group>"; };
-		C67F40AC1A62F68D002E963C /* ReaderImagesGalleryControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReaderImagesGalleryControllerViewController.m; sourceTree = "<group>"; };
 		C6D9512F1A59B1DC00163753 /* budicon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = budicon.ttf; sourceTree = "<group>"; };
 		C6D951331A59C2A000163753 /* communication---bubble-chat-group-conversation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "communication---bubble-chat-group-conversation.png"; sourceTree = "<group>"; };
 		C6D951341A59C2A000163753 /* communication---bubble-chat-talk-conversation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "communication---bubble-chat-talk-conversation.png"; sourceTree = "<group>"; };
@@ -847,8 +844,6 @@
 				E3FD6C481A5DDD6E007334AC /* ReaderAdvertisersViewController.m */,
 				E3727E451A61C4D000E96AEE /* ReaderMediaViewController.h */,
 				E3727E461A61C4D000E96AEE /* ReaderMediaViewController.m */,
-				C67F40AB1A62F68D002E963C /* ReaderImagesGalleryControllerViewController.h */,
-				C67F40AC1A62F68D002E963C /* ReaderImagesGalleryControllerViewController.m */,
 			);
 			name = vfr;
 			path = BakerView;
@@ -1080,7 +1075,6 @@
 				C62D23571A0A748A003A26D2 /* unzip.c in Sources */,
 				AB40046315B4B83000D87E2A /* GTMNSString+HTML.m in Sources */,
 				C66857A41A07DDBE00776443 /* NSObject+BakerExtensions.m in Sources */,
-				C67F40AD1A62F68D002E963C /* ReaderImagesGalleryControllerViewController.m in Sources */,
 				C649F0981A090B6000B02548 /* BKRShelfHeaderView.m in Sources */,
 				E34F22831A5729570013A8FE /* ThumbsViewController.m in Sources */,
 				AB40047115B4B83000D87E2A /* BKRUtils.m in Sources */,

@@ -33,14 +33,19 @@
 #import "ReaderThumbQueue.h"
 #import "BKRShelfViewController.h"
 #import "ReaderMediaViewController.h"
-#import "ReaderImagesGalleryControllerViewController.h"
+
 
 #import <MessageUI/MessageUI.h>
 #import "ReaderAdvertisersViewController.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import <MWPhotoBrowser/MWPhotoBrowser.h>
 
 @interface ReaderViewController () <UIScrollViewDelegate, UIGestureRecognizerDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate,
-									ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate, ThumbsViewControllerDelegate>
+									ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate, ThumbsViewControllerDelegate, MWPhotoBrowserDelegate>
+
+@property (strong, nonatomic) NSArray *arrayOfImagesPath;
+@property (strong, nonatomic) NSMutableArray *photos;
+@property (strong, nonatomic) NSMutableArray *thumbs;
 @end
 
 @implementation ReaderViewController
@@ -557,11 +562,54 @@
 }
 
 -(void)showImages:(NSInteger)page{
-   ReaderImagesGalleryControllerViewController *vc = [[ReaderImagesGalleryControllerViewController alloc]
-    initWithImages:[document.video objectForKey:[NSString stringWithFormat: @"%d", page]]];
-    vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    vc.modalPresentationStyle = UIModalPresentationOverFullScreen;
-    [self presentViewController:vc animated:YES completion:NULL];
+    
+    self.arrayOfImagesPath = [document.images objectForKey:[NSString stringWithFormat: @"%d", page]];
+    self.thumbs = [[NSMutableArray alloc] init];
+    
+    self.photos = [NSMutableArray array];
+    
+    for (NSURL *imgURL in self.arrayOfImagesPath) {
+        MWPhoto *photo = [MWPhoto photoWithURL:imgURL];
+        [self.photos addObject:photo];
+        [self.thumbs addObject:photo];
+    }
+    
+    //https://github.com/mwaterfall/MWPhotoBrowser
+    
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    
+    // Set options
+    browser.displayActionButton = YES; // Show action button to allow sharing, copying, etc (defaults to YES)
+    browser.displayNavArrows = YES; // Whether to display left and right nav arrows on toolbar (defaults to NO)
+    browser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
+    browser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
+    browser.alwaysShowControls = NO; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
+    browser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
+    browser.enableGrid = YES; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
+    nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    nc.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:nc animated:YES completion:nil];
+    
+    [browser showNextPhotoAnimated:YES];
+    [browser showPreviousPhotoAnimated:YES];
+    [browser setCurrentPhotoIndex:0];
+}
+
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return self.photos.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < self.photos.count)
+        return [self.photos objectAtIndex:index];
+    return nil;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index {
+    if (index < _thumbs.count)
+        return [_thumbs objectAtIndex:index];
+    return nil;
 }
 
 - (void)playVideo:(NSInteger)page
