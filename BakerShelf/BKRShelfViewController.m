@@ -237,7 +237,7 @@
     
     NSString *path = [notification.userInfo objectForKey:@"archive_button_notification_info_key"];
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        self.backToReadItem.enabled = [path isEqualToString:[[self.localPath stringByAppendingPathComponent: self.path] stringByDeletingLastPathComponent]] == YES ? NO : YES;
+        self.backToReadItem.enabled = [path isEqualToString:[[self.localPath stringByAppendingPathComponent: self.path] stringByDeletingLastPathComponent]] ? NO : YES;
     }
     
     NSLog(@"%@",self.path);
