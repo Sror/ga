@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8305C3CFB204E302BBD8252E"
+               BlueprintIdentifier = "5E8EA837E146A28C96FCED3F"
                BuildableName = "libPods-General Aviation-Dropbox-iOS-SDK.a"
                BlueprintName = "Pods-General Aviation-Dropbox-iOS-SDK"
                ReferencedContainer = "container:Pods.xcodeproj">

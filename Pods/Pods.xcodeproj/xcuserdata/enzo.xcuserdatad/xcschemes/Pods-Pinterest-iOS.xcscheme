@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "92723464ECCFFFF9D19BC178"
+               BlueprintIdentifier = "9684B1ADAA9A5C62E891384B"
                BuildableName = "libPods-Pinterest-iOS.a"
                BlueprintName = "Pods-Pinterest-iOS"
                ReferencedContainer = "container:Pods.xcodeproj">

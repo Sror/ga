@@ -48,6 +48,7 @@ install_resource()
   esac
 }
           install_resource "Facebook-iOS-SDK/src/FBUserSettingsViewResources.bundle"
+                    install_resource "MWPhotoBrowser/MWPhotoBrowser/MWPhotoBrowser.bundle"
                     install_resource "Pinterest-iOS/PinItSDKiOS/Pinterest.embeddedframework/Pinterest.framework/Versions/A/Resources/PinterestSDKResources.bundle"
                     install_resource "Reader/Graphics/Reader-Button-H.png"
                     install_resource "Reader/Graphics/Reader-Button-H@2x.png"
