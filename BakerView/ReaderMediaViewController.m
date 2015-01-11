@@ -9,7 +9,7 @@
 #import "ReaderMediaViewController.h"
 
 @interface ReaderMediaViewController ()
-@property (strong, nonatomic) UIButton *button;
+
 @end
 
 @implementation ReaderMediaViewController
@@ -26,12 +26,6 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
-    self.button = [[UIButton alloc]initWithFrame:CGRectMake(20, 20, 40, 40)];
-    [self.button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.button setBackgroundColor:[UIColor redColor]];
-    [self.button setTitle:@"SOSALITY" forState:UIControlStateNormal];
-    [self.button setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-    [self.view addSubview:self.button];
 }
 
 
