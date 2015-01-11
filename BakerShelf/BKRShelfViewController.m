@@ -885,10 +885,13 @@
 }
 
 - (void)handleShareButtonPressed:(id)sender {
-    // Create the item to share (in this example, a url)
-    NSURL *url = [NSURL URLWithString:@"http://aviajournal.com"];
-    SHKItem *item = [SHKItem URL:url title:@"General Aviation Magazine" contentType:SHKURLContentTypeWebpage];
     
+    SHKItem *item = [[SHKItem alloc] init];
+    item.shareType = SHKShareTypeText;
+    item.text = @"I highly recommend 'General Aviation EuroAsian Review'. It contains a lot of newsworthy information concerning general aviation markets in the Eastern Europe and Asia as well as new technologies and production. Please visit <a href=\"https://itunes.apple.com/us/app/general-aviation/id955252587?ls=1&mt=8\">https://itunes.apple.com/us/app/general-aviation/id955252587?ls=1&mt=8</a>";
+    item.title = @"\"General Aviation EuroAsian Review\" journal";
+    item.URLContentType = SHKURLContentTypeWebpage;
+
     // Get the ShareKit action sheet
     SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
     
@@ -988,9 +991,9 @@
     
     //[mailComposer addAttachmentData:attachment mimeType:@"application/pdf" fileName:fileName];
     
-    [mailComposer setSubject:@"Letter to the editor"]; // Use the document file name for the subject
+    [mailComposer setSubject:@"Letter to editor in chief of GA EuroAsian Review"];
     [mailComposer setToRecipients:@[@"aviajournal.aon@gmail.com"]];
-    [mailComposer setMessageBody:@"Dear editor of General Aviation magazine! I'd like to discuss about the following: \n\n\n\n-----------------" isHTML:NO];
+    [mailComposer setMessageBody:@"Dear editor of \"General Aviation EuroAsian Review\" journal, I'd like to discuss about the following: \n\n\n\n-----------------" isHTML:NO];
     
     mailComposer.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     mailComposer.modalPresentationStyle = UIModalPresentationFormSheet;

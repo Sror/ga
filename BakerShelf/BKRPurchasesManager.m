@@ -159,10 +159,12 @@
     SKProduct *product = self.products[productID];
     if(product) {
         //return product.localizedTitle;
-        if ([productID isEqualToString:@"com.aon.6month"]) {
-            return @"6 months -";
-        } else if ([productID isEqualToString:@"com.aon.12month"]) {
-            return @"1 year -";
+        if ([productID isEqualToString:@"com.aon.1mo"]) {
+            return @"1 month subscription -";
+        }else if ([productID isEqualToString:@"com.aon.6mo"]) {
+            return @"6 months (two editions) -";
+        } else if ([productID isEqualToString:@"com.aon.12mo"]) {
+            return @"1 year (four editions) -";
         }
     }
     // If for some reason we can't find the product, then fallback to the old
