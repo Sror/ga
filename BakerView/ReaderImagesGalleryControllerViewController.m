@@ -7,9 +7,12 @@
 //
 
 #import "ReaderImagesGalleryControllerViewController.h"
+#import <MWPhotoBrowser.h>
+
 
 @interface ReaderImagesGalleryControllerViewController ()
 @property (strong, nonatomic) NSArray *arrayOfImagesPath;
+@property (strong, nonatomic) NSMutableArray *photos;
 @end
 
 @implementation ReaderImagesGalleryControllerViewController
@@ -33,21 +36,33 @@
 
     [self.view addSubview:closeButton];
     
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame]; // this makes the scroll view - set the frame as the size you want to SHOW on the screen
-    [scrollView setContentSize:CGSizeMake(400,400)];
-    scrollView.delegate = self;
-    // if you set it to larger than the frame the overflow will be hidden and the view will scroll
+    self.photos = [NSMutableArray array];
     
-    /* you can do this bit as many times as you want... make sure you set each image at a different origin */
-    
-    for (int i = 0; i <[self.arrayOfImagesPath count]; i++) {
-        NSURL *url = self.arrayOfImagesPath[i];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithContentsOfFile:[url path]]]; // this makes the image view
-        [imageView setFrame:CGRectMake(i*400,i*400,400,400)];/*SET AS 2/3 THE SIZE OF scrollView AND EACH IMAGE NEXT TO THE LAST*/ // this makes the image view display where you want it and at the right size
-        [scrollView addSubview:imageView]; // this adds the image to the scrollview
+    for (NSURL *imgURL in self.arrayOfImagesPath) {
+        [self.photos addObject:[MWPhoto photoWithURL:imgURL]];
     }
     
-    [self.view addSubview:scrollView];
+    //https://github.com/mwaterfall/MWPhotoBrowser
+    
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+
+    // Set options
+    browser.displayActionButton = YES; // Show action button to allow sharing, copying, etc (defaults to YES)
+    browser.displayNavArrows = YES; // Whether to display left and right nav arrows on toolbar (defaults to NO)
+    browser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
+    browser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
+    browser.alwaysShowControls = NO; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
+    browser.enableGrid = YES; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
+    browser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
+    browser.wantsFullScreenLayout = YES;
+    
+    [browser setCurrentPhotoIndex:1];
+    
+    [self.navigationController pushViewController:browser animated:YES];
+    
+    [browser showNextPhotoAnimated:YES];
+    [browser showPreviousPhotoAnimated:YES];
+    [browser setCurrentPhotoIndex:10];
     
     [self.view bringSubviewToFront:closeButton];
 }
