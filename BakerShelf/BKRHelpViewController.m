@@ -34,24 +34,30 @@
     self.toolBar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), TOOLBAR_HEIGHT + STATUS_HEIGHT)];
     self.toolBar.backgroundColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1.0f];
     self.toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [self.view addSubview:self.toolBar];
+    //[self.view addSubview:self.toolBar];
     
     UIButton *disMissButton = [UIButton buttonWithType:UIButtonTypeCustom];
     disMissButton.frame = CGRectMake(5, STATUS_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT);
     disMissButton.backgroundColor = [UIColor clearColor];
     [disMissButton addTarget:self action:@selector(disMissButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [disMissButton setTitle:@"Close" forState:UIControlStateNormal];
-    [disMissButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [disMissButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    [self.toolBar addSubview:disMissButton];
+    [disMissButton setImage:[UIImage imageNamed:@"closeh"] forState:UIControlStateNormal];
+    [disMissButton setImage:[UIImage imageNamed:nil] forState:UIControlStateHighlighted];
+    [self.view addSubview:disMissButton];
     
-        
-    self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(self.toolBar.bounds), CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - CGRectGetHeight(self.toolBar.bounds))];
     
+    
+    self.webView = [[UIWebView alloc]initWithFrame:self.view.bounds];
+                    //nitWithFrame:CGRectMake(0, CGRectGetHeight(self.toolBar.bounds), CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds) - CGRectGetHeight(self.toolBar.bounds))];
+    self.webView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin   |
+                                    UIViewAutoresizingFlexibleWidth        |
+                                    UIViewAutoresizingFlexibleRightMargin  |
+                                    UIViewAutoresizingFlexibleTopMargin    |
+                                    UIViewAutoresizingFlexibleHeight       |
+                                    UIViewAutoresizingFlexibleBottomMargin ;
     [self.webView loadRequest:self.request];
     
     [self.view addSubview:self.webView];
-    
+    [self.view bringSubviewToFront:disMissButton];
     
 }
 
