@@ -32,9 +32,12 @@
 #import "ReaderThumbCache.h"
 #import "ReaderThumbQueue.h"
 #import "BKRShelfViewController.h"
+#import "ReaderMediaViewController.h"
+#import "ReaderImagesGalleryControllerViewController.h"
 
 #import <MessageUI/MessageUI.h>
 #import "ReaderAdvertisersViewController.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface ReaderViewController () <UIScrollViewDelegate, UIGestureRecognizerDelegate, MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate,
 									ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate, ThumbsViewControllerDelegate>
@@ -59,6 +62,8 @@
 	NSInteger currentPage, minimumPage, maximumPage;
     
     NSInteger myCurrentPage;
+    
+    NSInteger myPreviousPage;
 
 	UIDocumentInteractionController *documentInteraction;
 
@@ -77,6 +82,8 @@
     UIButton *videoButton1;
     UIButton *imageButton;
     UIButton *imageButton1;
+    UIButton *mainVideoButton;
+    UIButton *mainImageButton;
 }
 
 #pragma mark - Constants
@@ -94,11 +101,14 @@
 #define LANDSCAPE_DOUBLE_PAGE true
 #define LANDSCAPE_SINGLE_FIRST_PAGE true
 
-#define ICON_WIDTH 30.0f
-#define ICON_HEIGHT 30.0f
+#define ICON_WIDTH 45.0f
+#define ICON_HEIGHT 45.0f
 
-#define ICON_OFFSET_WIDTH 200.0f
-#define ICON_OFFSET_HEIGHT 30.0f
+#define ICON_OFFSET_WIDTH 20.0f
+#define ICON_OFFSET_HEIGHT 10.0f
+
+#define ICON_MEDIA_MAIN_OFFSET 250.0f
+
 
 #define TAP_AREA_SIZE 48.0f
 
@@ -325,9 +335,8 @@
     }
     if (page != currentPage) // Only if on different page
 	{
-		currentPage = page; document.pageNumber = [NSNumber numberWithInteger:page];
         
-        [self enablesMediaButtonsWithPageNumber:currentPage];
+		currentPage = page; document.pageNumber = [NSNumber numberWithInteger:page];
         
 		[contentViews enumerateKeysAndObjectsUsingBlock: // Enumerate content views
 			^(NSNumber *key, ReaderContentView *contentView, BOOL *stop)
@@ -340,46 +349,14 @@
 
 		[mainPagebar updatePagebar]; // Update page bar
 	}
+    [self enablesMediaButtonsWithPageNumber:currentPage];
 }
 
 - (void)showDocumentPage:(NSInteger)page {
     [self showDocumentPage:page forceRedraw:false];
     
-    if ([document.video objectForKey:[NSString stringWithFormat:@"%d",page]]) {
-        videoButton.hidden = NO;
-        [self.view bringSubviewToFront:videoButton];
-        
-//        if (view.view.hidden == YES) // Only if hidden
-//        {
-//            [UIView animateWithDuration:0.25 delay:0.0
-//                                options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
-//                             animations:^(void)
-//             {
-//                 view.view.hidden = NO;
-//                 view.view.alpha = 1.0f;
-//             }
-//                             completion:NULL
-//             ];
-//        }
-
-    }else{
-        videoButton.hidden = YES;
-//        if (view.view.hidden == NO) // Only if visible
-//        {
-//            [UIView animateWithDuration:0.25 delay:0.0
-//                                options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
-//                             animations:^(void)
-//             {
-//                 view.view.alpha = 0.0f;
-//             }
-//                             completion:^(BOOL finished)
-//             {
-//                 view.view.hidden = YES;
-//             }
-//             ];
-//        }
-//
-    }
+    //[self enablesMediaButtonsWithPageNumber:page];
+ 
 }
 - (void)showDocumentPage:(NSInteger)page forceRedraw:(bool)forceRedraw
 {
@@ -401,7 +378,7 @@
     if (page != currentPage || forceRedraw) // Only if on different page or if force redraw
 	{
         if ((renderPage < minimumPage) || (renderPage > maximumPage)) return;
-
+        myPreviousPage = currentPage;
 		currentPage = page; document.pageNumber = [NSNumber numberWithInteger:page];
 
 		CGPoint contentOffset = CGPointMake((theScrollView.bounds.size.width * (renderPage - 1)), 0.0f);
@@ -419,8 +396,9 @@
 		];
 
 		[mainToolbar setBookmarkState:[document.bookmarks containsIndex:page]];
-
+        
 		[mainPagebar updatePagebar]; // Update page bar
+        [self enablesMediaButtonsWithPageNumber:currentPage];
 	}
     
     
@@ -437,6 +415,9 @@
         [self updateContentSize:theScrollView]; // Update content size first
         [self showDocumentPage:[document.pageNumber integerValue]]; // Show page
     }
+    
+    [self enablesMediaButtonsWithPageNumber:currentPage];
+    
 
 	document.lastOpen = [NSDate date]; // Update document last opened date
 }
@@ -494,55 +475,130 @@
 	return self;
 }
 
-- (BOOL)haveVideoAtPage:(NSUInteger) page{
-    return [document.video objectForKey:[NSString stringWithFormat:@"%d",page]];
+- (void)setMediaButtonsAvailable:(UIButton *)localVideoButton andImage:(UIButton *)localImageButton andPage:(NSUInteger)page {
+    
+    
+    NSString *currentPageStr = [NSString stringWithFormat:@"%d",page];
+    if ([document.video objectForKey:currentPageStr] != nil) {
+        localVideoButton.hidden = NO;
+    }else{
+        localVideoButton.hidden = YES;
+    }
+    
+    if ([document.images objectForKey:currentPageStr] != nil) {
+        localImageButton.hidden = NO;
+    }else{
+        localImageButton.hidden = YES;
+    }
 }
 
-- (BOOL)haveImageAtPage:(NSUInteger) page{
-    return [document.images objectForKey:[NSString stringWithFormat:@"%d",page]];
+- (void)setMainMediaButtons:(UIButton *)localVideoButton andImage:(UIButton *)localImageButton andPage:(NSUInteger)page {
+    NSString *currentPageStr = [NSString stringWithFormat:@"%d",page];
+    if ([document.video objectForKey:currentPageStr] != nil) {
+        localVideoButton.hidden = NO;
+    }else{
+        localVideoButton.hidden = YES;
+    }
+    
+    if ([document.images objectForKey:currentPageStr] != nil) {
+        localImageButton.hidden = NO;
+    }else{
+        localImageButton.hidden = YES;
+    }
+}
+
+-(void)hideMediaButtons{
+    videoButton.hidden = videoButton1.hidden = imageButton.hidden = imageButton1.hidden = mainImageButton.hidden = mainVideoButton.hidden = YES ;
 }
 
 - (void)enablesMediaButtonsWithPageNumber:(NSInteger) pageNumber{
-    if (pageNumber == 1)
-        return;
+    
     NSUInteger maxPage = [document.pageCount integerValue];
     
-    if (pageNumber == maxPage && maxPage % 2)
-        return;
-    
     if (doublePage) {
+        if (pageNumber != 1 || pageNumber != maxPage){
+            if ((pageNumber + 1 == myPreviousPage &&  myPreviousPage % 2 == 1) || (pageNumber - 1 == myPreviousPage && myPreviousPage % 2 == 0 )) {
+                return;
+            }
+
+        }
+        if (pageNumber == 1) {
+            myCurrentPage = pageNumber;
+            [self setMediaButtonsAvailable:mainVideoButton andImage:mainImageButton andPage:myCurrentPage];
+            return;
+        }
+        
+        if (pageNumber == maxPage && (maxPage % 2 == 0)){
+            myCurrentPage = pageNumber;
+            [self setMediaButtonsAvailable:mainVideoButton andImage:mainImageButton andPage:myCurrentPage];
+            
+            return;
+        }
+        
+        if (pageNumber + 1 == maxPage && maxPage % 2 == 0) {
+            myCurrentPage = pageNumber - 1;
+            [self setMediaButtonsAvailable:videoButton andImage:imageButton andPage:myCurrentPage];
+            [self setMediaButtonsAvailable:videoButton1 andImage:imageButton1 andPage:myCurrentPage + 1];
+            return;
+        }
+        
         if (pageNumber == maxPage ) {
             myCurrentPage = pageNumber - 1;
         }else{
             myCurrentPage = pageNumber;
         }
-        
-        videoButton1.enabled = [self haveVideoAtPage:myCurrentPage+1];
-        imageButton1.enabled = [self haveVideoAtPage:myCurrentPage+1];
+        [self setMediaButtonsAvailable:videoButton andImage:imageButton andPage:myCurrentPage];
+        [self setMediaButtonsAvailable:videoButton1 andImage:imageButton1 andPage:myCurrentPage + 1];
     }else{
         myCurrentPage = pageNumber;
-        videoButton.enabled = [self haveVideoAtPage:myCurrentPage];
-        imageButton.enabled = [self haveVideoAtPage:myCurrentPage];
+        [self setMediaButtonsAvailable:videoButton andImage:imageButton andPage:myCurrentPage];
     }
     
 }
 
+-(void)showImages:(NSInteger)page{
+   ReaderImagesGalleryControllerViewController *vc = [[ReaderImagesGalleryControllerViewController alloc]
+    initWithImages:[document.video objectForKey:[NSString stringWithFormat: @"%d", page]]];
+    vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    vc.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:vc animated:YES completion:NULL];
+}
+
+- (void)playVideo:(NSInteger)page
+{
+    NSURL *myURL = [[document.video objectForKey:[NSString stringWithFormat: @"%d", page]] firstObject];
+    ReaderMediaViewController *vc = [[ReaderMediaViewController alloc]initWithURL:myURL];
+    vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    vc.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:vc animated:YES completion:NULL];
+}
+
 - (void)videoButtonAction:(UIButton *)sender {
     NSLog(@"Video page numbder %d",myCurrentPage);
+    [self playVideo:myCurrentPage];
 }
 
 - (void)videoButton1Action:(UIButton *)sender {
     NSLog(@"Video page numbder %d",myCurrentPage + 1);
+    [self playVideo:(myCurrentPage+1)];
 }
 
 - (void)imageButtonAction:(UIButton *)sender {
-    NSLog(@"Image page numbder %d",myCurrentPage);
+   [self showImages:myCurrentPage];
 }
 
 - (void)imageButton1Action:(UIButton *)sender {
-    NSLog(@"Image page numbder %d",myCurrentPage + 1);
+   [self showImages:myCurrentPage+1];
 }
 
+- (void)mainVideoButtonAction:(UIButton *)sender {
+    NSLog(@"Image page numbder %d",myCurrentPage);
+    [self playVideo:myCurrentPage];
+}
+
+- (void)mainImageButtonAction:(UIButton *)sender {
+    [self showImages:myCurrentPage];
+}
 
 
 - (void)dealloc
@@ -577,52 +633,6 @@
 		}
 	}
     
-    CGFloat offset = CGRectGetHeight([[UIScreen mainScreen]bounds])/2;
-    
-    videoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    videoButton.frame = CGRectMake(ICON_OFFSET_WIDTH, TOOLBAR_HEIGHT + ICON_OFFSET_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
-    videoButton.backgroundColor = [UIColor greenColor];
-    [videoButton setImage:[UIImage imageNamed:@"video"] forState:UIControlStateNormal];
-    [videoButton setImage:nil forState:UIControlStateHighlighted];
-    [videoButton addTarget:self action:@selector(videoButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:videoButton];
-    videoButton.hidden = YES;
-    
-    
-    imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    imageButton.frame = CGRectMake(ICON_OFFSET_WIDTH + ICON_WIDTH, TOOLBAR_HEIGHT + ICON_OFFSET_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
-    imageButton.backgroundColor = [UIColor clearColor];
-    [imageButton setImage:[UIImage imageNamed:@"images"] forState:UIControlStateNormal];
-    [imageButton setImage:nil forState:UIControlStateHighlighted];
-    [imageButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:imageButton];
-    imageButton.hidden = YES;
-    
-    videoButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    videoButton1.frame = CGRectMake(offset+ICON_OFFSET_WIDTH, TOOLBAR_HEIGHT + ICON_OFFSET_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
-    videoButton1.backgroundColor = [UIColor clearColor];
-    [videoButton1 setImage:[UIImage imageNamed:@"video"] forState:UIControlStateNormal];
-    [videoButton1 setImage:nil forState:UIControlStateHighlighted];
-    [videoButton1 addTarget:self action:@selector(videoButton1Action:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:videoButton1];
-    videoButton1.hidden = YES;
-    
-    imageButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    imageButton1.frame = CGRectMake(offset+ICON_OFFSET_WIDTH + ICON_WIDTH, TOOLBAR_HEIGHT + ICON_OFFSET_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
-    imageButton1.backgroundColor = [UIColor clearColor];
-    [imageButton1 setImage:[UIImage imageNamed:@"images"] forState:UIControlStateNormal];
-    [imageButton1 setImage:nil forState:UIControlStateHighlighted];
-    [imageButton1 addTarget:self action:@selector(imageButton1Action:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:imageButton1];
-    
-    imageButton1.hidden = YES;
-    
-//    view = [[ReaderMediaViewController  alloc]initWithFrame:CGRectMake(100, 100, 300, 300)];
-//    [self addChildViewController:view];
-//    
-//    [self.view addSubview:view.view];
-    
-
 	CGRect scrollViewRect = CGRectInset(viewRect, -scrollViewOutset, 0.0f);
 	theScrollView = [[UIScrollView alloc] initWithFrame:scrollViewRect]; // All
 	theScrollView.autoresizesSubviews = NO; theScrollView.contentMode = UIViewContentModeRedraw;
@@ -664,6 +674,63 @@
 	contentViews = [NSMutableDictionary new]; lastHideTime = [NSDate date];
 
 	minimumPage = 1; maximumPage = [document.pageCount integerValue];
+    
+    CGFloat offset;
+    
+    if (UIDeviceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
+        offset = CGRectGetWidth([[UIScreen mainScreen]bounds])/2;
+    else
+        offset = CGRectGetHeight([[UIScreen mainScreen]bounds])/2;
+    
+    mainVideoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    mainVideoButton.frame = CGRectMake(ICON_MEDIA_MAIN_OFFSET+ICON_OFFSET_WIDTH, TOOLBAR_HEIGHT + ICON_OFFSET_HEIGHT + ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+    mainVideoButton.backgroundColor = [UIColor clearColor];
+    [mainVideoButton setImage:[UIImage imageNamed:@"video"] forState:UIControlStateNormal];
+    [mainVideoButton setImage:nil forState:UIControlStateHighlighted];
+    [mainVideoButton addTarget:self action:@selector(mainVideoButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:mainVideoButton];
+    
+    mainImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    mainImageButton.frame = CGRectMake(ICON_MEDIA_MAIN_OFFSET+ICON_OFFSET_WIDTH, TOOLBAR_HEIGHT + ICON_OFFSET_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+    mainImageButton.backgroundColor = [UIColor clearColor];
+    [mainImageButton setImage:[UIImage imageNamed:@"images"] forState:UIControlStateNormal];
+    [mainImageButton setImage:nil forState:UIControlStateHighlighted];
+    [mainImageButton addTarget:self action:@selector(mainImageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:mainImageButton];
+    
+    videoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    videoButton.frame = CGRectMake(ICON_OFFSET_WIDTH , TOOLBAR_HEIGHT + ICON_OFFSET_HEIGHT + ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+    videoButton.backgroundColor = [UIColor clearColor];
+    [videoButton setImage:[UIImage imageNamed:@"video"] forState:UIControlStateNormal];
+    [videoButton setImage:nil forState:UIControlStateHighlighted];
+    [videoButton addTarget:self action:@selector(videoButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:videoButton];
+    
+    imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    imageButton.frame = CGRectMake(ICON_OFFSET_WIDTH, TOOLBAR_HEIGHT + ICON_OFFSET_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+    imageButton.backgroundColor = [UIColor clearColor];
+    [imageButton setImage:[UIImage imageNamed:@"images"] forState:UIControlStateNormal];
+    [imageButton setImage:nil forState:UIControlStateHighlighted];
+    [imageButton addTarget:self action:@selector(imageButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:imageButton];
+    
+    videoButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    videoButton1.frame = CGRectMake(offset+ICON_OFFSET_WIDTH , TOOLBAR_HEIGHT + ICON_OFFSET_HEIGHT + ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+    videoButton1.backgroundColor = [UIColor clearColor];
+    [videoButton1 setImage:[UIImage imageNamed:@"video"] forState:UIControlStateNormal];
+    [videoButton1 setImage:nil forState:UIControlStateHighlighted];
+    [videoButton1 addTarget:self action:@selector(videoButton1Action:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:videoButton1];
+    
+    imageButton1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    imageButton1.frame = CGRectMake(offset+ICON_OFFSET_WIDTH, TOOLBAR_HEIGHT + ICON_OFFSET_HEIGHT, ICON_WIDTH, ICON_HEIGHT);
+    imageButton1.backgroundColor = [UIColor clearColor];
+    [imageButton1 setImage:[UIImage imageNamed:@"images"] forState:UIControlStateNormal];
+    [imageButton1 setImage:nil forState:UIControlStateHighlighted];
+    [imageButton1 addTarget:self action:@selector(imageButton1Action:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:imageButton1];
+    
+    [self hideMediaButtons];//HIDE MEDIA BUTTONS
 }
 
 
@@ -792,12 +859,14 @@
         }
         lastAppearSize = CGSizeZero;
 	}
+    [self hideMediaButtons];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-
 	ignoreDidScroll = NO;
+    [self enablesMediaButtonsWithPageNumber:currentPage];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -814,6 +883,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
 	if (ignoreDidScroll == NO) [self layoutContentViews:scrollView];
+    [self hideMediaButtons];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ReaderMediaViewController : UIViewController
-- (instancetype)initWithFrame:(CGRect)frame;
+- (instancetype)initWithURL:(NSURL *)url;
 @end
