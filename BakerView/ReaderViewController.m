@@ -524,10 +524,18 @@
             [self setMediaButtonsAvailable:mainVideoButton andImage:mainImageButton andPage:myCurrentPage];
             return;
         }
-        if (pageNumber == maxPage && maxPage % 2){
+        
+        if (pageNumber == maxPage && (maxPage % 2 == 0)){
             myCurrentPage = pageNumber;
             [self setMediaButtonsAvailable:mainVideoButton andImage:mainImageButton andPage:myCurrentPage];
-
+            
+            return;
+        }
+        
+        if (pageNumber + 1 == maxPage && maxPage % 2 == 0) {
+            myCurrentPage = pageNumber - 1;
+            [self setMediaButtonsAvailable:videoButton andImage:imageButton andPage:myCurrentPage];
+            [self setMediaButtonsAvailable:videoButton1 andImage:imageButton1 andPage:myCurrentPage + 1];
             return;
         }
         
@@ -559,10 +567,6 @@
 
 - (void)imageButton1Action:(UIButton *)sender {
     NSLog(@"Image page numbder %d",myCurrentPage + 1);
-}
-
-- (void)mainVideoButtonAction:(UIButton *)sender {
-    NSLog(@"Image page numbder %d",myCurrentPage);
 }
 
 - (void)mainVideoButtonAction:(UIButton *)sender {
