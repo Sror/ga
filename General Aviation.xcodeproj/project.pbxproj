@@ -721,6 +721,8 @@
 		C6D951311A59B1E700163753 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				C61567811A620390006BB2AF /* closeh.png */,
+				C61567821A620390006BB2AF /* closeh@2x.png */,
 				E3727E4F1A61E36600E96AEE /* video@2x.png */,
 				E3727E501A61E36600E96AEE /* video.png */,
 				E39AB1961A5F364E00CE9709 /* backToRoot@2.png */,

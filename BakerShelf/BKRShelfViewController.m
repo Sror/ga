@@ -885,10 +885,13 @@
 }
 
 - (void)handleShareButtonPressed:(id)sender {
-    // Create the item to share (in this example, a url)
-    NSURL *url = [NSURL URLWithString:@"http://goo.gl/tglXBe"];
-    SHKItem *item = [SHKItem URL:url title:@"\"General Aviation EuroAsian Review\" journal" contentType:SHKURLContentTypeWebpage];
     
+    SHKItem *item = [[SHKItem alloc] init];
+    item.shareType = SHKShareTypeText;
+    item.text = @"I highly recommend 'General Aviation EuroAsian Review'. It contains a lot of newsworthy information concerning general aviation markets in the Eastern Europe and Asia as well as new technologies and production. Please visit <a href=\"https://itunes.apple.com/us/app/general-aviation/id955252587?ls=1&mt=8\">https://itunes.apple.com/us/app/general-aviation/id955252587?ls=1&mt=8</a>";
+    item.title = @"\"General Aviation EuroAsian Review\" journal";
+    item.URLContentType = SHKURLContentTypeWebpage;
+
     // Get the ShareKit action sheet
     SHKActionSheet *actionSheet = [SHKActionSheet actionSheetForItem:item];
     
